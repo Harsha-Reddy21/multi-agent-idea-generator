@@ -51,6 +51,9 @@ def parse_llm_json(text: str) -> dict:
 
 
 def intent_classifier(state: AgentState):
+    logger.info("[Intent Classifier] Starting intent classification")
+    logger.info(f"[Intent Classifier] User query: {state['user_query'][:100]}...")
+    
     prompt = f"""
 Classify the user query.
 
@@ -68,9 +71,12 @@ Format:
 }}
 """
 
+    logger.info("[Intent Classifier] Calling LLM for classification")
     response = llm_service.generate_response_text(prompt)
     result = parse_llm_json(response)
 
+    logger.info(f"[Intent Classifier] Classification result: intent={result['intent']}, relevance={result['relevance']}, ambiguity={result['ambiguity']}")
+    
     return {
         "intent": result["intent"],
         "relevance_score": float(result["relevance"]),
@@ -79,7 +85,9 @@ Format:
 
 
 def solution_agent(state: AgentState):
+    logger.info("[Solution Agent] Starting solution overview review")
     content = state["document"].get("solution_overview", "")
+    logger.info(f"[Solution Agent] Content length: {len(content)} chars")
 
     prompt = f"""
 Review the Solution Overview section.
@@ -95,14 +103,20 @@ Check for:
 Respond with issues or say "Looks sufficient".
 """
 
+    logger.info("[Solution Agent] Calling LLM for review")
+    feedback = llm_service.generate_response_text(prompt)
+    logger.info(f"[Solution Agent] Review completed. Feedback length: {len(feedback)} chars")
+    
     return {
-        "solution_feedback": llm_service.generate_response_text(prompt)
+        "solution_feedback": feedback
     }
 
 
 
 def ai_registry_agent(state: AgentState):
+    logger.info("[AI Registry Agent] Starting AI registry review")
     content = state["document"].get("ai_registry", "")
+    logger.info(f"[AI Registry Agent] Content length: {len(content)} chars")
 
     prompt = f"""
 Review AI Registry & Innovation Pipeline section.
@@ -116,13 +130,19 @@ Check for:
 - Third-party usage clarity
 """
 
+    logger.info("[AI Registry Agent] Calling LLM for review")
+    feedback = llm_service.generate_response_text(prompt)
+    logger.info(f"[AI Registry Agent] Review completed. Feedback length: {len(feedback)} chars")
+    
     return {
-        "ai_registry_feedback": llm_service.generate_response_text(prompt)
+        "ai_registry_feedback": feedback
     }
 
 
 def legal_agent(state: AgentState):
+    logger.info("[Legal Agent] Starting legal/privacy review")
     content = state["document"].get("digital_legal", "")
+    logger.info(f"[Legal Agent] Content length: {len(content)} chars")
 
     prompt = f"""
 Review Digital Legal Office (Privacy).
@@ -135,14 +155,20 @@ Check for:
 - Missing privacy concern clarity
 """
 
+    logger.info("[Legal Agent] Calling LLM for review")
+    feedback = llm_service.generate_response_text(prompt)
+    logger.info(f"[Legal Agent] Review completed. Feedback length: {len(feedback)} chars")
+    
     return {
-        "legal_feedback": llm_service.generate_response_text(prompt)
+        "legal_feedback": feedback
     }
 
 
 
 def security_agent(state: AgentState):
+    logger.info("[Security Agent] Starting security architecture review")
     content = state["document"].get("security_architecture", "")
+    logger.info(f"[Security Agent] Content length: {len(content)} chars")
 
     prompt = f"""
 Review Security Architecture section.
@@ -156,13 +182,19 @@ Check for:
 - Data types
 """
 
+    logger.info("[Security Agent] Calling LLM for review")
+    feedback = llm_service.generate_response_text(prompt)
+    logger.info(f"[Security Agent] Review completed. Feedback length: {len(feedback)} chars")
+    
     return {
-        "security_feedback": llm_service.generate_response_text(prompt)
+        "security_feedback": feedback
     }
 
 
 def third_party_agent(state: AgentState):
+    logger.info("[Third Party Agent] Starting third party review")
     content = state["document"].get("third_party", "")
+    logger.info(f"[Third Party Agent] Content length: {len(content)} chars")
 
     prompt = f"""
 Review Third Party Engagement section.
@@ -175,12 +207,17 @@ Check for:
 - Vendor risks
 """
 
+    logger.info("[Third Party Agent] Calling LLM for review")
+    feedback = llm_service.generate_response_text(prompt)
+    logger.info(f"[Third Party Agent] Review completed. Feedback length: {len(feedback)} chars")
+    
     return {
-        "third_party_feedback": llm_service.generate_response_text(prompt)
+        "third_party_feedback": feedback
     }
 
 
 def chat_responder(state: AgentState):
+    logger.info("[Chat Responder] Aggregating feedback from all agents")
     feedbacks = [
         state.get("solution_feedback"),
         state.get("ai_registry_feedback"),
@@ -190,13 +227,17 @@ def chat_responder(state: AgentState):
     ]
 
     relevant_feedback = [f for f in feedbacks if f and "sufficient" not in f.lower()]
+    logger.info(f"[Chat Responder] Found {len(relevant_feedback)} relevant feedback items out of {len(feedbacks)} total")
 
     if state["relevance_score"] < 0.3:
         response = "This query is not relevant to the current idea document."
+        logger.info("[Chat Responder] Response: Query not relevant")
     elif not relevant_feedback:
         response = "Your document looks complete for this stage."
+        logger.info("[Chat Responder] Response: Document complete")
     else:
         response = "Here are areas that need attention:\n\n" + "\n\n".join(relevant_feedback)
+        logger.info(f"[Chat Responder] Response: {len(relevant_feedback)} areas need attention")
 
     return {"chat_response": response}
 
@@ -204,9 +245,13 @@ def chat_responder(state: AgentState):
 
 
 def document_enhancer(state: AgentState):
+    logger.info("[Document Enhancer] Starting document enhancement")
     suggestions = {}
+    sections = list(state["document"].keys())
+    logger.info(f"[Document Enhancer] Processing {len(sections)} sections: {sections}")
 
     for section, content in state["document"].items():
+        logger.info(f"[Document Enhancer] Enhancing section: {section} ({len(content)} chars)")
         prompt = f"""
 Improve this section without removing compliance language.
 
@@ -217,27 +262,43 @@ Content:
 {content}
 """
         suggestions[section] = llm_service.generate_response_text(prompt)
+        logger.info(f"[Document Enhancer] Completed enhancement for {section}")
 
+    logger.info(f"[Document Enhancer] Enhancement completed for all {len(suggestions)} sections")
     return {"document_suggestions": suggestions}
 
 
 
 def confidence_agent(state: AgentState):
+    logger.info("[Confidence Agent] Calculating confidence score")
+    relevance = state["relevance_score"]
+    ambiguity = state["ambiguity_score"]
+    
     confidence = (
-        0.5 * state["relevance_score"]
-        + 0.3 * (1 - state["ambiguity_score"])
+        0.5 * relevance
+        + 0.3 * (1 - ambiguity)
         + 0.2
     )
-
-    return {"confidence_score": round(min(confidence, 1.0), 2)}
+    
+    final_score = round(min(confidence, 1.0), 2)
+    logger.info(f"[Confidence Agent] Relevance: {relevance}, Ambiguity: {ambiguity}, Confidence: {final_score}")
+    
+    return {"confidence_score": final_score}
 
 
 
 def route_by_intent(state: AgentState):
-    if state["intent"] == "irrelevant":
+    intent = state["intent"]
+    logger.info(f"[Router] Routing based on intent: {intent}")
+    
+    if intent == "irrelevant":
+        logger.info("[Router] Routing to: respond (irrelevant query)")
         return "respond"
-    if state["intent"] == "enhance":
+    if intent == "enhance":
+        logger.info("[Router] Routing to: enhance (document enhancement)")
         return "enhance"
+    
+    logger.info("[Router] Routing to: review (full review path)")
     return "review"
 
 
@@ -280,4 +341,6 @@ graph.add_edge("enhance", "confidence")
 graph.add_edge("confidence", END)
 
 # Compile the graph - this is the main entry point for the agent system
+logger.info("[Agent Graph] Compiling agent graph...")
 agent_app = graph.compile()
+logger.info("[Agent Graph] Agent graph compiled successfully")
