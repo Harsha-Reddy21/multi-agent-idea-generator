@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 class ChatService:
-    """Service for handling chat requests using the multi-agent system."""
     
     def __init__(self):
         """Initialize the chat service."""
@@ -155,7 +154,6 @@ class ChatService:
             Dictionary with 'response', 'confidence_score', and 'request_id'
         """
         try:
-            logger.info(f"[{request_id}] Generating response using multi-agent system")
             logger.info(f"[{request_id}] User message: {user_message[:200]}")
 
             # Parse HTML document into sections
@@ -173,15 +171,12 @@ class ChatService:
                 "chat_history": formatted_history,
             }
             
-            logger.info(f"[{request_id}] Invoking agent graph...")
+            logger.info(f"Agent input: {agent_input}")
             
             # Invoke the agent graph (synchronous call)
             result = agent_app.invoke(agent_input)
             
-            logger.info(f"[{request_id}] Agent graph completed")
-            logger.info(f"[{request_id}] Intent: {result.get('intent')}")
-            logger.info(f"[{request_id}] Relevance score: {result.get('relevance_score')}")
-            logger.info(f"[{request_id}] Ambiguity score: {result.get('ambiguity_score')}")
+            logger.info(f"Agent output: {result}")
             
             # Extract response and confidence score
             response_text = result.get("chat_response", "")
@@ -200,9 +195,6 @@ class ChatService:
                 else:
                     response_text = "I've reviewed your document. Please provide more details for better feedback."
             
-            logger.info(f"[{request_id}] Response generated successfully")
-            logger.info(f"[{request_id}] Response length: {len(response_text)} chars")
-            logger.info(f"[{request_id}] Confidence score: {confidence_percentage}%")
             
             return {
                 "response": response_text,
