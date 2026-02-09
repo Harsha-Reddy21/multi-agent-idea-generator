@@ -87,7 +87,7 @@ Format:
 def solution_agent(state: AgentState):
     logger.info("[Solution Agent] Starting solution overview review")
     content = state["document"].get("solution_overview", "")
-    logger.info(f"[Solution Agent] Content length: {len(content)} chars")
+    logger.info(f"[Solution Agent] Content length: {(content)} chars")
 
     prompt = f"""
 Review the Solution Overview section.
@@ -287,6 +287,30 @@ def confidence_agent(state: AgentState):
 
 
 
+def review_start(state: AgentState):
+    """Pass-through node to enable parallel execution of review agents"""
+    logger.info("[Review Start] Starting parallel execution of all review agents")
+    return {}
+
+def review_collector(state: AgentState):
+    """Collector node that waits for all review agents to complete"""
+    logger.info("[Review Collector] All review agents completed, proceeding to chat responder")
+    # Check which feedbacks are available
+    feedbacks_available = []
+    if state.get("solution_feedback"):
+        feedbacks_available.append("solution_feedback")
+    if state.get("ai_registry_feedback"):
+        feedbacks_available.append("ai_registry_feedback")
+    if state.get("legal_feedback"):
+        feedbacks_available.append("legal_feedback")
+    if state.get("security_feedback"):
+        feedbacks_available.append("security_feedback")
+    if state.get("third_party_feedback"):
+        feedbacks_available.append("third_party_feedback")
+    
+    logger.info(f"[Review Collector] Collected feedbacks: {feedbacks_available}")
+    return {}
+
 def route_by_intent(state: AgentState):
     intent = state["intent"]
     logger.info(f"[Router] Routing based on intent: {intent}")
@@ -298,8 +322,8 @@ def route_by_intent(state: AgentState):
         logger.info("[Router] Routing to: enhance (document enhancement)")
         return "enhance"
     
-    logger.info("[Router] Routing to: review (full review path)")
-    return "review"
+    logger.info("[Router] Routing to: review_start (parallel review path)")
+    return "review_start"
 
 
 
@@ -308,6 +332,8 @@ graph = StateGraph(AgentState)
 graph.set_entry_point("intent")
 
 graph.add_node("intent", intent_classifier)
+graph.add_node("review_start", review_start)
+graph.add_node("review_collector", review_collector)
 
 graph.add_node("solution", solution_agent)
 graph.add_node("ai_registry", ai_registry_agent)
@@ -323,19 +349,29 @@ graph.add_conditional_edges(
     "intent",
     route_by_intent,
     {
-        "review": "solution",
+        "review_start": "review_start",
         "enhance": "enhance",
         "respond": "respond",
     }
 )
 
-# Parallel fan-out
-graph.add_edge("solution", "ai_registry")
-graph.add_edge("ai_registry", "legal")
-graph.add_edge("legal", "security")
-graph.add_edge("security", "third_party")
+# Parallel execution: All review agents execute simultaneously from review_start
+graph.add_edge("review_start", "solution")
+graph.add_edge("review_start", "ai_registry")
+graph.add_edge("review_start", "legal")
+graph.add_edge("review_start", "security")
+graph.add_edge("review_start", "third_party")
 
-graph.add_edge("third_party", "respond")
+# All agents converge to review_collector (ensures all complete before proceeding)
+graph.add_edge("solution", "review_collector")
+graph.add_edge("ai_registry", "review_collector")
+graph.add_edge("legal", "review_collector")
+graph.add_edge("security", "review_collector")
+graph.add_edge("third_party", "review_collector")
+
+# Collector then proceeds to chat responder
+graph.add_edge("review_collector", "respond")
+
 graph.add_edge("respond", "confidence")
 graph.add_edge("enhance", "confidence")
 graph.add_edge("confidence", END)
