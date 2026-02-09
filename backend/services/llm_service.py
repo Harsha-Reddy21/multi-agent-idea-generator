@@ -59,9 +59,9 @@ class LLMService:
             logger.error(f"Error obtaining OAuth token: {e}")
             return None
 
-    async def generate_response(self, query: str, assistant_id: str = "smart-product-dev") -> Dict[str, Any]:
+    def generate_response(self, query: str, assistant_id: str = "smart-product-dev") -> Dict[str, Any]:
         """
-        Generate response from LLM API
+        Generate response from LLM API (synchronous)
         
         Args:
             query: User query string
@@ -74,7 +74,7 @@ class LLMService:
         if not oauth_token:
             raise ValueError("Failed to obtain OAuth token")
             
-        logger.info(f"Generating response for query: {query}")
+        logger.info(f"Generating response for query: {query[:200]}...")
 
         
         url = f"{self.api_url}/{assistant_id}"
@@ -91,6 +91,41 @@ class LLMService:
         except Exception as e:
             logger.error(f"Error generating response: {e}")
             raise
+    
+    def generate_response_text(self, query: str, assistant_id: str = "smart-product-dev") -> str:
+        """
+        Generate response from LLM API and return just the message content as string.
+        Used by agent functions that need synchronous LLM calls.
+        
+        Args:
+            query: User query string
+            assistant_id: Assistant/workspace ID (default: "smart-product-dev")
+            
+        Returns:
+            The message content as a string
+        """
+        result = self.generate_response(query, assistant_id)
+        
+        # Extract message content from response
+        # Cortex API returns: {"message": "...", ...} or {"response": "...", ...}
+        message = result.get("message", "")
+        if not message and isinstance(result, dict):
+            message = result.get("response", "") or result.get("text", "") or str(result)
+        
+        return message
+    
+    async def generate_response_async(self, query: str, assistant_id: str = "smart-product-dev") -> Dict[str, Any]:
+        """
+        Async wrapper for generate_response (for backward compatibility).
+        
+        Args:
+            query: User query string
+            assistant_id: Assistant/workspace ID (default: "smart-product-dev")
+            
+        Returns:
+            Response dictionary from the API
+        """
+        return self.generate_response(query, assistant_id)
 
     def get_history_sessions(
         self,

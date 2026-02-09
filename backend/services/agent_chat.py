@@ -1,21 +1,15 @@
 from typing import TypedDict, List, Dict, Optional
 from langgraph.graph import StateGraph, END
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage
-import os
 import json
 import re
+import logging
 
-from dotenv import load_dotenv
-load_dotenv()
-load_dotenv(override=True)
+from services.llm_service import LLMService
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
+logger = logging.getLogger(__name__)
 
-llm = ChatOpenAI(
-    model="gpt-4o-mini",
-    temperature=0.2
-)
+# Initialize LLM service (uses Cortex API)
+llm_service = LLMService()
 
 class AgentState(TypedDict):
     # Inputs
@@ -74,7 +68,7 @@ Format:
 }}
 """
 
-    response = llm.invoke([HumanMessage(content=prompt)]).content
+    response = llm_service.generate_response_text(prompt)
     result = parse_llm_json(response)
 
     return {
@@ -102,7 +96,7 @@ Respond with issues or say "Looks sufficient".
 """
 
     return {
-        "solution_feedback": llm.invoke([HumanMessage(content=prompt)]).content
+        "solution_feedback": llm_service.generate_response_text(prompt)
     }
 
 
@@ -123,7 +117,7 @@ Check for:
 """
 
     return {
-        "ai_registry_feedback": llm.invoke([HumanMessage(content=prompt)]).content
+        "ai_registry_feedback": llm_service.generate_response_text(prompt)
     }
 
 
@@ -142,7 +136,7 @@ Check for:
 """
 
     return {
-        "legal_feedback": llm.invoke([HumanMessage(content=prompt)]).content
+        "legal_feedback": llm_service.generate_response_text(prompt)
     }
 
 
@@ -163,7 +157,7 @@ Check for:
 """
 
     return {
-        "security_feedback": llm.invoke([HumanMessage(content=prompt)]).content
+        "security_feedback": llm_service.generate_response_text(prompt)
     }
 
 
@@ -182,7 +176,7 @@ Check for:
 """
 
     return {
-        "third_party_feedback": llm.invoke([HumanMessage(content=prompt)]).content
+        "third_party_feedback": llm_service.generate_response_text(prompt)
     }
 
 
@@ -222,7 +216,7 @@ Section:
 Content:
 {content}
 """
-        suggestions[section] = llm.invoke([HumanMessage(content=prompt)]).content
+        suggestions[section] = llm_service.generate_response_text(prompt)
 
     return {"document_suggestions": suggestions}
 
