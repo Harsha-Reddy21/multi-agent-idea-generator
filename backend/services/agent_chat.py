@@ -285,23 +285,5 @@ graph.add_edge("respond", "confidence")
 graph.add_edge("enhance", "confidence")
 graph.add_edge("confidence", END)
 
-app = graph.compile()
-
-
-
-
-
-result = app.invoke({
-    "user_query": "Have I added enough technical details?",
-    "document": {
-        "solution_overview": "An AI system to automate reports.",
-        "ai_registry": "",
-        "digital_legal": "",
-        "security_architecture": "",
-        "third_party": "",
-    },
-    "chat_history": []
-})
-
-print("Chat Response:\n", result)
-# print("Confidence Score:", result["confidence_score"])
+# Compile the graph - this is the main entry point for the agent system
+agent_app = graph.compile()
