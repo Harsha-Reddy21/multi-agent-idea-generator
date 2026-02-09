@@ -30,17 +30,22 @@ graph TB
         
         INTENT -->|Route Decision| ROUTE{Route by Intent}
         
-        ROUTE -->|review| REVIEW[Review Path]
+        ROUTE -->|review| RS[Review Start<br/>Parallel Trigger]
         ROUTE -->|enhance| ENHANCE[Enhance Path]
         ROUTE -->|irrelevant| RESPOND[Direct Response]
         
-        subgraph "Review Path - Sequential Agents"
-            REVIEW --> SOL[Solution Agent<br/>Reviews solution_overview]
-            SOL --> AI[AI Registry Agent<br/>Reviews ai_registry]
-            AI --> LEGAL[Legal Agent<br/>Reviews digital_legal]
-            LEGAL --> SEC[Security Agent<br/>Reviews security_architecture]
-            SEC --> TP[Third Party Agent<br/>Reviews third_party]
-            TP --> RESPOND
+        subgraph "Review Path - Parallel Agents"
+            RS -->|Parallel| SOL[Solution Agent<br/>Reviews solution_overview]
+            RS -->|Parallel| AI[AI Registry Agent<br/>Reviews ai_registry]
+            RS -->|Parallel| LEGAL[Legal Agent<br/>Reviews digital_legal]
+            RS -->|Parallel| SEC[Security Agent<br/>Reviews security_architecture]
+            RS -->|Parallel| TP[Third Party Agent<br/>Reviews third_party]
+            SOL --> RC[Review Collector<br/>Collects All Feedback]
+            AI --> RC
+            LEGAL --> RC
+            SEC --> RC
+            TP --> RC
+            RC --> RESPOND
         end
         
         subgraph "Enhance Path"

@@ -1,6 +1,6 @@
 # Multi-Agent System Architecture
 
-## Agent Graph Flow Diagram
+## Agent Graph Flow Diagram (Parallel Execution)
 
 ```mermaid
 graph TB
@@ -13,14 +13,22 @@ graph TB
     
     ROUTE -->|intent = 'irrelevant'| RESPOND[Chat Responder<br/>📝 Aggregates Feedback]
     ROUTE -->|intent = 'enhance'| ENHANCE[Document Enhancer<br/>✨ Improves Sections]
-    ROUTE -->|intent = 'review'| SOL[Solution Agent<br/>🔧 Reviews solution_overview]
+    ROUTE -->|intent = 'review'| REVIEW_START[Review Start<br/>🚀 Parallel Trigger]
     
-    subgraph "Review Path - Sequential Execution"
-        SOL -->|solution_feedback| AI[AI Registry Agent<br/>🤖 Reviews ai_registry]
-        AI -->|ai_registry_feedback| LEGAL[Legal Agent<br/>⚖️ Reviews digital_legal]
-        LEGAL -->|legal_feedback| SEC[Security Agent<br/>🔒 Reviews security_architecture]
-        SEC -->|security_feedback| TP[Third Party Agent<br/>🤝 Reviews third_party]
-        TP -->|third_party_feedback| RESPOND
+    subgraph "Review Path - Parallel Execution"
+        REVIEW_START -->|Parallel| SOL[Solution Agent<br/>🔧 Reviews solution_overview]
+        REVIEW_START -->|Parallel| AI[AI Registry Agent<br/>🤖 Reviews ai_registry]
+        REVIEW_START -->|Parallel| LEGAL[Legal Agent<br/>⚖️ Reviews digital_legal]
+        REVIEW_START -->|Parallel| SEC[Security Agent<br/>🔒 Reviews security_architecture]
+        REVIEW_START -->|Parallel| TP[Third Party Agent<br/>🤝 Reviews third_party]
+        
+        SOL -->|solution_feedback| COLLECTOR[Review Collector<br/>📦 Collects All Feedback]
+        AI -->|ai_registry_feedback| COLLECTOR
+        LEGAL -->|legal_feedback| COLLECTOR
+        SEC -->|security_feedback| COLLECTOR
+        TP -->|third_party_feedback| COLLECTOR
+        
+        COLLECTOR --> RESPOND
     end
     
     SOL -.->|Calls LLM| LLM2[LLMService]
@@ -36,11 +44,13 @@ graph TB
     
     style INTENT fill:#e1f5ff,stroke:#01579b,stroke-width:2px
     style ROUTE fill:#fff4e1,stroke:#e65100,stroke-width:2px
+    style REVIEW_START fill:#fff9c4,stroke:#f57f17,stroke-width:2px
     style SOL fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
     style AI fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
     style LEGAL fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
     style SEC fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
     style TP fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    style COLLECTOR fill:#e3f2fd,stroke:#0277bd,stroke-width:2px
     style ENHANCE fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
     style RESPOND fill:#fce4ec,stroke:#880e4f,stroke-width:2px
     style CONF fill:#fff9c4,stroke:#f57f17,stroke-width:2px
@@ -52,7 +62,7 @@ graph TB
     style LLM6 fill:#e0f2f1,stroke:#004d40,stroke-width:1px
 ```
 
-## Agent State Flow Diagram
+## Agent State Flow Diagram (Parallel Execution)
 
 ```mermaid
 stateDiagram-v2
@@ -60,16 +70,24 @@ stateDiagram-v2
     
     IntentClassifier --> Router
     
-    Router --> SolutionAgent: review
+    Router --> ReviewStart: review
     Router --> DocumentEnhancer: enhance
     Router --> ChatResponder: irrelevant
     
-    state ReviewPath {
-        SolutionAgent --> AIRegistryAgent
-        AIRegistryAgent --> LegalAgent
-        LegalAgent --> SecurityAgent
-        SecurityAgent --> ThirdPartyAgent
-        ThirdPartyAgent --> ChatResponder
+    state ParallelReview {
+        ReviewStart --> SolutionAgent
+        ReviewStart --> AIRegistryAgent
+        ReviewStart --> LegalAgent
+        ReviewStart --> SecurityAgent
+        ReviewStart --> ThirdPartyAgent
+        
+        SolutionAgent --> ReviewCollector
+        AIRegistryAgent --> ReviewCollector
+        LegalAgent --> ReviewCollector
+        SecurityAgent --> ReviewCollector
+        ThirdPartyAgent --> ReviewCollector
+        
+        ReviewCollector --> ChatResponder
     }
     
     DocumentEnhancer --> ConfidenceAgent
@@ -82,10 +100,11 @@ stateDiagram-v2
         relevance and ambiguity scores
     end note
     
-    note right of ReviewPath
-        Sequential execution
-        Each agent reviews
-        specific document section
+    note right of ParallelReview
+        Parallel execution
+        All agents run simultaneously
+        Review Collector waits for all
+        to complete before proceeding
     end note
     
     note right of ConfidenceAgent
@@ -96,18 +115,20 @@ stateDiagram-v2
     end note
 ```
 
-## Agent Execution Sequence
+## Agent Execution Sequence (Parallel Execution)
 
 ```mermaid
 sequenceDiagram
     participant Graph as Agent Graph
     participant IC as Intent Classifier
     participant Router as Router
+    participant RS as Review Start
     participant SA as Solution Agent
     participant AA as AI Registry Agent
     participant LA as Legal Agent
     participant SEA as Security Agent
     participant TA as Third Party Agent
+    participant RC as Review Collector
     participant CR as Chat Responder
     participant ENH as Document Enhancer
     participant CA as Confidence Agent
@@ -121,34 +142,41 @@ sequenceDiagram
     Graph->>Router: route_by_intent(state)
     
     alt intent == "review"
-        Router-->>Graph: "review"
-        Graph->>SA: Execute
-        SA->>LLM: generate_response_text(prompt)
-        LLM-->>SA: feedback
-        SA-->>Graph: solution_feedback
+        Router-->>Graph: "review_start"
+        Graph->>RS: Execute (trigger parallel)
         
-        Graph->>AA: Execute
-        AA->>LLM: generate_response_text(prompt)
-        LLM-->>AA: feedback
-        AA-->>Graph: ai_registry_feedback
+        par Parallel Execution
+            RS->>SA: Execute in parallel
+            RS->>AA: Execute in parallel
+            RS->>LA: Execute in parallel
+            RS->>SEA: Execute in parallel
+            RS->>TA: Execute in parallel
+        end
         
-        Graph->>LA: Execute
-        LA->>LLM: generate_response_text(prompt)
-        LLM-->>LA: feedback
-        LA-->>Graph: legal_feedback
+        par All agents call LLM simultaneously
+            SA->>LLM: generate_response_text(prompt)
+            AA->>LLM: generate_response_text(prompt)
+            LA->>LLM: generate_response_text(prompt)
+            SEA->>LLM: generate_response_text(prompt)
+            TA->>LLM: generate_response_text(prompt)
+        end
         
-        Graph->>SEA: Execute
-        SEA->>LLM: generate_response_text(prompt)
-        LLM-->>SEA: feedback
-        SEA-->>Graph: security_feedback
+        par All agents return feedback
+            LLM-->>SA: solution_feedback
+            LLM-->>AA: ai_registry_feedback
+            LLM-->>LA: legal_feedback
+            LLM-->>SEA: security_feedback
+            LLM-->>TA: third_party_feedback
+        end
         
-        Graph->>TA: Execute
-        TA->>LLM: generate_response_text(prompt)
-        LLM-->>TA: feedback
-        TA-->>Graph: third_party_feedback
+        SA-->>RC: solution_feedback
+        AA-->>RC: ai_registry_feedback
+        LA-->>RC: legal_feedback
+        SEA-->>RC: security_feedback
+        TA-->>RC: third_party_feedback
         
-        Graph->>CR: Aggregate feedbacks
-        CR-->>Graph: chat_response
+        RC->>CR: All feedbacks collected
+        CR->>Graph: chat_response
         
     else intent == "enhance"
         Router-->>Graph: "enhance"
