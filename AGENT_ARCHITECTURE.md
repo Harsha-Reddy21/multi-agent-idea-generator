@@ -56,59 +56,43 @@ graph TB
 
 ```mermaid
 stateDiagram-v2
-    [*] --> IntentClassifier: Input: user_query, document, chat_history
+    [*] --> IntentClassifier
     
-    IntentClassifier --> IntentClassifier: Call LLMService
-    IntentClassifier --> Router: Output: intent, relevance_score, ambiguity_score
+    IntentClassifier --> Router
     
-    Router --> SolutionAgent: intent == "review"
-    Router --> DocumentEnhancer: intent == "enhance"
-    Router --> ChatResponder: intent == "irrelevant"
+    Router --> SolutionAgent: review
+    Router --> DocumentEnhancer: enhance
+    Router --> ChatResponder: irrelevant
     
     state ReviewPath {
-        SolutionAgent --> SolutionAgent: Call LLMService
-        SolutionAgent --> AIRegistryAgent: solution_feedback
-        
-        AIRegistryAgent --> AIRegistryAgent: Call LLMService
-        AIRegistryAgent --> LegalAgent: ai_registry_feedback
-        
-        LegalAgent --> LegalAgent: Call LLMService
-        LegalAgent --> SecurityAgent: legal_feedback
-        
-        SecurityAgent --> SecurityAgent: Call LLMService
-        SecurityAgent --> ThirdPartyAgent: security_feedback
-        
-        ThirdPartyAgent --> ThirdPartyAgent: Call LLMService
-        ThirdPartyAgent --> ChatResponder: third_party_feedback
+        SolutionAgent --> AIRegistryAgent
+        AIRegistryAgent --> LegalAgent
+        LegalAgent --> SecurityAgent
+        SecurityAgent --> ThirdPartyAgent
+        ThirdPartyAgent --> ChatResponder
     }
     
-    DocumentEnhancer --> DocumentEnhancer: Call LLMService (per section)
-    DocumentEnhancer --> ConfidenceAgent: document_suggestions
-    
-    ChatResponder --> ConfidenceAgent: chat_response
-    
-    ConfidenceAgent --> [*]: confidence_score + final_state
+    DocumentEnhancer --> ConfidenceAgent
+    ChatResponder --> ConfidenceAgent
+    ConfidenceAgent --> [*]
     
     note right of IntentClassifier
         Analyzes user query
-        Returns: intent type,
-        relevance (0-1),
-        ambiguity (0-1)
+        Returns intent type
+        relevance and ambiguity scores
     end note
     
     note right of ReviewPath
-        Sequential execution:
+        Sequential execution
         Each agent reviews
         specific document section
-        and provides feedback
     end note
     
     note right of ConfidenceAgent
-        Formula:
+        Formula
         confidence = 0.5 * relevance
         + 0.3 * (1 - ambiguity)
         + 0.2
-        Returns: 0-1 score
     end note
 ```
 

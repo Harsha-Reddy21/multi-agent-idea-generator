@@ -1,3 +1,8 @@
+# Agent Architecture - Mermaid Diagrams
+
+## Agent Graph Flow Diagram
+
+```mermaid
 graph TB
     START([Start: Agent Graph Invoked]) --> INTENT[Intent Classifier<br/>🔍 Classifies Query]
     
@@ -39,3 +44,29 @@ graph TB
     style ENHANCE fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
     style RESPOND fill:#fce4ec,stroke:#880e4f,stroke-width:2px
     style CONF fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+```
+
+## Agent State Flow Diagram (Fixed)
+
+```mermaid
+stateDiagram-v2
+    [*] --> IntentClassifier
+    
+    IntentClassifier --> Router
+    
+    Router --> SolutionAgent: review
+    Router --> DocumentEnhancer: enhance
+    Router --> ChatResponder: irrelevant
+    
+    state ReviewPath {
+        SolutionAgent --> AIRegistryAgent
+        AIRegistryAgent --> LegalAgent
+        LegalAgent --> SecurityAgent
+        SecurityAgent --> ThirdPartyAgent
+        ThirdPartyAgent --> ChatResponder
+    }
+    
+    DocumentEnhancer --> ConfidenceAgent
+    ChatResponder --> ConfidenceAgent
+    ConfidenceAgent --> [*]
+```
