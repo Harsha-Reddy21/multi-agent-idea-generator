@@ -12,7 +12,6 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 from services.chat_service import ChatService
-from services.llm_service import LLMService
 
 # Configure logging first
 logging.basicConfig(
@@ -71,8 +70,7 @@ logger.info("=" * 80)
 
 
 
-llm_service = LLMService()
-chat_service = ChatService(llm_service)
+chat_service = ChatService()
 
 
 
