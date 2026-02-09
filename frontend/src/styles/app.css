@@ -1,0 +1,491 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    "IBM Plex Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.main-container {
+  flex: 1;
+  overflow: hidden;
+  background-color: #ffffff;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  flex: 1;
+  gap: 0;
+  will-change: grid-template-columns;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.layout:not(.dragging) {
+  transition: grid-template-columns 0.3s ease-in-out;
+}
+
+.layout.editor-expanded {
+  grid-template-columns: 1fr 0;
+}
+
+.layout.ai-expanded {
+  grid-template-columns: 0 1fr;
+}
+
+/* Left Sidebar */
+.lilly-logo {
+  width: 60px;
+  height: 20px;
+}
+
+.panel-left {
+  position: relative;
+  right: 5px;
+}
+
+.logo-text {
+  font-size: 10px;
+  text-align: left;
+}
+
+.left-sidebar {
+  width: 232px;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.left-sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar-header {
+  padding: 5.5px 10px;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-logo .logo-subtitle {
+  font-size: 9px;
+  color: #130e0e;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.toggle-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.left-sidebar.collapsed .sidebar-logo {
+  display: none;
+}
+
+.sidebar-toggle:hover {
+  color: #333;
+}
+
+.vertical-btn {
+  width: 4px;
+  height: 60px;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #555;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-height: 36px;
+  font-weight: 400;
+}
+
+.nav-item:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.nav-item.active {
+  background-color: #efefef;
+  font-weight: 500;
+}
+
+.nav-label {
+  flex: 1;
+  font-size: 14px;
+  text-align: left;
+  line-height: 20px;
+  letter-spacing: 0%;
+  font-weight: 500;
+}
+
+.left-sidebar.collapsed .nav-label {
+  display: none;
+}
+
+.left-sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 10px;
+  gap: 0;
+}
+
+/* Right Sidebar */
+.right-sidebar {
+  width: 60px;
+  background-color: #ffffff;
+  border-left: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  transition: all 0.3s ease;
+}
+
+.right-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  padding: 0;
+  flex: 1;
+}
+
+.nav-item-icon {
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.nav-item-icon:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.editor-panel {
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ai-panel {
+  overflow: hidden;
+  background-color: #f8f9fa;
+  border-left: 1px solid #e0e0e0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.resize-divider {
+  cursor: ew-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Smooth transitions when NOT dragging */
+.layout:not(.dragging) .resize-divider {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.divider-buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 8px;
+  background-color: #ffffff;
+  padding: 5px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+  opacity: 1;
+  pointer-events: all;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  height: 7%;
+  border: 1px solid #e0e0e0;
+}
+
+.resize-divider:hover .divider-buttons {
+  opacity: 1;
+  pointer-events: all;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.mobile-overlay-buttons {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: 1fr 300px;
+  }
+
+  .left-sidebar {
+    width: 232px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr 280px;
+  }
+
+  .left-sidebar {
+    width: 232px;
+  }
+
+  .nav-item {
+    padding: 10px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .left-sidebar {
+    display: none;
+  }
+
+  .right-sidebar {
+    display: none;
+  }
+
+  .layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .resize-divider {
+    display: none;
+  }
+
+  .editor-panel {
+    border-right: none;
+    width: 100%;
+  }
+
+  .ai-panel {
+    width: 100%;
+  }
+
+  /* On mobile, hide both panels by default */
+  .ai-panel {
+    display: none;
+  }
+
+  .editor-panel {
+    display: block;
+  }
+
+  /* When AI is expanded, show only AI panel */
+  .layout.ai-expanded .ai-panel {
+    display: block !important;
+  }
+
+  .layout.ai-expanded .editor-panel {
+    display: none !important;
+  }
+
+  /* When editor is expanded, show only editor panel */
+  .layout.editor-expanded .editor-panel {
+    display: block !important;
+  }
+
+  .layout.editor-expanded .ai-panel {
+    display: none !important;
+  }
+
+  .layout.ai-expanded {
+    grid-template-columns: 1fr;
+  }
+
+  .layout.editor-expanded {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-overlay-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+    padding: 16px 12px 24px 12px;
+    height: auto;
+    pointer-events: all;
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 255, 255, 0.8)
+    );
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .overlay-btn {
+    flex: 1;
+    padding: 14px 12px;
+    border: none;
+    background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+    color: white;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .overlay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(211, 47, 47, 0.35);
+  }
+
+  .overlay-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 6px rgba(211, 47, 47, 0.2);
+  }
+
+  .overlay-btn-left::after {
+    content: " Editor";
+    font-size: 14px;
+  }
+
+  .overlay-btn-right::after {
+    content: " AI Assistant";
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    height: 100dvh;
+  }
+
+  #root {
+    height: 100dvh;
+  }
+
+  .mobile-overlay-buttons {
+    padding: 14px 10px 20px 10px;
+    gap: 8px;
+  }
+
+  .overlay-btn {
+    padding: 12px 8px;
+    min-height: 44px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .overlay-btn-left::after {
+    content: "Edit";
+    font-size: 11px;
+  }
+
+  .overlay-btn-right::after {
+    content: "AI";
+    font-size: 11px;
+  }
+}

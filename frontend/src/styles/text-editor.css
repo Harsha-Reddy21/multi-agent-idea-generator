@@ -1,0 +1,505 @@
+.text-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.editor-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.editor-image:hover {
+  opacity: 0.9;
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 2px solid #007bff;
+  border-radius: 4px;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+  border-radius: 4px;
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 2px solid #007bff;
+  border-radius: 4px;
+}
+
+.resize-cursor {
+  cursor: nwse-resize;
+}
+
+img[data-drag-handle] {
+  cursor: nwse-resize;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #ffffff;
+  gap: 16px;
+}
+
+.editor-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.editor-title {
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  background-color: transparent;
+  line-height: 28px;
+  letter-spacing: 0px;
+  vertical-align: middle;
+  color: #242424;
+  outline: none;
+  flex: 1;
+  font-family: 'IBM Plex Sans', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.editor-title:focus {
+  background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.edit-icon {
+  cursor: pointer;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-icon:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.collapse-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  color: #666666;
+}
+
+.collapse-btn:hover {
+  background-color: #f0f0f0;
+  color: #1a1a1a;
+}
+
+.submit-review-btn {
+  padding: 8px 16px;
+  border: none;
+  background-color: #d32f2f;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.submit-review-btn.disabled {
+  background-color: #e0e0e0;
+  color: #000000;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.submit-review-btn.disabled:hover {
+  background-color: #e0e0e0;
+  transform: none;
+}
+
+.submit-review-btn:hover {
+  background-color: #b71c1c;
+  box-shadow: 0 2px 6px rgba(211, 47, 47, 0.2);
+}
+
+.submit-review-btn:active {
+  transform: scale(0.98);
+}
+
+.case-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.case-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 2px);
+  background: #ffffff;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  min-width: 175px;
+  z-index: 1000;
+}
+
+.case-dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+  color: #201f1e;
+  line-height: 20px;
+  transition: background-color 0.1s ease;
+  font-weight: 400;
+}
+
+.case-dropdown-menu button:hover {
+  background-color: #f3f2f1;
+}
+
+.case-dropdown-menu button:active {
+  background-color: #edebe9;
+}
+
+.case-dropdown-menu button:focus {
+  outline: none;
+  background-color: #f3f2f1;
+}
+
+.case-dropdown-menu button::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  margin-right: 8px;
+}
+
+.case-dropdown-menu button+button {
+  border-top: 1px solid transparent;
+}
+
+.case-dropdown-menu button:not(:last-child) {
+  margin-bottom: 1px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.case-dropdown-menu {
+  animation: slideDown 0.15s ease-out;
+}
+
+.case-dropdown-menu button:disabled {
+  color: #a19f9d;
+  cursor: not-allowed;
+  background: transparent;
+}
+
+.case-dropdown-menu button:disabled:hover {
+  background: transparent;
+}
+
+.editor-tabs {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0 24px;
+  background-color: #ffffff;
+}
+
+.tab-btn {
+  padding: 12px 0;
+  margin-right: 24px;
+  border: none;
+  background-color: transparent;
+  color: #666666;
+  font-size: 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.tab-btn:hover {
+  color: #1a1a1a;
+}
+
+.tab-btn.active {
+  color: #1a1a1a;
+  border-bottom-color: #1a1a1a;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0px 10px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  flex-wrap: wrap;
+}
+
+.toolbar-btn {
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: #1a1a1a;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  font-weight: 500;
+}
+
+.toolbar-btn:hover {
+  background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+  border-color: #d0d0d0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.toolbar-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 30px;
+  background-color: #e0e0e0;
+  margin: 0 4px;
+}
+
+.editor-content {
+  flex: 1;
+  padding: 0px 10px 10px 20px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  line-height: 28px;
+  letter-spacing: 0%;
+  font-weight: 400;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: #1a1a1a;
+  overflow-y: auto;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.editor-content:focus {
+  background-color: #fafafa;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* TipTap Editor Styles */
+.ProseMirror {
+  outline: none;
+  min-height: 100%;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror h2 {
+  font-size: 18px;
+}
+
+.ProseMirror h3 {
+  font-size: 16px;
+}
+
+.ProseMirror p {
+  margin: 0.75em 0 0.75em 0;
+  padding-bottom: 8px;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 24px;
+  margin: 0.75em 0;
+}
+
+.ProseMirror li {
+  margin: 0.25em 0;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid #d32f2f;
+  padding-left: 16px;
+  margin: 1em 0;
+  color: #666666;
+  font-style: italic;
+}
+
+.ProseMirror strong {
+  font-weight: 600;
+}
+
+.ProseMirror em {
+  font-style: italic;
+}
+
+.ProseMirror u {
+  text-decoration: underline;
+}
+
+.editor-content::placeholder {
+  color: #999999;
+}
+
+.editor-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.editor-content::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.editor-content::-webkit-scrollbar-thumb {
+  background-color: #d0d0d0;
+  border-radius: 4px;
+}
+
+.editor-content::-webkit-scrollbar-thumb:hover {
+  background-color: #b0b0b0;
+}
+
+@media (max-width: 768px) {
+  .editor-header {
+    padding: 12px 16px;
+  }
+
+  .editor-title {
+    font-size: 20px;
+  }
+
+  .editor-tabs {
+    padding: 0 16px;
+  }
+
+  .editor-content {
+    padding: 16px;
+  }
+
+  .toolbar {
+    padding: 6px 8px;
+    gap: 1px;
+  }
+
+  .toolbar-btn {
+    padding: 4px 6px;
+    font-size: 12px;
+    min-width: 28px;
+    height: 28px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background: transparent;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+
+  }
+}
+
+.toolbar-btn.active {
+  background-color: #7d7f81;
+  color: white;
+  border-color: #3e4042;
+}
+
+
+.toolbar-btn.active {
+  background: #e0e7ff;
+  border-color: #4e4e5a;
+  color: #121114;
+}
+
+
+.toolbar-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.text-editor {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-header {
+  flex-shrink: 0;
+}
+
+.toolbar {
+  flex-shrink: 0;
+}
+
+.editor-body {
+  flex: 1;
+  overflow-y: auto;
+  margin-right: 4px
+}
+
+.diff-viewer-container {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.diff-viewer-container .diff-viewer {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  height: 100%;
+}
+
+.editor-content {
+  min-height: 100%;
+  outline: none;
+  line-height: 1.6;
+}

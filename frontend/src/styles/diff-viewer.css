@@ -1,0 +1,380 @@
+.diff-viewer {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 12px 0;
+  font-family: inherit;
+  font-size: 13px;
+  height: 100%;
+}
+
+.diff-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 5px;
+  background: linear-gradient(to bottom, #fafafa, #f5f5f5);
+  border-bottom: 1px solid #e0e0e0;
+  gap: 16px;
+}
+
+.diff-stats {
+  gap: 4px;
+  position: relative;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.diff-title {
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.diff-count {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  display: inline-block;
+}
+
+.diff-count.added {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.diff-count.removed {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.diff-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+}
+
+.view-mode-toggle {
+  display: flex;
+  gap: 0;
+  background-color: #e8e8e8;
+  border: 1px solid #d0d0d0;
+  border-radius: 5px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.toggle-btn {
+  padding: 6px 11px;
+  border: none;
+  background-color: transparent;
+  color: #555;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.toggle-btn:not(:last-child) {
+  border-right: 1px solid #d0d0d0;
+}
+
+.toggle-btn:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.toggle-btn.active {
+  background-color: #2196f3;
+  color: #ffffff;
+}
+
+.diff-btn {
+  padding: 7px 14px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.diff-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.diff-btn.accept-btn {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+.diff-btn.accept-btn:hover {
+  background-color: #218838;
+}
+
+.diff-btn.reject-btn {
+  background-color: #e74c3c;
+  color: #ffffff;
+}
+
+.diff-btn.reject-btn:hover {
+  background-color: #c0392b;
+}
+
+.diff-content {
+  overflow-x: auto;
+  overflow-y: auto;
+  flex: 1;
+  background-color: #fafafa;
+}
+
+.diff-line {
+  display: flex;
+  align-items: flex-start;
+  padding: 0;
+  line-height: 1.6;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.diff-change-pair {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.diff-removed {
+  display: flex;
+  align-items: flex-start;
+  background-color: #ffebee;
+  border-left: 3px solid #f44336;
+  width: 100%;
+  padding: 0;
+  border-bottom: 1px solid #f5d4d4;
+}
+
+.diff-added {
+  display: flex;
+  align-items: flex-start;
+  background-color: #f1f8e9;
+  border-left: 3px solid #4caf50;
+  width: 100%;
+  padding: 0;
+}
+
+.diff-line-context {
+  display: flex;
+  align-items: flex-start;
+  background-color: #ffffff;
+  border-left: 3px solid transparent;
+  width: 100%;
+  padding: 0;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.diff-line-add {
+  background-color: #f1f8e9;
+}
+
+.diff-line-add::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #4caf50;
+}
+
+.diff-line-remove {
+  background-color: #ffebee;
+}
+
+.diff-line-remove::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #f44336;
+}
+
+.diff-line-number {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 50px;
+  padding: 0 12px;
+  color: #999;
+  background-color: #f5f5f5;
+  font-size: 12px;
+  font-weight: 500;
+  border-right: 1px solid #e0e0e0;
+  user-select: none;
+}
+
+.line-num {
+  display: block;
+  text-align: right;
+}
+
+.line-num.removed {
+  color: #c62828;
+}
+
+.diff-line-prefix {
+  display: flex;
+  align-items: center;
+  min-width: 24px;
+  padding: 0 8px;
+  font-weight: 600;
+  user-select: none;
+}
+
+.prefix {
+  display: block;
+  width: 8px;
+  text-align: center;
+}
+
+.prefix.add {
+  color: #4caf50;
+}
+
+.prefix.remove {
+  color: #f44336;
+}
+
+.prefix.context {
+  color: #ccc;
+}
+
+.diff-line-content {
+  flex: 1;
+  padding: 0 12px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #1a1a1a;
+  font-family: inherit;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.diff-line-add .diff-line-content {
+  color: #2e7d32;
+}
+
+.diff-line-remove .diff-line-content {
+  color: #c62828;
+}
+
+/* Character-level diff highlighting */
+.diff-inline {
+  display: inline;
+}
+
+.diff-char-removed {
+  background-color: #ff6b6b;
+  color: #fff;
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.diff-line-removed .diff-char-removed {
+  background-color: #ff9999;
+  color: #c62828;
+}
+
+.diff-char-added {
+  background-color: #51cf66;
+  color: #fff;
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.diff-line-added .diff-char-added {
+  background-color: #90ee90;
+  color: #2e7d32;
+}
+
+.full-view-content {
+  padding: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.full-view-content h1,
+.full-view-content h2,
+.full-view-content h3,
+.full-view-content h4,
+.full-view-content h5,
+.full-view-content h6 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.full-view-content p {
+  margin-bottom: 12px;
+}
+
+.full-view-content ul,
+.full-view-content ol {
+  margin-bottom: 12px;
+  margin-left: 20px;
+}
+
+.full-view-content li {
+  margin-bottom: 4px;
+}
+
+@media (max-width: 768px) {
+  .diff-viewer {
+    font-size: 12px;
+  }
+
+  .diff-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .diff-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .view-mode-toggle {
+    width: 100%;
+  }
+
+  .toggle-btn {
+    flex: 1;
+  }
+
+  .diff-btn {
+    flex: 1;
+  }
+
+  .diff-content {
+    max-height: 300px;
+  }
+}

@@ -1,0 +1,185 @@
+.header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  z-index: 100;
+}
+
+.header-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  gap: 24px;
+}
+
+.header-left {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: flex-start;
+}
+
+.logo-subtitle {
+  font-size: 10px;
+  color: #888;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  text-transform: capitalize;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.nav-btn {
+  padding: 6px 14px;
+  border: none;
+  background-color: transparent;
+  color: #666;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-weight: 400;
+}
+
+.nav-btn:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.nav-btn.active {
+  color: #1a1a1a;
+  background-color: transparent;
+  font-weight: 500;
+  border-bottom: 2px solid #1a1a1a;
+  padding: 6px 14px 4px 14px;
+}
+
+.header-right {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.new-product-btn,
+.my-products-btn {
+  padding: 6px 12px;
+  border: 1px solid #e5e5e5;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-weight: 400;
+}
+
+.new-product-btn:hover,
+.my-products-btn:hover {
+  background-color: #f9f9f9;
+  border-color: #d5d5d5;
+}
+
+.submit-review-btn {
+  padding: 6px 14px;
+  border: none;
+  background-color: #d32f2f;
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.submit-review-btn:hover {
+  background-color: #b71c1c;
+}
+
+@media (max-width: 1024px) {
+  .header-container {
+    padding: 0 16px;
+    gap: 16px;
+  }
+
+  .nav-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .new-product-btn,
+  .my-products-btn,
+  .submit-review-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 56px;
+  }
+
+  .header-container {
+    padding: 0 12px;
+    gap: 12px;
+  }
+
+  .logo-subtitle {
+    display: none;
+  }
+
+  .header-center {
+    display: none;
+  }
+
+  .new-product-btn,
+  .my-products-btn {
+    display: none;
+  }
+
+  .submit-review-btn {
+    padding: 8px 14px;
+    font-size: 12px;
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    height: 52px;
+  }
+
+  .header-container {
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .submit-review-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+    min-height: 36px;
+    white-space: nowrap;
+  }
+}
