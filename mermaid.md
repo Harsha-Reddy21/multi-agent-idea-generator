@@ -11,8 +11,9 @@ graph TB
     
     INTENT -->|Sets intent, relevance_score, ambiguity_score| ROUTE{Router<br/>route_by_intent}
     
-    ROUTE -->|intent = 'irrelevant'| RESPOND[Chat Responder<br/>📝 Aggregates Feedback]
-    ROUTE -->|intent = 'enhance'| ENHANCE[Document Enhancer<br/>✨ Improves Sections]
+    ROUTE -->|intent = 'irrelevant'| RESPOND[Chat Responder<br/>📝 Handles Irrelevant Chat]
+    ROUTE -->|intent = 'chat'| RESPOND
+    ROUTE -->|intent = 'update'| ENHANCE[Document Update Agent<br/>✏️ Updates/Enhances Document]
     ROUTE -->|intent = 'review'| REVIEW_START[Review Start<br/>🚀 Parallel Trigger]
     
     subgraph "Review Path - Parallel Execution"
@@ -42,6 +43,11 @@ graph TB
     
     CONF -->|confidence_score| END([End: Returns Final State])
     
+    %% Autocomplete runs after document updates (not intent-routed)
+    AUTOCOMPLETE[Autocomplete Agent<br/>⚡ Post-update Suggestions]
+    ENHANCE -.->|After ~10s| AUTOCOMPLETE
+    AUTOCOMPLETE -.->|Refined suggestions & updated confidence| CONF
+    
     style INTENT fill:#e1f5ff,stroke:#01579b,stroke-width:2px
     style ROUTE fill:#fff4e1,stroke:#e65100,stroke-width:2px
     style REVIEW_START fill:#fff9c4,stroke:#f57f17,stroke-width:2px
@@ -65,7 +71,8 @@ stateDiagram-v2
     IntentClassifier --> Router
     
     Router --> ReviewStart: review
-    Router --> DocumentEnhancer: enhance
+    Router --> DocumentUpdater: update
+    Router --> ChatResponder: chat
     Router --> ChatResponder: irrelevant
     
     state ParallelReview {
@@ -84,7 +91,9 @@ stateDiagram-v2
         ReviewCollector --> ChatResponder
     }
     
-    DocumentEnhancer --> ConfidenceAgent
+    DocumentUpdater --> ConfidenceAgent
     ChatResponder --> ConfidenceAgent
     ConfidenceAgent --> [*]
+    
+    AutocompleteAgent --> ConfidenceAgent : post-update suggestions
 ```
