@@ -13,7 +13,7 @@ import {
   filterValidFiles,
   isImageContent,
 } from "../utils/helpers";
-import { chatAPI } from "../services/api";
+import { chatAPI, autocompleteAPI } from "../services/api";
 
 interface AIAgentProps {
   onProposeChanges?: (newContent: string) => void;
@@ -42,6 +42,7 @@ export const AIAgent: FC<AIAgentProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const autocompleteTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (onConfidenceScoreChange) {
@@ -70,6 +71,55 @@ export const AIAgent: FC<AIAgentProps> = ({
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // After document edits, wait ~10s then ask autocomplete agent for suggestions
+  useEffect(() => {
+    if (!documentContent) {
+      return;
+    }
+
+    if (autocompleteTimeoutRef.current !== null) {
+      window.clearTimeout(autocompleteTimeoutRef.current);
+    }
+
+    autocompleteTimeoutRef.current = window.setTimeout(async () => {
+      try {
+        console.log("🤖 [AIAgent] Triggering autocomplete based on latest document");
+        const response = await autocompleteAPI({
+          document_content: documentContent,
+        });
+
+        // Add suggestions message into chat
+        if (response.response) {
+          const aiResponse: ChatMessage = {
+            id: (Date.now() + 1).toString(),
+            role: "assistant",
+            content: response.response,
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, aiResponse]);
+        }
+
+        // Update confidence score if provided
+        if (response.confidence_score !== undefined) {
+          setConfidenceScore(response.confidence_score);
+        }
+
+        // Propose document changes in the editor (user can accept/reject)
+        if (response.document_content && onProposeChanges) {
+          onProposeChanges(response.document_content);
+        }
+      } catch (error) {
+        console.error("❌ [AIAgent] Autocomplete error:", error);
+      }
+    }, 10000);
+
+    return () => {
+      if (autocompleteTimeoutRef.current !== null) {
+        window.clearTimeout(autocompleteTimeoutRef.current);
+      }
+    };
+  }, [documentContent, onProposeChanges]);
 
   const handleCopyMessage = useCallback((messageId: string, content: string): void => {
     navigator.clipboard.writeText(content).then(() => {
@@ -143,12 +193,9 @@ export const AIAgent: FC<AIAgentProps> = ({
           setConfidenceScore(response.confidence_score);
         }
 
-        // Check if response contains HTML content changes
-        const isHTML =
-          response.response.trim().startsWith("<") &&
-          response.response.includes("</");
-        if (isHTML && onProposeChanges) {
-          onProposeChanges(response.response);
+        // When backend ran the update agent, apply suggested document to the editor
+        if (response.document_content && onProposeChanges) {
+          onProposeChanges(response.document_content);
         }
       } catch (error) {
         console.error("Error calling chat API:", error);

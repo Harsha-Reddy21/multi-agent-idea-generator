@@ -93,6 +93,16 @@ class ChatResponse(BaseModel):
     document_content: Optional[str] = None
 
 
+class AutocompleteRequest(BaseModel):
+    document_content: str
+
+
+class AutocompleteResponse(BaseModel):
+    response: str
+    confidence_score: Optional[int] = None
+    document_content: Optional[str] = None
+
+
 class HealthResponse(BaseModel):
     status: str
     message: str
@@ -192,6 +202,39 @@ async def chat(request: ChatRequest):
         raise HTTPException(
             status_code=500,
             detail=f"Error processing chat request: {str(e)}"
+        )
+
+
+@app.post("/api/autocomplete", response_model=AutocompleteResponse)
+async def autocomplete(request: AutocompleteRequest):
+    request_id = f"auto_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
+
+    try:
+        logger.info(f"[{request_id}] Autocomplete request received")
+        logger.info(f"  - Document content length: {len(request.document_content or '')} chars")
+
+        response_data = await chat_service.get_autocomplete(
+            document_content=request.document_content or "",
+            request_id=request_id,
+        )
+
+        logger.info(f"[{request_id}] Autocomplete response: "
+                    f"len={len(response_data.get('response', ''))}, "
+                    f"confidence={response_data.get('confidence_score')}")
+
+        return AutocompleteResponse(
+            response=response_data["response"],
+            confidence_score=response_data.get("confidence_score"),
+            document_content=response_data.get("document_content"),
+        )
+    except Exception as e:
+        import traceback
+        error_trace = traceback.format_exc()
+        logger.error(f"[{request_id}] Error processing autocomplete request: {e}")
+        logger.error(error_trace)
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error processing autocomplete request: {str(e)}",
         )
 
 

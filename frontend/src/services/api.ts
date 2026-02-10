@@ -15,6 +15,18 @@ export interface ChatRequest {
 export interface ChatResponse {
   response: string;
   confidence_score?: number;
+  /** When the update agent ran, HTML to apply to the document (proposed changes). */
+  document_content?: string;
+}
+
+export interface AutocompleteRequest {
+  document_content: string;
+}
+
+export interface AutocompleteResponse {
+  response: string;
+  confidence_score?: number;
+  document_content?: string;
 }
 
 /**
@@ -82,6 +94,47 @@ export const chatAPI = async (request: ChatRequest): Promise<ChatResponse> => {
       console.error("❌ [API] Error message:", error.message);
       console.error("❌ [API] Error stack:", error.stack);
     }
+    throw error;
+  }
+};
+
+/**
+ * Call the autocomplete endpoint (used after document edits)
+ */
+export const autocompleteAPI = async (
+  request: AutocompleteRequest,
+): Promise<AutocompleteResponse> => {
+  const apiUrl = `${API_BASE_URL}/api/autocomplete`;
+
+  console.log("🚀 [API] Calling autocomplete endpoint:", apiUrl);
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        document_content: request.document_content || "",
+      }),
+    });
+
+    console.log("📥 [API] Autocomplete response status:", response.status, response.statusText);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("❌ [API] Autocomplete error response:", errorText);
+      throw new Error(errorText || response.statusText);
+    }
+
+    const data: AutocompleteResponse = await response.json();
+    console.log("✅ [API] Autocomplete success:", {
+      response_length: data.response?.length || 0,
+      confidence_score: data.confidence_score,
+    });
+    return data;
+  } catch (error) {
+    console.error("❌ [API] Autocomplete API Error:", error);
     throw error;
   }
 };

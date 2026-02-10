@@ -1,6 +1,6 @@
 
 from typing import List, Dict, Optional, Any
-from services.agent_chat import agent_app
+from services.agent_chat import agent_app, autocomplete_agent
 import logging
 import re
 from html import unescape
@@ -250,6 +250,68 @@ class ChatService:
             }
         except Exception as e:
             logger.error(f"[{request_id}] Error generating response: {e}")
+            import traceback
+            logger.error(f"[{request_id}] Traceback: {traceback.format_exc()}")
+            raise
+
+    async def get_autocomplete(
+        self,
+        document_content: str = "",
+        request_id: str = "unknown",
+    ) -> Dict[str, Any]:
+        """
+        Run the standalone autocomplete agent on the latest document only.
+        """
+        try:
+            logger.info(f"[{request_id}] Autocomplete: received document length {len(document_content)} chars")
+
+            document_sections = self._parse_html_to_sections(document_content)
+            logger.info(f"[{request_id}] Autocomplete: parsed sections {list(document_sections.keys())}")
+
+            # Call autocomplete agent directly (not via graph)
+            state = {
+                "user_query": "",
+                "document": document_sections,
+                "chat_history": [],
+                "intent": None,
+                "relevance_score": None,
+                "ambiguity_score": None,
+                "solution_feedback": None,
+                "ai_registry_feedback": None,
+                "legal_feedback": None,
+                "security_feedback": None,
+                "third_party_feedback": None,
+                "chat_response": None,
+                "document_suggestions": None,
+                "confidence_score": 0.0,
+            }
+
+            result = autocomplete_agent(state)  # type: ignore[arg-type]
+            suggestions = result.get("document_suggestions") or {}
+            confidence = float(result.get("confidence_score", 0.0))
+            confidence_percentage = int(confidence * 100)
+
+            if not suggestions:
+                response_text = "I don't see any obvious gaps right now based on the latest document."
+                document_html = None
+            else:
+                # Build simple summary message for chat
+                summary_sections = ", ".join(list(suggestions.keys()))
+                response_text = (
+                    "Here are some targeted suggestions based on your latest edits, "
+                    f"focusing on these sections: {summary_sections}."
+                )
+                document_html = self._sections_to_html(suggestions)
+
+            logger.info(f"[{request_id}] Autocomplete: generated {len(suggestions)} suggestion sections")
+
+            return {
+                "response": response_text,
+                "confidence_score": confidence_percentage,
+                "document_content": document_html,
+            }
+        except Exception as e:
+            logger.error(f"[{request_id}] Error in autocomplete: {e}")
             import traceback
             logger.error(f"[{request_id}] Traceback: {traceback.format_exc()}")
             raise
