@@ -114,6 +114,49 @@ class ChatService:
                 sections["solution_overview"] = text
         
         return sections
+
+    def _sections_to_html(self, sections: Dict[str, str]) -> str:
+        """Convert document sections (agent keys or LLM keys) back to HTML for the editor."""
+        section_order = [
+            "solution_overview",
+            "ai_registry",
+            "digital_legal",
+            "security_architecture",
+            "third_party",
+        ]
+        heading_names = {
+            "solution_overview": "General Information",
+            "ai_registry": "Data Information",
+            "digital_legal": "Legal Information",
+            "security_architecture": "Security",
+            "third_party": "Third Party Engagement",
+        }
+        # Normalize keys: lowercase, spaces -> underscores
+        def norm(k: str) -> str:
+            return k.lower().strip().replace(" ", "_").replace("-", "_")
+
+        sections = sections or {}
+        ordered = []
+        seen = set()
+        for key in section_order:
+            for raw_key, content in sections.items():
+                if norm(raw_key) == key and content and content.strip():
+                    ordered.append((heading_names[key], content.strip()))
+                    seen.add(raw_key)
+                    break
+        for raw_key, content in sections.items():
+            if raw_key in seen or not (content and content.strip()):
+                continue
+            title = heading_names.get(norm(raw_key), raw_key.replace("_", " ").title())
+            ordered.append((title, content.strip()))
+        parts = []
+        for title, content in ordered:
+            parts.append(f"<h2>{title}</h2>")
+            for block in content.split("\n\n"):
+                block = block.strip()
+                if block:
+                    parts.append(f"<p>{block}</p>")
+        return "\n\n".join(parts) if parts else ""
     
     def _format_chat_history(self, chat_history: List[Dict]) -> List[str]:
         """
@@ -186,20 +229,24 @@ class ChatService:
             confidence_percentage = int(confidence_score * 100)
             
             # If no response from chat_responder, use document suggestions or fallback
+            document_suggestions = result.get("document_suggestions")
             if not response_text:
-                document_suggestions = result.get("document_suggestions")
                 if document_suggestions:
-                    response_text = "Here are suggested improvements for your document sections:\n\n"
-                    for section, suggestion in document_suggestions.items():
-                        response_text += f"{section}:\n{suggestion}\n\n"
+                    response_text = "I've updated your document with the requested content. Review the changes in the editor and accept to apply."
                 else:
                     response_text = "I've reviewed your document. Please provide more details for better feedback."
-            
-            
+
+            # When update agent produced suggestions, build HTML for the frontend to apply
+            document_content = None
+            if document_suggestions:
+                document_content = self._sections_to_html(document_suggestions)
+                logger.info(f"[{request_id}] Built document_content from suggestions, length: {len(document_content)} chars")
+
             return {
                 "response": response_text,
                 "confidence_score": confidence_percentage,
-                "request_id": request_id
+                "request_id": request_id,
+                "document_content": document_content,
             }
         except Exception as e:
             logger.error(f"[{request_id}] Error generating response: {e}")

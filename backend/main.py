@@ -90,6 +90,7 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     response: str
     confidence_score: Optional[int] = None
+    document_content: Optional[str] = None
 
 
 class HealthResponse(BaseModel):
@@ -164,7 +165,8 @@ async def chat(request: ChatRequest):
         
         result = ChatResponse(
             response=response_data["response"],
-            confidence_score=response_data.get("confidence_score")
+            confidence_score=response_data.get("confidence_score"),
+            document_content=response_data.get("document_content"),
         )
         
         logger.info(f"[{request_id}] ✅ Request completed successfully")
