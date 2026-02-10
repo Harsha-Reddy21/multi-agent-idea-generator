@@ -60,8 +60,8 @@ User Query: "{state['user_query']}"
 
 Classify this query into one of these categories:
 - "irrelevant": General conversation, greetings, questions unrelated to document review (e.g., "how are you", "what's the weather", casual chat)
-- "chat": Questions about the document review process, asking for feedback on specific sections, asking if document is complete
-- "enhance": Requests to improve, enhance, or rewrite document sections
+- "chat": Questions about the document review process, asking for feedback on specific sections, asking if document is complete (e.g., "is my document complete?", "what's missing?", "review my document")
+- "enhance": Requests to ADD, improve, enhance, modify, or update document content. This includes ANY request starting with "add", "include", "put", "insert", or asking to enhance/improve specific content (e.g., "add idea generation", "add idea generation on prd generator", "add prd generator", "include X feature", "improve the solution section", "add more details about X", "put Y in the document")
 - "autocomplete": Requests to fill in missing information or complete sections
 
 For relevance score (0-1):
@@ -333,26 +333,111 @@ Structure the response clearly and make it easy to understand."""
 
 def document_enhancer(state: AgentState):
     logger.info("[Document Enhancer] Starting document enhancement")
+    user_query = state.get("user_query", "")
+    logger.info(f"[Document Enhancer] User request: {user_query}")
+    
     suggestions = {}
     sections = list(state["document"].keys())
     logger.info(f"[Document Enhancer] Processing {len(sections)} sections: {sections}")
 
+    # First, determine which sections are most relevant to the user's request
+    relevance_prompt = f"""The user wants to: "{user_query}"
+
+Available document sections:
+{chr(10).join([f"- {section}" for section in sections])}
+
+Identify which sections are MOST relevant to this request. Return ONLY a JSON array of section names that should be enhanced with the requested content. If the request is general, include all sections.
+
+Format: ["section1", "section2", ...]"""
+    
+    logger.info("[Document Enhancer] Determining relevant sections")
+    relevant_sections_json = llm_service.generate_response_text(relevance_prompt)
+    logger.info(f"[Document Enhancer] Relevant sections response: {relevant_sections_json[:200]}")
+    
+    # Try to parse JSON, fallback to all sections if parsing fails
+    import json
+    import re
+    try:
+        # Extract JSON array from response
+        json_match = re.search(r'\[.*?\]', relevant_sections_json, re.DOTALL)
+        if json_match:
+            relevant_sections = json.loads(json_match.group())
+            # Filter to only sections that exist
+            relevant_sections = [s for s in relevant_sections if s in sections]
+        else:
+            relevant_sections = sections
+    except:
+        relevant_sections = sections
+    
+    if not relevant_sections:
+        relevant_sections = sections
+    
+    logger.info(f"[Document Enhancer] Will enhance sections: {relevant_sections}")
+
     for section, content in state["document"].items():
         logger.info(f"[Document Enhancer] Enhancing section: {section} ({len(content)} chars)")
-        prompt = f"""
-Improve this section without removing compliance language.
+        is_relevant = section in relevant_sections
+        
+        # Create enhancement prompt that includes user's specific request
+        if is_relevant:
+            prompt = f"""The user wants to ADD/ENHANCE the document with this specific request: "{user_query}"
 
-Section:
-{section}
+Section Name: {section}
 
-Content:
+Current Content:
 {content}
-"""
+
+IMPORTANT: The user specifically requested to add content related to "{user_query}". 
+- If this section is relevant to the request, ADD the requested content to this section
+- Integrate it naturally with existing content
+- Maintain compliance language and professional tone
+- Make sure the new content addresses the user's specific request
+
+Return the ENHANCED content for this section with the requested additions."""
+        else:
+            prompt = f"""The user wants to enhance the document with this request: "{user_query}"
+
+Section Name: {section}
+
+Current Content:
+{content}
+
+This section may be less directly related to the user's specific request, but still improve it by:
+1. Enhancing clarity and completeness
+2. Maintaining compliance language
+3. General improvements
+
+Return the enhanced content for this section."""
+        
         suggestions[section] = llm_service.generate_response_text(prompt)
         logger.info(f"[Document Enhancer] Completed enhancement for {section}")
 
     logger.info(f"[Document Enhancer] Enhancement completed for all {len(suggestions)} sections")
-    return {"document_suggestions": suggestions}
+    
+    # Generate a response explaining what was enhanced
+    logger.info("[Document Enhancer] Generating response about enhancements")
+    enhanced_sections_list = ", ".join(relevant_sections) if relevant_sections else "all sections"
+    response_prompt = f"""The user requested: "{user_query}"
+
+I have enhanced the document based on this request. The following sections were specifically updated with the requested content:
+{enhanced_sections_list}
+
+Generate a clear, professional, and helpful response that:
+1. Directly acknowledges what the user asked for ("{user_query}")
+2. Confirms that the requested content has been ADDED to the relevant sections
+3. Explains which sections were updated (focus on: {enhanced_sections_list})
+4. Provides a brief summary of what was added
+5. Invites the user to review the enhanced document
+
+Be specific about what was added, not generic. The user wants to know their request was fulfilled."""
+    
+    enhancement_response = llm_service.generate_response_text(response_prompt)
+    logger.info(f"[Document Enhancer] Generated response length: {len(enhancement_response)} chars")
+    
+    return {
+        "document_suggestions": suggestions,
+        "chat_response": enhancement_response
+    }
 
 
 
