@@ -54,14 +54,27 @@ def intent_classifier(state: AgentState):
     logger.info("[Intent Classifier] Starting intent classification")
     logger.info(f"[Intent Classifier] User query: {state['user_query'][:100]}...")
     
-    prompt = f"""
-Classify the user query.
+    prompt = f"""You are classifying user queries for a document review system. The system reviews idea documents with sections like Solution Overview, AI Registry, Legal/Privacy, Security Architecture, and Third Party Engagement.
 
-Query:
-{state['user_query']}
+User Query: "{state['user_query']}"
 
-Return ONLY valid JSON.
-No markdown. No explanation.
+Classify this query into one of these categories:
+- "irrelevant": General conversation, greetings, questions unrelated to document review (e.g., "how are you", "what's the weather", casual chat)
+- "chat": Questions about the document review process, asking for feedback on specific sections, asking if document is complete
+- "enhance": Requests to improve, enhance, or rewrite document sections
+- "autocomplete": Requests to fill in missing information or complete sections
+
+For relevance score (0-1):
+- 0.0-0.3: Completely unrelated to document review (greetings, casual chat, unrelated questions)
+- 0.4-0.6: Somewhat related but vague or unclear
+- 0.7-1.0: Directly related to document review
+
+For ambiguity score (0-1):
+- 0.0-0.3: Very clear and specific query
+- 0.4-0.7: Somewhat unclear or could have multiple interpretations
+- 0.8-1.0: Very ambiguous or unclear
+
+Return ONLY valid JSON. No markdown. No explanation.
 
 Format:
 {{
@@ -217,6 +230,31 @@ Check for:
 
 
 def chat_responder(state: AgentState):
+    logger.info("[Chat Responder] Starting response generation")
+    user_query = state.get("user_query", "")
+    intent = state.get("intent", "")
+    relevance_score = state.get("relevance_score", 0.5)
+    
+    logger.info(f"[Chat Responder] Intent: {intent}, Relevance: {relevance_score}")
+    
+    # Handle irrelevant queries first - don't process document feedbacks
+    if intent == "irrelevant" or relevance_score < 0.3:
+        prompt = f"""The user asked: "{user_query}"
+
+This is a general conversation query or greeting that is not related to document review. Examples include greetings like "how are you", casual conversation, or questions unrelated to reviewing idea documents.
+
+Provide a brief, friendly, and professional response that:
+1. Acknowledges the query politely
+2. Redirects the conversation back to document review
+3. Offers to help with document-related questions
+
+Keep it short (2-3 sentences) and friendly."""
+        logger.info("[Chat Responder] Query is irrelevant, generating simple response")
+        response = llm_service.generate_response_text(prompt)
+        logger.info(f"[Chat Responder] Generated response length: {len(response)} chars")
+        return {"chat_response": response}
+    
+    # For relevant queries, check if we have feedback from review agents
     logger.info("[Chat Responder] Aggregating feedback from all agents")
     feedbacks = [
         state.get("solution_feedback"),
@@ -255,17 +293,7 @@ def chat_responder(state: AgentState):
     logger.info(f"[Chat Responder] Found {len(relevant_feedback)} relevant feedback items")
     
     # Build prompt for LLM to generate final response
-    user_query = state.get("user_query", "")
-    relevance_score = state.get("relevance_score", 0.5)
-    
-    if relevance_score < 0.3:
-        prompt = f"""The user asked: "{user_query}"
-
-However, this query is not relevant to the current idea document (relevance score: {relevance_score:.2f}).
-
-Provide a polite and helpful response explaining that the query is not relevant to the document being reviewed."""
-        logger.info("[Chat Responder] Query not relevant, generating response via LLM")
-    elif not relevant_feedback:
+    if not relevant_feedback:
         prompt = f"""The user asked: "{user_query}"
 
 After reviewing all sections of the document (Solution Overview, AI Registry, Legal/Privacy, Security Architecture, and Third Party Engagement), all sections appear to be sufficient and complete.
