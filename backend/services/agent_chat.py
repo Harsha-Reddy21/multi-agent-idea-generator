@@ -1,4 +1,4 @@
-from typing import TypedDict, List, Dict, Optional
+from typing import TypedDict, List, Dict, Optional, Tuple
 from langgraph.graph import StateGraph, END
 import json
 import re
@@ -59,10 +59,10 @@ def intent_classifier(state: AgentState):
 User Query: "{state['user_query']}"
 
 Classify this query into one of these categories:
-- "irrelevant": General conversation, greetings, questions unrelated to document review (e.g., "how are you", "what's the weather", casual chat)
-- "chat": Questions about the document review process, asking for feedback on specific sections, asking if document is complete
-- "enhance": Requests to improve, enhance, or rewrite document sections
-- "autocomplete": Requests to fill in missing information or complete sections
+- "irrelevant": General conversation, greetings, questions unrelated to document or app (e.g., "how are you", "what's the weather", casual chat)
+- "chat": Questions about the document, the review process, or the application itself that do NOT directly ask you to change the document
+- "update": Requests to create, update, or enhance parts of the document (from scratch, specific sections, or small edits)
+- "review": Requests to review or validate the current document content without changing it directly
 
 For relevance score (0-1):
 - 0.0-0.3: Completely unrelated to document review (greetings, casual chat, unrelated questions)
@@ -78,7 +78,7 @@ Return ONLY valid JSON. No markdown. No explanation.
 
 Format:
 {{
-  "intent": "chat | enhance | autocomplete | irrelevant",
+  "intent": "chat | update | review | irrelevant",
   "relevance": 0-1,
   "ambiguity": 0-1
 }}
@@ -229,27 +229,54 @@ Check for:
     }
 
 
+def _context_blocks(state: AgentState) -> Tuple[str, str]:
+    """Build document and chat-history context strings for prompts."""
+    doc = state.get("document") or {}
+    doc_block = "\n".join(f"**{k}**:\n{v}" for k, v in doc.items()) if doc else "(No document yet)"
+    history = state.get("chat_history") or []
+    history_block = "\n".join(history) if history else "(No previous messages)"
+    return doc_block, history_block
+
+
 def chat_responder(state: AgentState):
     logger.info("[Chat Responder] Starting response generation")
     user_query = state.get("user_query", "")
     intent = state.get("intent", "")
     relevance_score = state.get("relevance_score", 0.5)
-    
+    doc_ctx, chat_ctx = _context_blocks(state)
+
     logger.info(f"[Chat Responder] Intent: {intent}, Relevance: {relevance_score}")
-    
+
     # Handle irrelevant queries first - don't process document feedbacks
     if intent == "irrelevant" or relevance_score < 0.3:
         prompt = f"""The user asked: "{user_query}"
 
-This is a general conversation query or greeting that is not related to document review. Examples include greetings like "how are you", casual conversation, or questions unrelated to reviewing idea documents.
+Current document (for context):
+{doc_ctx}
 
-Provide a brief, friendly, and professional response that:
-1. Acknowledges the query politely
-2. Redirects the conversation back to document review
-3. Offers to help with document-related questions
+Recent conversation:
+{chat_ctx}
 
-Keep it short (2-3 sentences) and friendly."""
+This is a general conversation query or greeting that is not related to document review. Provide a brief, friendly response that acknowledges the query, redirects back to document review, and offers to help. Keep it short (2-3 sentences)."""
         logger.info("[Chat Responder] Query is irrelevant, generating simple response")
+        response = llm_service.generate_response_text(prompt)
+        logger.info(f"[Chat Responder] Generated response length: {len(response)} chars")
+        return {"chat_response": response}
+
+    # Pure chat about the app / document without changing it
+    if intent == "chat":
+        prompt = f"""You are a helpful assistant for a document review application.
+
+Current document:
+{doc_ctx}
+
+Recent conversation:
+{chat_ctx}
+
+The user asked: "{user_query}"
+
+Use the document and conversation above to ground your answer. Do NOT modify the document. Explain how the system works, how reviews/updates happen, or answer questions about the document. Be professional and concise."""
+        logger.info("[Chat Responder] Query is chat, generating explanatory response")
         response = llm_service.generate_response_text(prompt)
         logger.info(f"[Chat Responder] Generated response length: {len(response)} chars")
         return {"chat_response": response}
@@ -294,31 +321,32 @@ Keep it short (2-3 sentences) and friendly."""
     
     # Build prompt for LLM to generate final response
     if not relevant_feedback:
-        prompt = f"""The user asked: "{user_query}"
+        prompt = f"""Current document:
+{doc_ctx}
 
-After reviewing all sections of the document (Solution Overview, AI Registry, Legal/Privacy, Security Architecture, and Third Party Engagement), all sections appear to be sufficient and complete.
+Recent conversation:
+{chat_ctx}
 
-Provide a positive and encouraging response confirming that the document looks complete for this stage."""
+The user asked: "{user_query}"
+
+After reviewing all sections, they appear sufficient and complete. Provide a positive, encouraging response confirming the document looks complete for this stage."""
         logger.info("[Chat Responder] Document complete, generating response via LLM")
     else:
-        # Format feedbacks with labels
         feedback_text = ""
         for i, (label, feedback) in enumerate(zip(feedback_labels, relevant_feedback), 1):
             feedback_text += f"\n{i}. {label}:\n{feedback}\n"
-        
-        prompt = f"""The user asked: "{user_query}"
+        prompt = f"""Current document:
+{doc_ctx}
+
+Recent conversation:
+{chat_ctx}
+
+The user asked: "{user_query}"
 
 After reviewing the document, the following areas need attention:
-
 {feedback_text}
 
-Generate a clear, professional, and actionable response that:
-1. Acknowledges the user's question
-2. Summarizes the key areas that need attention
-3. Provides constructive guidance on how to address these issues
-4. Maintains a helpful and supportive tone
-
-Structure the response clearly and make it easy to understand."""
+Generate a clear, professional response that acknowledges the question, summarizes key areas needing attention, gives constructive guidance, and keeps a helpful tone."""
         logger.info(f"[Chat Responder] Generating LLM response for {len(relevant_feedback)} areas needing attention")
     
     # Generate final response using LLM
@@ -332,26 +360,55 @@ Structure the response clearly and make it easy to understand."""
 
 
 def document_enhancer(state: AgentState):
-    logger.info("[Document Enhancer] Starting document enhancement")
+    logger.info("[Document Enhancer] Starting document enhancement/update")
     suggestions = {}
-    sections = list(state["document"].keys())
+    document = state["document"]
+    sections = list(document.keys())
     logger.info(f"[Document Enhancer] Processing {len(sections)} sections: {sections}")
 
-    for section, content in state["document"].items():
-        logger.info(f"[Document Enhancer] Enhancing section: {section} ({len(content)} chars)")
+    # If there is no document yet, start from scratch by asking the LLM to propose a structure
+    if not document:
         prompt = f"""
-Improve this section without removing compliance language.
+The user wants to create a new idea document from scratch.
 
-Section:
+User request:
+{state['user_query']}
+
+Create a reasonable initial document structure as a JSON object mapping section names to fully written section content.
+
+Return ONLY valid JSON for the object."""
+        raw = llm_service.generate_response_text(prompt)
+        suggestions = parse_llm_json(raw)
+        logger.info("[Document Enhancer] Created initial document from scratch")
+        return {"document_suggestions": suggestions}
+
+    # Otherwise, selectively update/enhance existing sections based on the user request
+    for section, content in document.items():
+        logger.info(f"[Document Enhancer] Enhancing/updating section: {section} ({len(content)} chars)")
+        prompt = f"""
+You are updating a single section of a compliance-oriented idea document.
+
+User request:
+{state['user_query']}
+
+Current section name:
 {section}
 
-Content:
+Current section content:
 {content}
-"""
+
+Decide whether this section should be:
+- left unchanged,
+- updated only where needed,
+- or more fully rewritten / enhanced.
+
+If you decide to change it, return the improved full section text.
+If you decide to leave it unchanged, just return the original content.
+Do not remove required compliance language."""
         suggestions[section] = llm_service.generate_response_text(prompt)
         logger.info(f"[Document Enhancer] Completed enhancement for {section}")
 
-    logger.info(f"[Document Enhancer] Enhancement completed for all {len(suggestions)} sections")
+    logger.info(f"[Document Enhancer] Enhancement/update completed for all {len(suggestions)} sections")
     return {"document_suggestions": suggestions}
 
 
@@ -405,12 +462,53 @@ def route_by_intent(state: AgentState):
     if intent == "irrelevant":
         logger.info("[Router] Routing to: respond (irrelevant query)")
         return "respond"
-    if intent == "enhance":
-        logger.info("[Router] Routing to: enhance (document enhancement)")
+    if intent == "update":
+        logger.info("[Router] Routing to: enhance (document update/enhancement)")
         return "enhance"
+    if intent == "review":
+        logger.info("[Router] Routing to: review_start (parallel review path)")
+        return "review_start"
     
-    logger.info("[Router] Routing to: review_start (parallel review path)")
-    return "review_start"
+    logger.info("[Router] Routing to: respond (chat / fallback)")
+    return "respond"
+
+
+def autocomplete_agent(state: AgentState):
+    """
+    Standalone autocomplete agent.
+    This is NOT routed by intent; it should be called by the backend
+    shortly after a document update to propose refinements and an
+    updated confidence score based on the latest document content.
+    """
+    logger.info("[Autocomplete Agent] Starting autocomplete suggestions")
+    document = state["document"]
+
+    prompt = f"""
+You are an autocomplete assistant for a document review system.
+
+Given the current document (a mapping of section name to content), propose small, high-confidence refinements
+to any sections that would make the document clearer, more complete, or more compliant.
+
+Document:
+{document}
+
+Return ONLY valid JSON with this shape:
+{{
+  "document_suggestions": {{ "section_name": "improved full section text", ... }},
+  "confidence_score": 0-1
+}}"""
+
+    raw = llm_service.generate_response_text(prompt)
+    result = parse_llm_json(raw)
+
+    new_suggestions = result.get("document_suggestions") or {}
+    new_confidence = result.get("confidence_score", state.get("confidence_score") or 0.0)
+
+    logger.info(f"[Autocomplete Agent] Generated suggestions for {len(new_suggestions)} sections")
+    return {
+        "document_suggestions": new_suggestions,
+        "confidence_score": float(new_confidence),
+    }
 
 
 
