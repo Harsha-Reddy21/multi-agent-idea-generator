@@ -86,7 +86,7 @@ Format:
 
 def solution_agent(state: AgentState):
     logger.info("[Solution Agent] Starting solution overview review")
-    content = state["document"].get("solution_overview", "")
+    content = state["document"]
     logger.info(f"[Solution Agent] Content length: {(content)} chars")
 
     prompt = f"""
@@ -105,7 +105,7 @@ Respond with issues or say "Looks sufficient".
 
     logger.info("[Solution Agent] Calling LLM for review")
     feedback = llm_service.generate_response_text(prompt)
-    logger.info(f"[Solution Agent] Review completed. Feedback length: {len(feedback)} chars")
+    logger.info(f"[Solution Agent] Review completed. Feedback length: {feedback} chars")
     
     return {
         "solution_feedback": feedback
@@ -115,7 +115,7 @@ Respond with issues or say "Looks sufficient".
 
 def ai_registry_agent(state: AgentState):
     logger.info("[AI Registry Agent] Starting AI registry review")
-    content = state["document"].get("ai_registry", "")
+    content = state["document"]
     logger.info(f"[AI Registry Agent] Content length: {len(content)} chars")
 
     prompt = f"""
@@ -132,7 +132,7 @@ Check for:
 
     logger.info("[AI Registry Agent] Calling LLM for review")
     feedback = llm_service.generate_response_text(prompt)
-    logger.info(f"[AI Registry Agent] Review completed. Feedback length: {len(feedback)} chars")
+    logger.info(f"[AI Registry Agent] Review completed. Feedback length: {feedback} chars")
     
     return {
         "ai_registry_feedback": feedback
@@ -141,7 +141,7 @@ Check for:
 
 def legal_agent(state: AgentState):
     logger.info("[Legal Agent] Starting legal/privacy review")
-    content = state["document"].get("digital_legal", "")
+    content = state["document"]
     logger.info(f"[Legal Agent] Content length: {len(content)} chars")
 
     prompt = f"""
@@ -157,7 +157,7 @@ Check for:
 
     logger.info("[Legal Agent] Calling LLM for review")
     feedback = llm_service.generate_response_text(prompt)
-    logger.info(f"[Legal Agent] Review completed. Feedback length: {len(feedback)} chars")
+    logger.info(f"[Legal Agent] Review completed. Feedback length: {feedback} chars")
     
     return {
         "legal_feedback": feedback
@@ -167,8 +167,8 @@ Check for:
 
 def security_agent(state: AgentState):
     logger.info("[Security Agent] Starting security architecture review")
-    content = state["document"].get("security_architecture", "")
-    logger.info(f"[Security Agent] Content length: {len(content)} chars")
+    content = state["document"]
+    logger.info(f"[Security Agent] Content length: {content} chars")
 
     prompt = f"""
 Review Security Architecture section.
@@ -184,7 +184,7 @@ Check for:
 
     logger.info("[Security Agent] Calling LLM for review")
     feedback = llm_service.generate_response_text(prompt)
-    logger.info(f"[Security Agent] Review completed. Feedback length: {len(feedback)} chars")
+    logger.info(f"[Security Agent] Review completed. Feedback length: {feedback} chars")
     
     return {
         "security_feedback": feedback
@@ -193,7 +193,7 @@ Check for:
 
 def third_party_agent(state: AgentState):
     logger.info("[Third Party Agent] Starting third party review")
-    content = state["document"].get("third_party", "")
+    content = state["document"]
     logger.info(f"[Third Party Agent] Content length: {len(content)} chars")
 
     prompt = f"""
@@ -209,7 +209,7 @@ Check for:
 
     logger.info("[Third Party Agent] Calling LLM for review")
     feedback = llm_service.generate_response_text(prompt)
-    logger.info(f"[Third Party Agent] Review completed. Feedback length: {len(feedback)} chars")
+    logger.info(f"[Third Party Agent] Review completed. Feedback length: {feedback} chars")
     
     return {
         "third_party_feedback": feedback
@@ -225,20 +225,79 @@ def chat_responder(state: AgentState):
         state.get("security_feedback"),
         state.get("third_party_feedback"),
     ]
+    
+    logger.info(f"[Chat Responder] Collected {len(feedbacks)} feedback items")
+    
+    # Filter out empty feedbacks and "sufficient" responses
+    relevant_feedback = []
+    feedback_labels = []
+    
+    if state.get("solution_feedback") and "sufficient" not in state.get("solution_feedback", "").lower():
+        relevant_feedback.append(state["solution_feedback"])
+        feedback_labels.append("Solution Overview")
+    
+    if state.get("ai_registry_feedback") and "sufficient" not in state.get("ai_registry_feedback", "").lower():
+        relevant_feedback.append(state["ai_registry_feedback"])
+        feedback_labels.append("AI Registry")
+    
+    if state.get("legal_feedback") and "sufficient" not in state.get("legal_feedback", "").lower():
+        relevant_feedback.append(state["legal_feedback"])
+        feedback_labels.append("Legal/Privacy")
+    
+    if state.get("security_feedback") and "sufficient" not in state.get("security_feedback", "").lower():
+        relevant_feedback.append(state["security_feedback"])
+        feedback_labels.append("Security Architecture")
+    
+    if state.get("third_party_feedback") and "sufficient" not in state.get("third_party_feedback", "").lower():
+        relevant_feedback.append(state["third_party_feedback"])
+        feedback_labels.append("Third Party Engagement")
+    
+    logger.info(f"[Chat Responder] Found {len(relevant_feedback)} relevant feedback items")
+    
+    # Build prompt for LLM to generate final response
+    user_query = state.get("user_query", "")
+    relevance_score = state.get("relevance_score", 0.5)
+    
+    if relevance_score < 0.3:
+        prompt = f"""The user asked: "{user_query}"
 
-    relevant_feedback = [f for f in feedbacks if f and "sufficient" not in f.lower()]
-    logger.info(f"[Chat Responder] Found {len(relevant_feedback)} relevant feedback items out of {len(feedbacks)} total")
+However, this query is not relevant to the current idea document (relevance score: {relevance_score:.2f}).
 
-    if state["relevance_score"] < 0.3:
-        response = "This query is not relevant to the current idea document."
-        logger.info("[Chat Responder] Response: Query not relevant")
+Provide a polite and helpful response explaining that the query is not relevant to the document being reviewed."""
+        logger.info("[Chat Responder] Query not relevant, generating response via LLM")
     elif not relevant_feedback:
-        response = "Your document looks complete for this stage."
-        logger.info("[Chat Responder] Response: Document complete")
-    else:
-        response = "Here are areas that need attention:\n\n" + "\n\n".join(relevant_feedback)
-        logger.info(f"[Chat Responder] Response: {len(relevant_feedback)} areas need attention")
+        prompt = f"""The user asked: "{user_query}"
 
+After reviewing all sections of the document (Solution Overview, AI Registry, Legal/Privacy, Security Architecture, and Third Party Engagement), all sections appear to be sufficient and complete.
+
+Provide a positive and encouraging response confirming that the document looks complete for this stage."""
+        logger.info("[Chat Responder] Document complete, generating response via LLM")
+    else:
+        # Format feedbacks with labels
+        feedback_text = ""
+        for i, (label, feedback) in enumerate(zip(feedback_labels, relevant_feedback), 1):
+            feedback_text += f"\n{i}. {label}:\n{feedback}\n"
+        
+        prompt = f"""The user asked: "{user_query}"
+
+After reviewing the document, the following areas need attention:
+
+{feedback_text}
+
+Generate a clear, professional, and actionable response that:
+1. Acknowledges the user's question
+2. Summarizes the key areas that need attention
+3. Provides constructive guidance on how to address these issues
+4. Maintains a helpful and supportive tone
+
+Structure the response clearly and make it easy to understand."""
+        logger.info(f"[Chat Responder] Generating LLM response for {len(relevant_feedback)} areas needing attention")
+    
+    # Generate final response using LLM
+    logger.info("[Chat Responder] Calling LLM to generate final response")
+    response = llm_service.generate_response_text(prompt)
+    logger.info(f"[Chat Responder] Generated response length: {len(response)} chars")
+    
     return {"chat_response": response}
 
 
@@ -361,6 +420,7 @@ graph.add_edge("review_start", "ai_registry")
 graph.add_edge("review_start", "legal")
 graph.add_edge("review_start", "security")
 graph.add_edge("review_start", "third_party")
+
 
 # All agents converge to review_collector (ensures all complete before proceeding)
 graph.add_edge("solution", "review_collector")
