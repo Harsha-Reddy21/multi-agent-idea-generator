@@ -119,6 +119,18 @@ export const TextEditor: FC<TextEditorProps> = ({
     }
   }, [editor, onContentChange]);
 
+  // Log when proposedChanges changes
+  useEffect(() => {
+    if (proposedChanges) {
+      console.log("📝 [TextEditor] Proposed changes received:", {
+        length: proposedChanges.length,
+        preview: proposedChanges.substring(0, 200),
+        hasEditor: !!editor,
+        currentContent: editor?.getHTML()?.substring(0, 100) || "empty"
+      });
+    }
+  }, [proposedChanges, editor]);
+
    useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -180,11 +192,15 @@ const handleInsertLink = (url: string, openInNewTab: boolean) => {
   const handleAccept = useCallback((): void => {
     if (editor && proposedChanges) {
       editor.commands.setContent(proposedChanges);
+      // Notify parent of content change
+      if (onContentChange) {
+        onContentChange(proposedChanges);
+      }
       if (onAcceptChanges) {
         onAcceptChanges(proposedChanges);
       }
     }
-  }, [editor, proposedChanges, onAcceptChanges]);
+  }, [editor, proposedChanges, onAcceptChanges, onContentChange]);
 
   const handleReject = useCallback((): void => {
     if (onRejectChanges) {

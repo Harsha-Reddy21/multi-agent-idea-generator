@@ -57,8 +57,21 @@ function App() {
     setLayoutMode(layoutMode === "ai-expanded" ? "full" : "ai-expanded");
   };
 
-  const handleApplyChanges = () => {
+  const handleApplyChanges = (newContent?: string) => {
+    console.log("✅ [App] handleApplyChanges called", { newContent: newContent?.substring(0, 100) });
+    // Content is already updated in TextEditor via editor.commands.setContent
+    // onContentChange will notify us of the update
     setProposedChanges(null);
+    console.log("✅ [App] proposedChanges cleared");
+  };
+  
+  const handleProposeChanges = (changes: string) => {
+    console.log("✅ [App] handleProposeChanges called", { 
+      changesLength: changes.length,
+      changesPreview: changes.substring(0, 200)
+    });
+    setProposedChanges(changes);
+    console.log("✅ [App] proposedChanges set");
   };
 
   const handleRejectChanges = () => {
@@ -152,7 +165,7 @@ function App() {
 
           <div className="ai-panel">
             <AIAgent
-              onProposeChanges={setProposedChanges}
+              onProposeChanges={handleProposeChanges}
               onConfidenceScoreChange={setConfidenceScore}
               documentContent={documentContent} // Pass document content to AI agent
             />

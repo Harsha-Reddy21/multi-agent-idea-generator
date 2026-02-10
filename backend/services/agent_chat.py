@@ -62,7 +62,7 @@ Classify this query into one of these categories:
 - "irrelevant": General conversation, greetings, questions unrelated to document review (e.g., "how are you", "what's the weather", casual chat)
 - "chat": Questions about the document review process, asking for feedback on specific sections, asking if document is complete (e.g., "is my document complete?", "what's missing?", "review my document")
 - "enhance": Requests to ADD, improve, enhance, modify, or update document content. This includes ANY request starting with "add", "include", "put", "insert", or asking to enhance/improve specific content (e.g., "add idea generation", "add idea generation on prd generator", "add prd generator", "include X feature", "improve the solution section", "add more details about X", "put Y in the document")
-- "autocomplete": Requests to fill in missing information or complete sections
+- "autocomplete": Requests to FILL, complete, populate, or generate content for empty/missing sections. This includes requests like "fill the document", "fill in the document", "complete the document", "populate the document", "generate content for X idea" (e.g., "fill the document on the given idea", "fill in missing sections", "complete the document for prd generator", "populate document with content")
 
 For relevance score (0-1):
 - 0.0-0.3: Completely unrelated to document review (greetings, casual chat, unrelated questions)
@@ -334,14 +334,20 @@ Structure the response clearly and make it easy to understand."""
 def document_enhancer(state: AgentState):
     logger.info("[Document Enhancer] Starting document enhancement")
     user_query = state.get("user_query", "")
-    logger.info(f"[Document Enhancer] User request: {user_query}")
+    intent = state.get("intent", "")
+    logger.info(f"[Document Enhancer] User request: {user_query}, Intent: {intent}")
     
     suggestions = {}
     sections = list(state["document"].keys())
     logger.info(f"[Document Enhancer] Processing {len(sections)} sections: {sections}")
 
-    # First, determine which sections are most relevant to the user's request
-    relevance_prompt = f"""The user wants to: "{user_query}"
+    # For autocomplete requests, fill ALL sections
+    if intent == "autocomplete":
+        logger.info("[Document Enhancer] Autocomplete intent detected - will fill all sections")
+        relevant_sections = sections
+    else:
+        # First, determine which sections are most relevant to the user's request
+        relevance_prompt = f"""The user wants to: "{user_query}"
 
 Available document sections:
 {chr(10).join([f"- {section}" for section in sections])}
@@ -349,28 +355,28 @@ Available document sections:
 Identify which sections are MOST relevant to this request. Return ONLY a JSON array of section names that should be enhanced with the requested content. If the request is general, include all sections.
 
 Format: ["section1", "section2", ...]"""
-    
-    logger.info("[Document Enhancer] Determining relevant sections")
-    relevant_sections_json = llm_service.generate_response_text(relevance_prompt)
-    logger.info(f"[Document Enhancer] Relevant sections response: {relevant_sections_json[:200]}")
-    
-    # Try to parse JSON, fallback to all sections if parsing fails
-    import json
-    import re
-    try:
-        # Extract JSON array from response
-        json_match = re.search(r'\[.*?\]', relevant_sections_json, re.DOTALL)
-        if json_match:
-            relevant_sections = json.loads(json_match.group())
-            # Filter to only sections that exist
-            relevant_sections = [s for s in relevant_sections if s in sections]
-        else:
+        
+        logger.info("[Document Enhancer] Determining relevant sections")
+        relevant_sections_json = llm_service.generate_response_text(relevance_prompt)
+        logger.info(f"[Document Enhancer] Relevant sections response: {relevant_sections_json[:200]}")
+        
+        # Try to parse JSON, fallback to all sections if parsing fails
+        import json
+        import re
+        try:
+            # Extract JSON array from response
+            json_match = re.search(r'\[.*?\]', relevant_sections_json, re.DOTALL)
+            if json_match:
+                relevant_sections = json.loads(json_match.group())
+                # Filter to only sections that exist
+                relevant_sections = [s for s in relevant_sections if s in sections]
+            else:
+                relevant_sections = sections
+        except:
             relevant_sections = sections
-    except:
-        relevant_sections = sections
-    
-    if not relevant_sections:
-        relevant_sections = sections
+        
+        if not relevant_sections:
+            relevant_sections = sections
     
     logger.info(f"[Document Enhancer] Will enhance sections: {relevant_sections}")
 
@@ -380,7 +386,55 @@ Format: ["section1", "section2", ...]"""
         
         # Create enhancement prompt that includes user's specific request
         if is_relevant:
-            prompt = f"""The user wants to ADD/ENHANCE the document with this specific request: "{user_query}"
+            # Check if this is an autocomplete request (fill document)
+            if intent == "autocomplete":
+                # Extract the idea from the query if mentioned
+                idea_extraction_prompt = f"""Extract the main idea or topic from this request: "{user_query}"
+
+Return ONLY the idea/topic name, or "general" if no specific idea is mentioned. Examples:
+- "fill the document on the given idea. The idea is 'prd generator'" → "prd generator"
+- "fill in the document for ai chatbot" → "ai chatbot"
+- "complete the document" → "general"
+
+Return only the idea name, nothing else."""
+                
+                idea = llm_service.generate_response_text(idea_extraction_prompt).strip().strip('"').strip("'")
+                logger.info(f"[Document Enhancer] Extracted idea: {idea}")
+                
+                if content and content.strip():
+                    # Section has content, enhance it
+                    prompt = f"""The user wants to FILL/COMPLETE the document for the idea: "{idea}"
+
+Section Name: {section}
+
+Current Content:
+{content}
+
+Generate comprehensive, professional content for this section based on the idea "{idea}". 
+- Enhance the existing content with more details
+- Add relevant information specific to "{idea}"
+- Maintain compliance language and professional tone
+- Make it comprehensive and complete
+
+Return the ENHANCED content for this section."""
+                else:
+                    # Section is empty, generate full content
+                    prompt = f"""The user wants to FILL/COMPLETE the document for the idea: "{idea}"
+
+Section Name: {section}
+
+Current Content: (empty or minimal)
+
+Generate comprehensive, professional content for this section based on the idea "{idea}".
+- Create complete, detailed content appropriate for this section
+- Include relevant information specific to "{idea}"
+- Use professional, compliance-appropriate language
+- Make it comprehensive and well-structured
+
+Return the COMPLETE content for this section."""
+            else:
+                # Regular enhance request
+                prompt = f"""The user wants to ADD/ENHANCE the document with this specific request: "{user_query}"
 
 Section Name: {section}
 
@@ -389,11 +443,18 @@ Current Content:
 
 IMPORTANT: The user specifically requested to add content related to "{user_query}". 
 - If this section is relevant to the request, ADD the requested content to this section
-- Integrate it naturally with existing content
+- For requests like "add vendors", "add idea generation", "add X", generate appropriate, realistic content
+- Integrate it naturally with existing content (don't just append, weave it in)
 - Maintain compliance language and professional tone
-- Make sure the new content addresses the user's specific request
+- Make sure the new content addresses the user's specific request with concrete, useful information
+- If the request is vague (e.g., "add some vendors"), infer reasonable context and provide specific examples
 
-Return the ENHANCED content for this section with the requested additions."""
+Examples:
+- "add vendors" → Add a list of relevant vendors with descriptions
+- "add idea generation" → Add content about idea generation processes/methods
+- "add prd generator" → Add information about PRD generation tools/processes
+
+Return the ENHANCED content for this section with the requested additions. Include the original content plus the new additions."""
         else:
             prompt = f"""The user wants to enhance the document with this request: "{user_query}"
 
@@ -417,7 +478,22 @@ Return the enhanced content for this section."""
     # Generate a response explaining what was enhanced
     logger.info("[Document Enhancer] Generating response about enhancements")
     enhanced_sections_list = ", ".join(relevant_sections) if relevant_sections else "all sections"
-    response_prompt = f"""The user requested: "{user_query}"
+    
+    if intent == "autocomplete":
+        response_prompt = f"""The user requested: "{user_query}"
+
+I have filled/completed the document based on this request. All sections have been populated with comprehensive content.
+
+Generate a clear, professional, and helpful response that:
+1. Directly acknowledges what the user asked for ("{user_query}")
+2. Confirms that the document has been FILLED/COMPLETED with content
+3. Explains that all sections have been populated
+4. Mentions that the user can review the filled document and accept or reject the changes
+5. Invites the user to review the completed document
+
+Be enthusiastic and clear that the document is now complete."""
+    else:
+        response_prompt = f"""The user requested: "{user_query}"
 
 I have enhanced the document based on this request. The following sections were specifically updated with the requested content:
 {enhanced_sections_list}
@@ -427,7 +503,7 @@ Generate a clear, professional, and helpful response that:
 2. Confirms that the requested content has been ADDED to the relevant sections
 3. Explains which sections were updated (focus on: {enhanced_sections_list})
 4. Provides a brief summary of what was added
-5. Invites the user to review the enhanced document
+5. Invites the user to review the enhanced document and accept or reject the changes
 
 Be specific about what was added, not generic. The user wants to know their request was fulfilled."""
     
@@ -490,8 +566,8 @@ def route_by_intent(state: AgentState):
     if intent == "irrelevant":
         logger.info("[Router] Routing to: respond (irrelevant query)")
         return "respond"
-    if intent == "enhance":
-        logger.info("[Router] Routing to: enhance (document enhancement)")
+    if intent == "enhance" or intent == "autocomplete":
+        logger.info(f"[Router] Routing to: enhance (document {'enhancement' if intent == 'enhance' else 'autocomplete'})")
         return "enhance"
     
     logger.info("[Router] Routing to: review_start (parallel review path)")

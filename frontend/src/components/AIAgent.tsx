@@ -143,12 +143,30 @@ export const AIAgent: FC<AIAgentProps> = ({
           setConfidenceScore(response.confidence_score);
         }
 
-        // Check if response contains HTML content changes
-        const isHTML =
-          response.response.trim().startsWith("<") &&
-          response.response.includes("</");
-        if (isHTML && onProposeChanges) {
-          onProposeChanges(response.response);
+        // Check if there are document suggestions (updated HTML)
+        console.log("🔍 [AIAgent] Checking for document suggestions...");
+        console.log("🔍 [AIAgent] Response object:", response);
+        console.log("🔍 [AIAgent] response.document_suggestions:", response.document_suggestions);
+        console.log("🔍 [AIAgent] response.document_suggestions type:", typeof response.document_suggestions);
+        console.log("🔍 [AIAgent] response.document_suggestions truthy:", !!response.document_suggestions);
+        console.log("🔍 [AIAgent] onProposeChanges available:", !!onProposeChanges);
+        
+        if (response.document_suggestions && onProposeChanges) {
+          console.log("✅ [AIAgent] Document suggestions received, proposing changes");
+          console.log("📝 [AIAgent] Document suggestions length:", response.document_suggestions.length);
+          console.log("📝 [AIAgent] Document suggestions preview:", response.document_suggestions.substring(0, 500));
+          try {
+            onProposeChanges(response.document_suggestions);
+            console.log("✅ [AIAgent] onProposeChanges called successfully");
+          } catch (error) {
+            console.error("❌ [AIAgent] Error calling onProposeChanges:", error);
+          }
+        } else {
+          console.warn("⚠️ [AIAgent] No document suggestions in response or onProposeChanges not available");
+          console.warn("📝 [AIAgent] Response keys:", Object.keys(response));
+          console.warn("📝 [AIAgent] document_suggestions value:", response.document_suggestions);
+          console.warn("📝 [AIAgent] document_suggestions type:", typeof response.document_suggestions);
+          console.warn("📝 [AIAgent] onProposeChanges:", !!onProposeChanges);
         }
       } catch (error) {
         console.error("Error calling chat API:", error);

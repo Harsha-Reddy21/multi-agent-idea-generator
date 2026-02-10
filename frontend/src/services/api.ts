@@ -15,6 +15,7 @@ export interface ChatRequest {
 export interface ChatResponse {
   response: string;
   confidence_score?: number;
+  document_suggestions?: string; // Updated HTML content with suggestions merged
 }
 
 /**
@@ -70,10 +71,26 @@ export const chatAPI = async (request: ChatRequest): Promise<ChatResponse> => {
     }
 
     const data: ChatResponse = await response.json();
-    console.log("✅ [API] Success response:", {
+    console.log("✅ [API] Success response received");
+    console.log("✅ [API] Response object:", data);
+    console.log("✅ [API] Response keys:", Object.keys(data));
+    console.log("✅ [API] Response details:", {
       response_length: data.response?.length || 0,
       confidence_score: data.confidence_score,
+      has_document_suggestions: !!data.document_suggestions,
+      document_suggestions_type: typeof data.document_suggestions,
+      document_suggestions_length: data.document_suggestions?.length || 0,
     });
+    
+    if (data.document_suggestions) {
+      console.log("📝 [API] ✅ Document suggestions found!");
+      console.log("📝 [API] Document suggestions type:", typeof data.document_suggestions);
+      console.log("📝 [API] Document suggestions length:", data.document_suggestions.length);
+      console.log("📝 [API] Document suggestions preview:", data.document_suggestions.substring(0, 500));
+    } else {
+      console.warn("⚠️ [API] No document_suggestions in response");
+      console.warn("⚠️ [API] Full response:", JSON.stringify(data, null, 2));
+    }
     
     return data;
   } catch (error) {

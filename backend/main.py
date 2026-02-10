@@ -90,6 +90,7 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     response: str
     confidence_score: Optional[int] = None
+    document_suggestions: Optional[str] = None  # Updated HTML content with suggestions merged
 
 
 class HealthResponse(BaseModel):
@@ -161,16 +162,27 @@ async def chat(request: ChatRequest):
         logger.info(f"  - Response length: {len(response_data.get('response', ''))} chars")
         logger.info(f"  - Confidence score: {response_data.get('confidence_score')}")
         logger.info(f"  - Response preview: {response_data.get('response', '')[:200]}...")
+        logger.info(f"  - Has document_suggestions in response_data: {bool(response_data.get('document_suggestions'))}")
+        if response_data.get("document_suggestions"):
+            doc_sug = response_data.get("document_suggestions")
+            logger.info(f"  - Document suggestions type: {type(doc_sug)}")
+            logger.info(f"  - Document suggestions length: {len(str(doc_sug))} chars")
+            logger.info(f"  - Document suggestions preview: {str(doc_sug)[:300]}...")
         
         result = ChatResponse(
             response=response_data["response"],
-            confidence_score=response_data.get("confidence_score")
+            confidence_score=response_data.get("confidence_score"),
+            document_suggestions=response_data.get("document_suggestions")
         )
         
         logger.info(f"[{request_id}] ✅ Request completed successfully")
         logger.info(f"[{request_id}] Response summary:")
         logger.info(f"  - Response length: {len(response_data.get('response', ''))} chars")
         logger.info(f"  - Confidence score: {response_data.get('confidence_score')}")
+        logger.info(f"  - Has document_suggestions: {bool(result.document_suggestions)}")
+        if result.document_suggestions:
+            logger.info(f"  - Document suggestions length: {len(result.document_suggestions)} chars")
+            logger.info(f"  - Document suggestions preview: {result.document_suggestions[:300]}...")
         logger.info("=" * 80)
         
         return result
