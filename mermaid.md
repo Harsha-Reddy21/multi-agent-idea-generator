@@ -41,15 +41,15 @@ graph TB
         COLLECTOR --> RESPOND
     end
     
-    ENHANCE -->|document_suggestions| CONF[Confidence Agent]
-    RESPOND -->|chat_response| CONF
-    CONF -->|confidence_score| END([Response + optional document_content])
+    ENHANCE -->|document_suggestions| CONF_SCORE[Confidence Scorer]
+    RESPOND -->|chat_response| CONF_SCORE
+    CONF_SCORE -->|confidence_score| END([Response + optional document_content])
     
     style INTENT fill:#e1f5ff
     style ROUTE fill:#fff4e1
     style ENHANCE fill:#f3e5f5
     style RESPOND fill:#fce4ec
-    style CONF fill:#fff9c4
+    style CONF_SCORE fill:#fff9c4
 ```
 
 ---
@@ -81,9 +81,83 @@ stateDiagram-v2
         ReviewCollector --> ChatResponder
     }
     
-    DocumentUpdater --> ConfidenceAgent
-    ChatResponder --> ConfidenceAgent
-    ConfidenceAgent --> [*]
+    DocumentUpdater --> ConfidenceScorer
+    ChatResponder --> ConfidenceScorer
+    ConfidenceScorer --> [*]
+```
+
+---
+
+## Evaluate Flow — Confidence Agent (Separate from Chat)
+
+The **Confidence Agent** is a separate flow triggered by the **"Evaluate" button** in the UI and invoked via **POST /api/evaluate**. It uses the same review sub-agents (Solution, AI Registry, Legal, Security, Third Party) to produce **scores** based on their feedback—similar to the review path but with scores instead of a chat summary.
+
+- **Trigger:** User clicks **Evaluate** → API call with current document.
+- **Flow:** Runs all five review sub-agents in parallel → **Confidence Agent** aggregates their feedback and computes section-level and/or overall scores.
+- **Output:** Scores (per section or overall) for display in the UI.
+
+```mermaid
+sequenceDiagram
+    participant UI as Frontend
+    participant API as POST /api/evaluate
+    participant Svc as Evaluate Service
+    participant SOL as Solution Agent
+    participant AI as AI Registry Agent
+    participant LEGAL as Legal Agent
+    participant SEC as Security Agent
+    participant TP as Third Party Agent
+    participant CONF as Confidence Agent
+    
+    Note over UI: User clicks Evaluate button
+    UI->>API: POST { document_content }
+    API->>Svc: evaluate(document_content)
+    
+    par Parallel review
+        Svc->>SOL: review
+        Svc->>AI: review
+        Svc->>LEGAL: review
+        Svc->>SEC: review
+        Svc->>TP: review
+    end
+    
+    SOL-->>Svc: solution_feedback
+    AI-->>Svc: ai_registry_feedback
+    LEGAL-->>Svc: legal_feedback
+    SEC-->>Svc: security_feedback
+    TP-->>Svc: third_party_feedback
+    
+    Svc->>CONF: Confidence Agent (aggregate feedback → scores)
+    CONF->>CONF: Compute scores from sub-agent outputs
+    CONF-->>Svc: section_scores, overall_score
+    
+    Svc-->>API: scores response
+    API-->>UI: Display scores (e.g. per-section, overall)
+```
+
+```mermaid
+graph TB
+    EVAL_BTN([Evaluate button]) -->|POST /api/evaluate| API[Backend API]
+    API --> EVAL_START[Evaluate Start]
+    
+    subgraph subagents["Review sub-agents (parallel)"]
+        EVAL_START --> ESOL[Solution Agent]
+        EVAL_START --> EAI[AI Registry Agent]
+        EVAL_START --> ELEGAL[Legal Agent]
+        EVAL_START --> ESEC[Security Agent]
+        EVAL_START --> ETP[Third Party Agent]
+        ESOL --> ECOL[Collector]
+        EAI --> ECOL
+        ELEGAL --> ECOL
+        ESEC --> ECOL
+        ETP --> ECOL
+    end
+    
+    ECOL --> CONF_AGENT[Confidence Agent]
+    CONF_AGENT -->|scores from sub-agent feedback| SCORES[section_scores + overall_score]
+    SCORES --> UI_DISPLAY([Display in UI])
+    
+    style CONF_AGENT fill:#fff9c4,stroke:#f57f17
+    style EVAL_BTN fill:#e8f5e9
 ```
 
 ---
@@ -138,6 +212,7 @@ graph LR
 | Intent classifier   | Every /api/chat      | Routes to respond / enhance / review_start. |
 | Chat responder      | irrelevant, chat, or after review | Chat message (with document + history context). |
 | Document updater    | intent = update      | document_suggestions → HTML → UI proposed changes. |
-| Review agents       | intent = review      | Parallel feedback → chat responder → confidence. |
-| Confidence agent    | After respond or enhance | confidence_score (0–100). |
+| Review agents       | intent = review      | Parallel feedback → chat responder → confidence scorer. |
+| Confidence scorer   | After respond or enhance (in chat flow) | confidence_score (0–100) from relevance + ambiguity. |
+| **Confidence agent**| **Evaluate button → POST /api/evaluate** | **Runs review sub-agents → aggregates feedback → produces section/overall scores.** |
 | Autocomplete agent  | Frontend 10s after doc change | Chat message + proposed document + new confidence (separate API). |
