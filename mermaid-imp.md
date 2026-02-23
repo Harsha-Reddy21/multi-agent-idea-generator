@@ -1,182 +1,227 @@
-# Cortex Implementation — Agent Hierarchy (Mermaid Diagrams)
+# Agent Architecture — Mermaid Diagrams
 
-This document describes the **Cortex Agentic V2** implementation of the Idea Generator. The architecture uses a **root supervisor** that routes to **three child agents** based on user intent.
+Two flows:
 
----
-
-## Agent Hierarchy
-
-```
-Root Supervisor (agent-chain)
-    ├── Update Agent     (agentic-model) — create/update/enhance document
-    ├── Review Agent     (agentic-model) — validate document via 5 section reviewers
-    └── Conversational Agent — irrelevant/chat; direct response (no child agent)
-```
+1. **Document-based flow** — User clicks a document section (User / System / Tech info) → triggers the corresponding agent → each returns a confidence score.
+2. **Supervisor flow** — Supervisor receives user query → routes to Update Agent, Review Agent, or Conversational Agent based on intent.
 
 ---
 
-## Hierarchy Diagram
+## Flow 1: Document-Based Agent Triggers
+
+Document has three sections. Clicking a section triggers its agent; each agent returns output plus a confidence score.
+
+| Section            | Triggered agent    | Output                 |
+|--------------------|--------------------|------------------------|
+| User Information   | User Info Agent    | Response + confidence  |
+| System Information | System Info Agent  | Response + confidence  |
+| Tech Information   | Tech Info Agent    | Response + confidence  |
 
 ```mermaid
 graph TB
-    subgraph root["Root Supervisor (agent-chain)"]
-        SUP[Supervisor LLM<br/>Classifies intent → routes to child]
+    subgraph doc["Document"]
+        UI[User Information]
+        SI[System Information]
+        TI[Tech Information]
     end
     
-    subgraph children["Child Agents (agentic-model)"]
-        UPDATE[Update Agent<br/>✏️ Document create/update/enhance]
-        REVIEW[Review Agent<br/>📋 Validate via 5 section reviewers]
+    subgraph agents["Agents (triggered by click)"]
+        UIA[User Info Agent]
+        SIA[System Info Agent]
+        TIA[Tech Info Agent]
     end
     
-    CONV[Conversational Agent<br/>💬 Direct response — no tool]
-    
-    SUP -->|intent = update| UPDATE
-    SUP -->|intent = review| REVIEW
-    SUP -->|intent = irrelevant<br/>or chat| CONV
-    
-    subgraph update_tools["Update Agent tools"]
-        DOC_UPDATE[document_update]
+    subgraph outputs["Each agent returns"]
+        CONF1[confidence_score]
+        CONF2[confidence_score]
+        CONF3[confidence_score]
     end
     
-    subgraph review_tools["Review Agent tools"]
-        SOL[review_solution]
-        AI[review_ai_registry]
-        LEGAL[review_legal]
-        SEC[review_security]
-        TP[review_third_party]
-    end
+    UI -->|Click| UIA
+    SI -->|Click| SIA
+    TI -->|Click| TIA
     
-    UPDATE --> DOC_UPDATE
-    REVIEW --> SOL
-    REVIEW --> AI
-    REVIEW --> LEGAL
-    REVIEW --> SEC
-    REVIEW --> TP
+    UIA --> CONF1
+    SIA --> CONF2
+    TIA --> CONF3
     
-    style SUP fill:#e1f5ff,stroke:#01579b
-    style UPDATE fill:#f3e5f5,stroke:#4a148c
-    style REVIEW fill:#e8f5e9,stroke:#1b5e20
-    style CONV fill:#fce4ec,stroke:#880e4f
+    style doc fill:#e3f2fd
+    style agents fill:#e8f5e9
+    style outputs fill:#fff9c4
 ```
-
----
-
-## Request Flow (Sequence)
 
 ```mermaid
 sequenceDiagram
     participant User
-    participant App as Frontend/Backend
-    participant Cortex as /model/ask/{model}
-    participant Sup as Root Supervisor
-    participant Upd as Update Agent
-    participant Rev as Review Agent
+    participant UI as Frontend
+    participant API as Backend API
+    participant Agent as User/System/Tech Info Agent
     
-    User->>App: Message + document + chat_history
-    App->>Cortex: q = "Document: ... Chat: ... User: ..."
+    User->>UI: Clicks User Info (or System Info or Tech Info)
+    UI->>API: POST /api/... { section, document }
     
-    Cortex->>Sup: Invoke supervisor with question
-    
-    alt intent = update
-        Sup->>Upd: Handoff (document + user_query)
-        Upd->>Upd: Call document_update tool
-        Upd-->>Sup: document_suggestions
-        Sup-->>Cortex: Final response + suggestions
-    else intent = review
-        Sup->>Rev: Handoff (document)
-        Rev->>Rev: Call 5 review tools (parallel)
-        Rev-->>Sup: Aggregated feedback
-        Sup-->>Cortex: Final response (summary + feedback)
-    else intent = irrelevant or chat
-        Sup->>Sup: Respond directly (no tool)
-        Sup-->>Cortex: Chat response
+    alt User Information
+        API->>Agent: User Info Agent
+    else System Information
+        API->>Agent: System Info Agent
+    else Tech Information
+        API->>Agent: Tech Info Agent
     end
     
-    Cortex-->>App: message, steps
-    App-->>User: response, document_content?, confidence_score?
+    Agent->>Agent: Process + compute confidence
+    Agent-->>API: response, confidence_score
+    API-->>UI: Display response + confidence
+    UI-->>User: Show result
 ```
-
----
-
-## State / Routing Diagram
 
 ```mermaid
 stateDiagram-v2
-    [*] --> RootSupervisor
+    [*] --> Document
     
-    RootSupervisor --> ClassifyIntent: User query
-    
-    state ClassifyIntent {
-        [*] --> irrelevant
-        [*] --> chat
-        [*] --> update
-        [*] --> review
+    state Document {
+        [*] --> UserInfo
+        [*] --> SystemInfo
+        [*] --> TechInfo
     }
     
-    ClassifyIntent --> UpdateAgent: update
-    ClassifyIntent --> ReviewAgent: review
-    ClassifyIntent --> ConversationalResponse: irrelevant
-    ClassifyIntent --> ConversationalResponse: chat
+    UserInfo --> UserInfoAgent: Click
+    SystemInfo --> SystemInfoAgent: Click
+    TechInfo --> TechInfoAgent: Click
     
-    state UpdateAgent {
-        [*] --> document_update_tool
-        document_update_tool --> document_suggestions
-    }
+    UserInfoAgent --> Result1: response + confidence_score
+    SystemInfoAgent --> Result2: response + confidence_score
+    TechInfoAgent --> Result3: response + confidence_score
     
-    state ReviewAgent {
-        [*] --> solution_tool
-        [*] --> ai_registry_tool
-        [*] --> legal_tool
-        [*] --> security_tool
-        [*] --> third_party_tool
-        solution_tool --> collector
-        ai_registry_tool --> collector
-        legal_tool --> collector
-        security_tool --> collector
-        third_party_tool --> collector
-        collector --> feedback_summary
-    }
-    
-    UpdateAgent --> RootSupervisor: return suggestions
-    ReviewAgent --> RootSupervisor: return feedback
-    ConversationalResponse --> RootSupervisor: return text
-    
-    RootSupervisor --> [*]: Response to user
+    Result1 --> [*]
+    Result2 --> [*]
+    Result3 --> [*]
 ```
 
 ---
 
-## Child Agent Details
+## Flow 2: Supervisor Agent with Child Agents
 
-| Child Agent           | Trigger Intent | Tools / Behavior | Output |
-|-----------------------|----------------|------------------|--------|
-| **Update Agent**      | update         | `document_update` | document_suggestions (section → content) |
-| **Review Agent**      | review         | `review_solution`, `review_ai_registry`, `review_legal`, `review_security`, `review_third_party` | Aggregated feedback per section |
-| **Conversational Agent** | irrelevant, chat | None (direct LLM response) | Chat message using document + history |
+User sends a query → **Supervisor Agent** classifies intent → routes to one of three child agents.
 
----
-
-## Autocomplete (Separate Trigger)
-
-The **Autocomplete** flow is **not** routed by the Root Supervisor. It is triggered by the frontend ~10s after document changes and can call a **separate Cortex model** or the same model with a special question prefix.
+| Child Agent           | When triggered       | Role                            |
+|-----------------------|------------------------|---------------------------------|
+| **Update Agent**      | intent = update       | Create, update, or enhance doc |
+| **Review Agent**      | intent = review       | Validate and review document    |
+| **Conversational Agent** | intent = chat, irrelevant | Answer questions, redirect, chat |
 
 ```mermaid
-graph LR
-    DOC[Document changed] -->|10s debounce| APP[Frontend]
-    APP -->|POST /model/ask| CORTEX[Cortex]
-    CORTEX --> AUTO[Autocomplete tool or model]
-    AUTO -->|suggestions + confidence| APP
-    APP --> CHAT[Message in chat]
-    APP --> PROP[Proposed changes]
-    APP --> CONF[Confidence updated]
+graph TB
+    QUERY([User query]) --> SUP[Supervisor Agent]
+    
+    SUP -->|Classify intent| ROUTE{Router}
+    
+    ROUTE -->|update| UPD[Update Agent]
+    ROUTE -->|review| REV[Review Agent]
+    ROUTE -->|chat / irrelevant| CONV[Conversational Agent]
+    
+    UPD --> UPD_OUT[document_suggestions + confidence]
+    REV --> REV_OUT[feedback + confidence]
+    CONV --> CONV_OUT[chat_response + confidence]
+    
+    UPD_OUT --> RESP([Response to user])
+    REV_OUT --> RESP
+    CONV_OUT --> RESP
+    
+    style SUP fill:#e1f5ff,stroke:#01579b
+    style ROUTE fill:#fff4e1
+    style UPD fill:#f3e5f5
+    style REV fill:#e8f5e9
+    style CONV fill:#fce4ec
+```
+
+```mermaid
+graph TB
+    subgraph supervisor["Supervisor Agent"]
+        SUP_LLM[Supervisor LLM<br/>Intent classification]
+    end
+    
+    subgraph children["Child Agents"]
+        UPDATE[Update Agent<br/>✏️ Document create/update/enhance]
+        REVIEW[Review Agent<br/>📋 Document validation]
+        CONV[Conversational Agent<br/>💬 Chat, questions, redirect]
+    end
+    
+    QUERY([User query]) --> SUP_LLM
+    SUP_LLM -->|update| UPDATE
+    SUP_LLM -->|review| REVIEW
+    SUP_LLM -->|chat, irrelevant| CONV
+    
+    UPDATE -->|confidence_score| OUT1([Output])
+    REVIEW -->|confidence_score| OUT2([Output])
+    CONV -->|confidence_score| OUT3([Output])
+    
+    style SUP_LLM fill:#e1f5ff
+    style UPDATE fill:#f3e5f5
+    style REVIEW fill:#e8f5e9
+    style CONV fill:#fce4ec
+```
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant App
+    participant Sup as Supervisor Agent
+    participant Upd as Update Agent
+    participant Rev as Review Agent
+    participant Conv as Conversational Agent
+    
+    User->>App: Query
+    App->>Sup: Invoke with query
+    
+    Sup->>Sup: Classify intent
+    
+    alt intent = update
+        Sup->>Upd: Handoff
+        Upd->>Upd: Process document
+        Upd-->>Sup: response + confidence_score
+    else intent = review
+        Sup->>Rev: Handoff
+        Rev->>Rev: Run review
+        Rev-->>Sup: feedback + confidence_score
+    else intent = chat / irrelevant
+        Sup->>Conv: Handoff (or direct)
+        Conv-->>Sup: chat_response + confidence_score
+    end
+    
+    Sup-->>App: Final response + confidence
+    App-->>User: Display
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> Supervisor
+    
+    Supervisor --> Route: Classify intent
+    
+    state Route {
+        update
+        review
+        chat
+        irrelevant
+    }
+    
+    Route --> UpdateAgent: update
+    Route --> ReviewAgent: review
+    Route --> ConversationalAgent: chat
+    Route --> ConversationalAgent: irrelevant
+    
+    UpdateAgent --> Output: response + confidence_score
+    ReviewAgent --> Output: feedback + confidence_score
+    ConversationalAgent --> Output: chat_response + confidence_score
+    
+    Output --> [*]
 ```
 
 ---
 
 ## Summary
 
-- **Root Supervisor**: Single agent-chain; classifies intent and routes to Update Agent, Review Agent, or Conversational (direct) path.
-- **Update Agent**: Child agent with `document_update` tool.
-- **Review Agent**: Child agent with 5 section review tools.
-- **Conversational Agent**: Handled by the supervisor itself when no tool/child is needed.
-- **Autocomplete**: Separate trigger (10s after doc change); not part of the main hierarchy.
+| Flow        | Trigger              | Agents                                                | Output                 |
+|------------|----------------------|--------------------------------------------------------|------------------------|
+| **Document** | Click section (User / System / Tech) | User Info Agent, System Info Agent, Tech Info Agent | Response + confidence  |
+| **Supervisor** | User query           | Supervisor → Update / Review / Conversational Agent   | Response + confidence  |
