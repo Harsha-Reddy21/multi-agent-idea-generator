@@ -1,0 +1,556 @@
+@use '../../shared/styles/index' as *;
+
+.aiFeaturesCard {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  height: 100vh !important;
+  width: 45vw !important;
+  background: $bg-white-full !important;
+  border: none !important;
+  box-shadow: -0.25rem 0 0.75rem $shadow-black-medium !important;
+  z-index: 999999 !important;
+  font-family: $font-family-primary !important;
+  overflow-y: auto !important;
+  animation: slideIn 0.3s ease-out !important;
+  padding: 3.875rem 2rem 4rem 2rem !important;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 1rem 0;
+}
+
+.headerActions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.warningMessage {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0 0.75rem 0;
+  font-size: 0.875rem;
+  color: $neutral-slate-light;
+  line-height: 1.375rem;
+  font-style: $font-style-italic;
+  font-weight: $font-weight-normal;
+
+  .infoIcon {
+    flex-shrink: 0;
+    width: 1.3rem;
+    height: 1.3rem;
+    align-self: flex-start;
+    margin-top: 0.1875rem;
+    // Apply color filter to change SVG color to #12518E
+    filter: invert(24%) sepia(63%) saturate(1586%) hue-rotate(187deg)
+      brightness(91%) contrast(88%);
+  }
+}
+
+.redUnderline {
+  height: 0.25rem;
+  background: #d31710;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.helpButton {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.helpModalOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: $bg-white-full;
+  z-index: 2000;
+  animation: slideInHelp 0.3s ease-out;
+  overflow-y: auto;
+}
+
+@keyframes slideInHelp {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.helpModal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.helpContent {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.helpHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+}
+
+.stepIndicator {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.backButton {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.backIcon {
+  height: 1rem;
+  width: 1rem;
+  color: $dark-gray;
+}
+
+.helpTitle {
+  font-size: $font-size-h6;
+  font-weight: 600;
+  color: $dark-gray;
+}
+
+.helpSection {
+  padding: 1.5rem;
+  border-bottom: 0.0625rem solid $border-light;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.helpSectionTitle {
+  font-size: $font-size-base;
+  font-weight: 600;
+  color: $dark-gray;
+  margin: 0 0 0.5rem 0;
+}
+
+.helpDescription {
+  font-size: $font-size-label;
+  line-height: 1.375rem;
+  color: $neutral-slate;
+  margin: 0 0 1rem 0;
+}
+
+.helpSubSection {
+  margin-top: 1rem;
+}
+
+.helpSubTitle {
+  font-size: $font-size-label;
+  font-weight: 600;
+  color: $dark-gray;
+  margin: 0 0 0.5rem 0;
+}
+
+.helpText {
+  font-size: $font-size-label;
+  line-height: 1.375rem;
+  color: $neutral-slate;
+  margin: 0;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: $font-size-h5;
+  font-weight: 600;
+}
+
+.aiIcon {
+  height: 1.3rem;
+  width: 1.3rem;
+}
+
+.closeButton {
+  background: transparent !important;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+    background: transparent !important;
+  }
+
+  &:active,
+  &:focus {
+    background: transparent !important;
+  }
+
+  img {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.content {
+  padding: 0;
+
+  // Override LDS Tabs styling to match design
+  :global {
+    .lds-tabs {
+      margin-bottom: 0;
+      border-bottom: none;
+      padding: 0;
+      background: $bg-white-full;
+
+      .lds-tabs__list {
+        gap: 2rem;
+        padding: 0 1.5rem;
+        margin: 0;
+        border-bottom: 0.0625rem solid $border-light;
+      }
+
+      .lds-tabs__item {
+        padding: 1rem 0;
+        margin: 0;
+        font-size: $font-size-sm;
+        font-weight: 400;
+        color: $text-gray;
+        background: transparent;
+        border: none;
+        border-bottom: 0.1875rem solid transparent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: $text-black;
+        }
+
+        &[aria-selected='true'] {
+          color: $text-black;
+          font-weight: 600;
+          border-bottom-color: $brand-red;
+        }
+      }
+    }
+  }
+}
+
+.currentQuestionContainer {
+  display: flex;
+  gap: 10em;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  margin-bottom: 0.5rem;
+}
+
+.overview {
+  padding: 0.75rem 0rem;
+  border-radius: 0.25rem;
+}
+
+.overviewLabel {
+  display: block;
+  font-size: $font-size-0-85;
+  color: $text-gray-light;
+  margin-bottom: 0.25rem;
+  font-weight: 400;
+}
+
+.currentQuestion {
+  margin: 0;
+  font-size: $font-size-sm;
+  color: $medium-gray;
+  line-height: 1.5;
+}
+
+.currentAnswer {
+  border-radius: 0.375rem;
+  border: 1px solid $border-gray;
+  background: $gray-100;
+  display: flex;
+  padding: 0.5rem 1.25rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  align-self: stretch;
+}
+
+.divider {
+  height: 0.0625rem;
+  align-self: stretch;
+  background: $gray-900;
+  margin: 1.5rem 0;
+}
+
+.footer {
+  display: flex;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  margin-top: 2rem;
+}
+
+.footerButtons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.5rem;
+}
+
+:global {
+  .lds-tab-container.tab-padded {
+    padding: 0;
+  }
+  .lds-tab-container {
+    border: none !important;
+    padding: 0 !important;
+  }
+  .lds-tab-header,
+  .lds-tab-group.contained .lds-tab-header {
+    border-bottom-color: $gray-600 !important;
+  }
+  .tab-btn.active {
+    background-color: $bg-white-full;
+    color: $dark-gray;
+    font-weight: 700;
+    border-bottom: 0.1875rem solid $brand-red;
+    border-bottom: 0.1875rem solid $brand-red;
+  }
+  .lds-tab-header,
+  .lds-tab-group.contained .lds-tab-header {
+    background-color: $bg-white-full;
+  }
+  .lds-tab-header .tab-btn {
+    background-color: $bg-white-full;
+  }
+}
+
+.aiSummaryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.aiSummaryLabel {
+  font-size: $font-size-lg;
+  font-weight: 600;
+  line-height: normal;
+  margin-bottom: 0.7rem;
+}
+
+.enhanceAnswerButton {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  padding: 0.5rem 0.75rem;
+  background: linear-gradient(
+    90deg,
+    rgba(131, 203, 255, 0.1) 0%,
+    rgba(246, 51, 154, 0.1) 100%
+  );
+  border-radius: 1rem;
+  border: 0.0625rem solid $bg-white;
+  font-size: $font-size-badge;
+  font-weight: 500;
+  line-height: $font-size-h6;
+  transition: border-color 0.2s ease;
+  margin-bottom: 0.4rem;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(
+      90deg,
+      rgba(131, 203, 255, 0.1) 0%,
+      rgba(246, 51, 154, 0.1) 100%
+    );
+    border-color: $brand-red;
+  }
+
+  &:focus:not(:disabled) {
+    background: linear-gradient(
+      90deg,
+      rgba(131, 203, 255, 0.1) 0%,
+      rgba(246, 51, 154, 0.1) 100%
+    );
+    border-color: $brand-red;
+  }
+
+  &:active:not(:disabled) {
+    background: linear-gradient(
+      90deg,
+      rgba(131, 203, 255, 0.1) 0%,
+      rgba(246, 51, 154, 0.1) 100%
+    );
+  }
+}
+
+.pillIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.pillText {
+  font-size: $font-size-badge;
+  font-weight: 500;
+  line-height: $font-size-h6;
+  letter-spacing: -0.00938rem;
+}
+
+.aiSummaryContentContainer {
+  display: flex;
+  padding: 1rem 1.25rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  align-self: stretch;
+  border-radius: 0.375rem;
+  border: 0.0625rem solid $border-gray;
+  background: $gray-100;
+}
+
+.aiSummaryContent {
+  width: 100%;
+  min-height: 4rem;
+  background: $gray-100;
+  color: $neutral-slate;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.375rem;
+}
+
+.aiSummaryInputField {
+  &:focus {
+    outline: none !important;
+  }
+}
+
+.actionButtons {
+  display: flex;
+  min-height: 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.125rem;
+  border-radius: 0.25rem;
+  font-size: $font-size-badge;
+  padding: 0.375rem 0.75rem;
+  white-space: normal;
+  text-align: center;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Removed empty rulesets to satisfy lint */
+
+.aiSummaryActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Horizontal, responsive grid for provenance list */
+.provenanceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1rem; /* row gap, column gap */
+  margin-top: 0.75rem;
+}
+
+.provenanceItem {
+  display: flex;
+  align-items: center;
+}
+
+.extractSource {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $brand-blue-info;
+  font-size: $font-size-badge;
+  line-height: $font-size-lg;
+  font-style: italic;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.fileIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.fileName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1rem;
+  font-size: $font-size-sm;
+}
+
+.sourcePopover {
+  background: $bg-white-full;
+  border: 0.0625rem solid $border-light;
+  border-radius: 0.375rem;
+  box-shadow: 0 0.25rem 0.75rem $shadow-card-dark;
+  padding: 0.5rem;
+  z-index: 1000;
+  width: 26rem;
+}
+
+.noScroll {
+  overflow: hidden !important;
+}

@@ -1,0 +1,969 @@
+﻿{
+  "schema": {
+    "dependencies": {
+      "AI-Q10": {
+        "oneOf": [
+          {
+            "properties": {
+              "AI-Q10": {
+                "contains": {
+                  "const": "Other"
+                },
+                "type": "array"
+              },
+              "AI-Q32": {
+                "title": "Other Third Parties",
+                "type": "string"
+              }
+            },
+            "required": [
+              "AI-Q32"
+            ]
+          },
+          {
+            "properties": {
+              "AI-Q10": {
+                "not": {
+                  "contains": {
+                    "const": "Other"
+                  }
+                },
+                "type": "array"
+              }
+            }
+          }
+        ]
+      },
+      "AI-Q13": {
+        "oneOf": [
+          {
+            "properties": {
+              "AI-Q13": {
+                "contains": {
+                  "const": "Other"
+                },
+                "type": "array"
+              },
+              "AI-Q33": {
+                "title": "Other Region",
+                "type": "string"
+              }
+            },
+            "required": [
+              "AI-Q33"
+            ]
+          },
+          {
+            "properties": {
+              "AI-Q13": {
+                "not": {
+                  "contains": {
+                    "const": "Other"
+                  }
+                },
+                "type": "array"
+              }
+            }
+          }
+        ]
+      },
+      "AI-Q14": {
+        "oneOf": [
+          {
+            "properties": {
+              "AI-Q14": {
+                "contains": {
+                  "const": "Other"
+                },
+                "type": "array"
+              },
+              "AI-Q34": {
+                "title": "Other Audience",
+                "type": "string"
+              }
+            },
+            "required": [
+              "AI-Q34"
+            ]
+          },
+          {
+            "properties": {
+              "AI-Q14": {
+                "not": {
+                  "contains": {
+                    "const": "Other"
+                  }
+                },
+                "type": "array"
+              }
+            }
+          }
+        ]
+      },
+      "AI-Q15": {
+        "oneOf": [
+          {
+            "properties": {
+              "AI-Q15": {
+                "enum": [
+                  "Yes"
+                ]
+              },
+              "AI-Q17": {
+                "items": {
+                  "enum": [
+                    "Certain Group Data",
+                    "Confidential Information (CI)",
+                    "Good \u0027X\u0027 Practice (GxP)",
+                    "Personal Information (PI)",
+                    "None of the above"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 1,
+                "title": "Does the System process any of the following data? (Select all that apply)",
+                "type": "array",
+                "uniqueItems": true
+              },
+              "AI-Q18": {
+                "enum": [
+                  "Green",
+                  "Yellow",
+                  "Orange",
+                  "Red"
+                ],
+                "title": "What is the highest data classification for processed data?",
+                "type": "string"
+              },
+              "AI-Q19": {
+                "enum": [
+                  "Yes",
+                  "No",
+                  "Not Sure"
+                ],
+                "title": "Is any of this data used for training the model?",
+                "type": "string"
+              },
+              "AI-Q20": {
+                "title": "Describe the Data Needed",
+                "type": "string"
+              },
+              "AI-Q21": {
+                "items": {
+                  "enum": [
+                    "Acts as a device or Software as a Medical Device (SaMD)",
+                    "Assist with the creation of Lilly IP, including drug discovery",
+                    "Detect or analyze human emotions or sentiment",
+                    "Facilitate or aid interactions with Patients, Customers, HCPs, and/or Payors",
+                    "Generate regulated data/outputs (e.g., clinical data, manufacturing data, promotional material, FDA submissions)",
+                    "Impact HR/Employment decisions (recruiting, hiring, performance review, training)",
+                    "Impact Patient Safety and/or Product Quality",
+                    "Make Regulated decisions or Regulatory submissions",
+                    "R\u0026D/Drug development",
+                    "Scrape use, or ingest third-party copyrighted material, such as photographs, journal articles, or third-party media content",
+                    "None of the above"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 1,
+                "title": "Does the AI Functionality of the system do any of the following? (Select all that apply)",
+                "type": "array",
+                "uniqueItems": true
+              },
+              "AI-Q22": {
+                "enum": [
+                  "Yes - 100% of the output",
+                  "Yes - a sampling",
+                  "No"
+                ],
+                "title": "Is the AI system output reviewed by a human before it is used",
+                "type": "string"
+              },
+              "AI-Q24": {
+                "items": {
+                  "enum": [
+                    "Amazon Bedrock",
+                    "AWS SageMaker",
+                    "AWS Sagemaker Unified Studios",
+                    "AWS SageMaker Jumpstart",
+                    "Azure AI Studio",
+                    "Azure OpenAI",
+                    "CAFe",
+                    "Copilot Studio",
+                    "Domino",
+                    "Kore",
+                    "Lilly AI Code Accelerator",
+                    "Lilly AI Fabric",
+                    "Lilly CATS",
+                    "Lilly Cortex",
+                    "Lilly on-prem HPC",
+                    "LLM Gateway",
+                    "Lilly Magtrain",
+                    "Microsoft 365 Copilot",
+                    "Microsoft Fabric",
+                    "Microsoft Science Engine",
+                    "Microsoft Search Engine Platform",
+                    "Third Party - Proprietary AI",
+                    "Yseop",
+                    "Yseop SDK",
+                    "Other"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 1,
+                "title": "Which AI platforms/tech will be used?",
+                "type": "array",
+                "uniqueItems": true
+              },
+              "AI-Q25": {
+                "items": {
+                  "enum": [
+                    "Anthropic Claude versions",
+                    "AWS Nova versions",
+                    "AWS Titan Versions",
+                    "Azure DALLE-E versions",
+                    "Azure GPT versions",
+                    "Azure openAI ada text-embedding versions",
+                    "Azure Whisper versions",
+                    "Grok versions available through Azure",
+                    "StabilityAI versions",
+                    "Other"
+                  ],
+                  "type": "string"
+                },
+                "title": "AI Models",
+                "type": "array",
+                "uniqueItems": true
+              },
+              "AI-Q26": {
+                "items": {
+                  "enum": [
+                    "Llama versions",
+                    "Torchvision",
+                    "Other"
+                  ],
+                  "type": "string"
+                },
+                "title": "Open Source Models",
+                "type": "array",
+                "uniqueItems": true
+              },
+              "AI-Q27": {
+                "enum": [
+                  "Yes",
+                  "No"
+                ],
+                "title": "Does the AI/ML use continous learning?",
+                "type": "string"
+              },
+              "AI-Q28": {
+                "title": "Privacy Request Identifier",
+                "type": "string"
+              },
+              "AI-Q29": {
+                "title": "SAE Review Number",
+                "type": "string"
+              },
+              "AI-Q30": {
+                "title": "WwTP review",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "properties": {
+              "AI-Q15": {
+                "enum": [
+                  "No"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "AI-Q22": {
+        "oneOf": [
+          {
+            "properties": {
+              "AI-Q22": {
+                "enum": [
+                  "Yes - a sampling",
+                  "No"
+                ]
+              },
+              "AI-Q23": {
+                "title": "Please explain (What is the impact if the AI system output is wrong?)",
+                "type": "string"
+              }
+            },
+            "required": [
+              "AI-Q23"
+            ]
+          },
+          {
+            "properties": {
+              "AI-Q22": {
+                "enum": [
+                  "Yes - 100% of the output"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "AI-Q24": {
+        "oneOf": [
+          {
+            "properties": {
+              "AI-Q24": {
+                "contains": {
+                  "const": "Other"
+                },
+                "type": "array"
+              },
+              "AI-Q35": {
+                "title": "Other Platform",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "properties": {
+              "AI-Q24": {
+                "not": {
+                  "contains": {
+                    "const": "Other"
+                  }
+                },
+                "type": "array"
+              }
+            }
+          }
+        ]
+      },
+      "AI-Q25": {
+        "oneOf": [
+          {
+            "properties": {
+              "AI-Q25": {
+                "contains": {
+                  "const": "Other"
+                },
+                "type": "array"
+              },
+              "AI-Q36": {
+                "title": "Other Models",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "properties": {
+              "AI-Q25": {
+                "not": {
+                  "contains": {
+                    "const": "Other"
+                  }
+                },
+                "type": "array"
+              }
+            }
+          }
+        ]
+      },
+      "AI-Q26": {
+        "oneOf": [
+          {
+            "properties": {
+              "AI-Q26": {
+                "contains": {
+                  "const": "Other"
+                },
+                "type": "array"
+              },
+              "AI-Q37": {
+                "title": "Other Open Source Models",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "properties": {
+              "AI-Q26": {
+                "not": {
+                  "contains": {
+                    "const": "Other"
+                  }
+                },
+                "type": "array"
+              }
+            }
+          }
+        ]
+      },
+      "AI-Q9": {
+        "oneOf": [
+          {
+            "properties": {
+              "AI-Q10": {
+                "items": {
+                  "enum": [
+                    "Amazon Web Services",
+                    "Microsoft",
+                    "Google",
+                    "OpenAI",
+                    "Anthropic",
+                    "Meta",
+                    "Databricks",
+                    "Snowflake",
+                    "Other"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 1,
+                "title": "Which third party/parties?",
+                "type": "array",
+                "uniqueItems": true
+              },
+              "AI-Q11": {
+                "title": "What product(s)?",
+                "type": "string"
+              },
+              "AI-Q9": {
+                "enum": [
+                  "Yes"
+                ]
+              }
+            },
+            "required": [
+              "AI-Q10",
+              "AI-Q11"
+            ]
+          },
+          {
+            "properties": {
+              "AI-Q9": {
+                "enum": [
+                  "No"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AI-Q12": {
+        "title": "Briefly describe the users of the system, what they will be using it for, and what problem it will solve for them",
+        "type": "string"
+      },
+      "AI-Q13": {
+        "items": {
+          "enum": [
+            "Asia",
+            "China",
+            "Europe",
+            "Latin America",
+            "United States (US)",
+            "Other"
+          ],
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Where will you deploy your System? (Select all that apply)",
+        "type": "array",
+        "uniqueItems": true
+      },
+      "AI-Q14": {
+        "items": {
+          "enum": [
+            "HCPs",
+            "Lilly Employees",
+            "Patients - Clinical Trials",
+            "Patients - Commercial",
+            "Other"
+          ],
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Who is the audience of this system? (Select all that apply)",
+        "type": "array",
+        "uniqueItems": true
+      },
+      "AI-Q15": {
+        "enum": [
+          "Yes",
+          "No"
+        ],
+        "title": "Do you have any additional technical information to provide?",
+        "type": "string"
+      },
+      "AI-Q16": {
+        "enum": [
+          "Pre-Alpha",
+          "Alpha",
+          "Beta",
+          "Early Release",
+          "General Release"
+        ],
+        "title": "What is the maturity of the System?",
+        "type": "string"
+      },
+      "AI-Q31": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Add attachments",
+        "type": "array"
+      },
+      "AI-Q38": {
+        "const": false,
+        "title": "Acknowledgement of Responsibility",
+        "type": "boolean"
+      },
+      "AI-Q5": {
+        "title": "What is the title of the System?",
+        "type": "string"
+      },
+      "AI-Q6": {
+        "title": "Provide an overview of the solution",
+        "type": "string"
+      },
+      "AI-Q7": {
+        "title": "What is the value proposition for this solution?",
+        "type": "string"
+      },
+      "AI-Q8": {
+        "enum": [
+          "Enterprise - Advanced Analytics and Data Sciences (AADS)",
+          "BU - Global",
+          "BU-Lilly USA",
+          "Customer Technology Innovation",
+          "Digital Health R\u0026D",
+          "Enterprise - AI Program",
+          "Enterprise - Cybersecurity",
+          "Enterprise - Digital Core",
+          "Enterprise - Information Systems Quality (ISQ)",
+          "Enterprise - Software Product Engineering (SPE)",
+          "GS - Enterprise Business Solutions",
+          "GS - ERP Services",
+          "GS - HR",
+          "GS - Technical Innovation Unit",
+          "IBU - ASG Hub",
+          "IBU - Canada",
+          "IBU - China",
+          "IBU - France Hub",
+          "IBU - Iberia Hub",
+          "IBU - India",
+          "IBU - Italy Hub",
+          "IBU - Japan",
+          "IBU - LATAM Hub",
+          "IBU - Meta Hub",
+          "IBU - NAPAC",
+          "IBU - NE Hub",
+          "LRL - Clinical",
+          "LRL - Other",
+          "LRL - PRD",
+          "LRL - Regulatory",
+          "LRL - Research",
+          "MQ - API",
+          "MQ - Drug Product",
+          "MQ - Engineering",
+          "MQ - Ext Mfg",
+          "MQ - Labs",
+          "MQ - MES",
+          "MQ - Other",
+          "MQ - Packaging",
+          "MQ - Quality",
+          "MQ - Serialization",
+          "MQ - Supply Chain",
+          "MQ - TSMS",
+          "MQ - Tulip"
+        ],
+        "title": "Which organization will sponsor the System?",
+        "type": "string"
+      },
+      "AI-Q9": {
+        "enum": [
+          "Yes",
+          "No"
+        ],
+        "title": "Are you planning to implement a third party product as part or all of this system?",
+        "type": "string"
+      }
+    },
+    "required": [
+      "AI-Q5",
+      "AI-Q6",
+      "AI-Q7",
+      "AI-Q8",
+      "AI-Q9",
+      "AI-Q12",
+      "AI-Q13",
+      "AI-Q14",
+      "AI-Q15",
+      "AI-Q38"
+    ],
+    "type": "object"
+  },
+  "tabSchema": [
+    {
+      "fields": [
+        "AI-Q5",
+        "AI-Q8",
+        "AI-Q16",
+        "AI-Q13",
+        "AI-Q33"
+      ],
+      "id": 1,
+      "title": "System Information"
+    },
+    {
+      "fields": [
+        "AI-Q6",
+        "AI-Q7"
+      ],
+      "id": 2,
+      "title": "Overview \u0026 Value"
+    },
+    {
+      "fields": [
+        "AI-Q12",
+        "AI-Q14",
+        "AI-Q34"
+      ],
+      "id": 3,
+      "title": "User Information"
+    },
+    {
+      "fields": [
+        "AI-Q9",
+        "AI-Q10",
+        "AI-Q32",
+        "AI-Q11"
+      ],
+      "id": 4,
+      "title": "Third Party/Product Information"
+    },
+    {
+      "fields": [
+        "AI-Q15",
+        "AI-Q17",
+        "AI-Q18",
+        "AI-Q19",
+        "AI-Q20",
+        "AI-Q21",
+        "AI-Q22",
+        "AI-Q23",
+        "AI-Q24",
+        "AI-Q35",
+        "AI-Q25",
+        "AI-Q36",
+        "AI-Q26",
+        "AI-Q37",
+        "AI-Q27"
+      ],
+      "id": 5,
+      "title": "AI \u0026 Data Information"
+    },
+    {
+      "fields": [
+        "AI-Q29",
+        "AI-Q28",
+        "AI-Q30",
+        "AI-Q38",
+        "AI-Q31"
+      ],
+      "id": 6,
+      "title": "References/Attachments"
+    }
+  ],
+  "uiSchema": {
+    "AI-Q10": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeHolder": "Select which third party/parties",
+      "ui:toolTip": "Select more than one third-party, if necessary. If the third-party of your choice is not available, please select \"other\" and provide the name of the third-party.",
+      "ui:widget": "customMultiSelect"
+    },
+    "AI-Q11": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Mention what Products",
+      "ui:toolTip": "Select more than one product, if necessary",      
+      "ui:widget": "customText"
+    },
+    "AI-Q12": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:placeholder": "Describe the users of the system",
+      "ui:toolTip": "Summarize who will use the system, their main tasks on the system, and the problem this system addresses for them.",
+      "ui:widget": "customTextArea"
+    },
+    "AI-Q13": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Choose one or more deployment locations for your system.",
+      "ui:widget": "customMultiSelect"
+    },
+    "AI-Q14": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "",
+      "ui:toolTip": "Include users of the system as well as those who will see the output.",
+      "ui:widget": "customMultiSelect"
+    },
+    "AI-Q15": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Share extera technical details that are relevant and have not been covered anywhere else.",
+      "ui:widget": "customRadio"
+    },
+    "AI-Q16": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:toolTip": " a. Pre-Alpha: Exploratory stage to discover and define possibilities (local machine or Dev)\n b. Alpha: Initial development stage to prove feasibility (Dev)\n c. Beta: Initial user feedback stage to guide improvement in (Dev/QA)\n d. Early Release: Pilot stage, initiate real-world use with controlled risk (Prod) \n e. General Release: Scaling stage, deploying to full intended user base (Prod)",
+      "ui:widget": "customSelect",
+      "ui:placeHolder": "Select the maturity of the system"
+    },
+    "AI-Q17": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:toolTip": "Certain Group Data \nExamples: consumers, workforce, minors, professionals, trial participants Confidential Information (CI) \nExamples: intellectual property, marketing information, financial information, Good 'X' Practice (GxP) - e.g.,Good Manufacturing Practice \n Examples: product batch records, clinical study reports, adverse drug reactions (ADRs) \n Personal Information (PI) \n Any information that, when used alone or in combination with other information, identifies a person (even if pseudonymized) (e.g., a name, address, photo, birth date, phone number, IP address, other online identifiers, etc.). PI does not include anonymous information.",
+      "ui:widget": "customMultiSelect"
+    },
+    "AI-Q18": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:toolTip": "Link to Overview: Information Classification (https://now.lilly.com/landing/global-information-classification-by-business-area/global-pl-overview-information-classification)",
+      "ui:widget": "customSelect"
+    },
+    "AI-Q19": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "State whether any collected data will be used to train AI/machine learning models.",
+      "ui:widget": "customSelect"
+    },
+    "AI-Q2": {
+      "ui:toolTip": "Contact ai@lilly.com if your AI system does not appear in the list."
+    },
+    "AI-Q20": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:toolTip": "Check data.lilly.com for reference.\nWhere is it the data stored? (e.g., SharePoint, AWS, Azure, Veeva, third party location)\nIs the Data in EDB?\nDo you have access?\nProvide as much detail as possible about your data requirements.\nWhat type of data is needed? (structured/tabular data, documents (word/pdf), multi modal (text, images, audio, videos)) ",
+      "ui:widget": "customTextArea"
+    },
+    "AI-Q21": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Select all relevant AI features (e.g. classification, prediction) performed by the system.",
+      "ui:widget": "customMultiSelect"
+    },
+    "AI-Q22": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Indicate if a person manually reviews the AI system's results before they are acted upon.",
+      "ui:widget": "customSelect"
+    },
+    "AI-Q23": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:toolTip": "Describe the potential consequences if the AI system provides incorrect or misleading results.",
+      "ui:widget": "customTextArea"
+    },
+    "AI-Q24": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Select all the AI technologies or platforms powering your system.",
+      "ui:widget": "customMultiSelect"
+    },
+    "AI-Q25": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customMultiSelect"
+    },
+    "AI-Q26": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customMultiSelect"
+    },
+    "AI-Q27": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customRadio"
+    },
+    "AI-Q28": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Enter Privacy Request Number",
+      "ui:widget": "customText"
+    },
+    "AI-Q29": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter SAE Review Number",
+      "ui:toolTip": "Refer to <a href='https://collab.lilly.com/sites/SAELandingPage/SitePages/Security-Architecture-and-Engineering-(SAE)-Engagement-Service.aspx' target='_blank'>Security Architecture and Engineering Engagement Service</a> to know more.",
+      "ui:widget": "customText"
+    },
+    "AI-Q30": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Enter WWTP Review",
+      "ui:widget": "customText"
+    },
+    "AI-Q31": {
+      "ui:options": {
+        "label": false,
+        "multiple": true
+      },
+      "ui:widget": "customFile"
+    },
+    "AI-Q32": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Mention other Third Parties",
+      "ui:widget": "customText"
+    },
+    "AI-Q33": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customText"
+    },
+    "AI-Q34": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Enter other audience",
+      "ui:widget": "customText"
+    },
+    "AI-Q35": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customText"
+    },
+    "AI-Q36": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customText"
+    },
+    "AI-Q37": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customText"
+    },
+    "AI-Q38": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customBooleanCheckbox"
+    },
+    "AI-Q5": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Enter the title of the system",
+      "ui:toolTip": "Enter the name of your system.",
+      "ui:widget": "customText"
+    },
+    "AI-Q6": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:placeholder": "Enter the overview of the solution",
+      "ui:toolTip": "Remember, reviewers do not have context about your system. Be clear, descriptive, and avoid acronyms and area-specific language.",
+      "ui:widget": "customTextArea"
+    },
+    "AI-Q7": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:placeholder": "Enter the value proposition of this solution",
+      "ui:toolTip": "Describe the key problem-solving features that make the solution valuable.",
+      "ui:widget": "customTextArea"
+    },
+    "AI-Q8": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Select the organisation that will sponsor the system",
+      "ui:toolTip": "Select the Lilly organisation that will provide funding, staffing implementation, and support for your system.",
+      "ui:widget": "customSelect"
+    },
+    "AI-Q9": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Indicate if a third-party/vendor product will be used in all or part of the system.",
+      "ui:widget": "customRadio"
+    },
+    "ui:order": [
+      "AI-Q5",
+      "AI-Q8",
+      "AI-Q16",
+      "AI-Q13",
+      "AI-Q33",
+      "AI-Q6",
+      "AI-Q7",
+      "AI-Q12",
+      "AI-Q14",
+      "AI-Q34",
+      "AI-Q9",
+      "AI-Q10",
+      "AI-Q32",
+      "AI-Q11",
+      "AI-Q15",
+      "AI-Q17",
+      "AI-Q18",
+      "AI-Q19",
+      "AI-Q20",
+      "AI-Q21",
+      "AI-Q22",
+      "AI-Q23",
+      "AI-Q24",
+      "AI-Q35",
+      "AI-Q25",
+      "AI-Q36",
+      "AI-Q26",
+      "AI-Q37",
+      "AI-Q27",
+      "AI-Q29",
+      "AI-Q28",
+      "AI-Q30",
+      "AI-Q38",
+      "AI-Q31"
+    ]
+  }
+}

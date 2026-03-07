@@ -1,0 +1,627 @@
+{
+  "schema": {
+    "dependencies": {
+      "WNV-Q22": {
+        "oneOf": [
+          {
+            "properties": {
+              "WNV-Q22": {
+                "enum": ["Yes"]
+              },
+              "WNV-Q32": {
+                "enum": ["Yes", "No"],
+                "title": "Have you obtained approval via the Global Customer Office Risk Registry process?",
+                "type": "string"
+              }
+            },
+            "required": ["WNV-Q32"]
+          },
+          {
+            "properties": {
+              "WNV-Q22": {
+                "enum": ["No"]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "properties": {
+      "WNV-Q1": {
+        "title": "Third Party Name",
+        "type": "string"
+      },
+      "WNV-Q10": {
+        "title": "Third Party web address",
+        "type": "string"
+      },
+      "WNV-Q11": {
+        "title": "SAP ID",
+        "type": "string"
+      },
+      "WNV-Q12": {
+        "title": "Job Title",
+        "type": "string"
+      },
+      "WNV-Q13": {
+        "title": "First Name",
+        "type": "string"
+      },
+      "WNV-Q14": {
+        "title": "Last Name",
+        "type": "string"
+      },
+      "WNV-Q15": {
+        "title": "Email",
+        "type": "string"
+      },
+      "WNV-Q16": {
+        "title": "Telephone Number",
+        "type": "string"
+      },
+      "WNV-Q17": {
+        "enum": [
+          "Varghese, Nithen",
+          "MAITI, KUNTAL",
+          "BARKER, ALYSSA",
+          "RANGANATH, MANOJ KASHYAP"
+        ],
+        "title": "Relationship Owner",
+        "type": "string"
+      },
+      "WNV-Q18": {
+        "enum": [
+          "Varghese, Nithen",
+          "MAITI, KUNTAL",
+          "BARKER, ALYSSA",
+          "RANGANATH, MANOJ KASHYAP"
+        ],
+        "title": "Functional Owner",
+        "type": "string"
+      },
+      "WNV-Q19": {
+        "title": "Engagement Name",
+        "type": "string"
+      },
+      "WNV-Q2": {
+        "enum": [
+          "Supplier",
+          "Alliance Partner",
+          "Joint Venture (JV)",
+          "Research Institutions and Collaborators (including HCP collaborators)",
+          "Distributor / Wholesaler",
+          "Agent/Broker",
+          "Government Official",
+          "Non-Government Organizations",
+          "Payer",
+          "Government Agency"
+        ],
+        "title": "Third Party Type",
+        "type": "string"
+      },
+      "WNV-Q20": {
+        "enum": [
+          "Varghese, Nithen",
+          "MAITI, KUNTAL",
+          "BARKER, ALYSSA",
+          "RANGANATH, MANOJ KASHYAP"
+        ],
+        "title": "Engagement Owner",
+        "type": "string"
+      },
+      "WNV-Q21": {
+        "title": "Products/Services/Capabilities Description",
+        "type": "string"
+      },
+      "WNV-Q22": {
+        "enum": ["Yes", "No"],
+        "title": "Will this engagement include development of an external-facing website or mobile app?",
+        "type": "string"
+      },
+      "WNV-Q23": {
+        "items": {
+          "enum": [
+            "105 - Lab Chemicals",
+            "10501 - Organic Compounds",
+            "10502 - BioChemicals & Diagnostics",
+            "10503 - Other Inorganic Compounds",
+            "10504 - Salts & Inorganics",
+            "10505 - Standards",
+            "10506 - Acids & Bases",
+            "10507 - Lab Solvents",
+            "10508 - Buffers & Solutions",
+            "10509 - Analytical & Chromatography Reagents",
+            "10510 - Organometallics",
+            "10511 - Water",
+            "110 - Clinical Trial Site Investigator Services",
+            "115 - Lab Consumables",
+            "123 - Lab Equipment",
+            "124 - Lab Equipment Services",
+            "130 - Research collaboration and Business development",
+            "132 - Biology Services",
+            "133 - Chemistry Services",
+            "135 - ADME Services",
+            "136 - LEM",
+            "205 - Software",
+            "20501 - System Software",
+            "20501001 - Operating Systems",
+            "20501002 - Databases",
+            "20501003 - Middleware",
+            "20502 - On-Premise or Lilly-hosted Application Software",
+            "20502001 - Information Security",
+            "20502002 - Contract Management",
+            "20502003 - Project Management",
+            "20502004 - Business Process Management",
+            "20502005 - Data Visualization and Analytics",
+            "20502006 - DevOps Solutions",
+            "20502009 - Collaboration and Conferencing",
+            "20502010 - Documentation Management",
+            "20502011 - Accounting and Tax",
+            "20502012 - Training",
+            "20502013 - Data Management",
+            "20502014 - Client Productivity",
+            "20502015 - Patient/HCP/HCO Engagement",
+            "20502016 - Scientific Research",
+            "20502017 - Medicines Development",
+            "20502018 - Manufacturing",
+            "20502019 - Quality",
+            "20502020 - Engineering",
+            "20502021 - Health and Safety",
+            "20502022 - Facilities Management",
+            "20502023 - Marketing and Sales",
+            "20502024 - Human Resources",
+            "20502025 - Legal",
+            "20502026 - Finance (Audit, Treasury, Investment)",
+            "20502027 - G&A",
+            "20502028 - IT Software for IT",
+            "20503 - Software as a Service (Vendor-hosted Application SW)",
+            "20503001 - Information Security",
+            "20503002 - Contract Management",
+            "20503003 - Project Management",
+            "20503004 - Business Process Management",
+            "20503005 - Data Visualization and Analytics",
+            "20503006 - DevOps Solutions",
+            "20503007 - Platform as a Service",
+            "20503008 - Infrastructure as a Service",
+            "20503009 - Collaboration and Conferencing",
+            "20503010 - Documentation Management",
+            "20503011 - Accounting and Tax",
+            "20503012 - Training",
+            "20503013 - Data Management",
+            "20503014 - Client Productivity",
+            "20503015 - Patient/HCP/HCO Engagement",
+            "20503016 - Scientific Research",
+            "20503017 - Medicines Development",
+            "20503018 - Manufacturing",
+            "20503019 - Quality",
+            "20503020 - Engineering",
+            "20503021 - Health and Safety",
+            "20503022 - Facilities Management",
+            "20503023 - Marketing and Sales",
+            "20503024 - Human Resources",
+            "20503025 - Legal",
+            "20503026 - Finance (Audit, Treasury, Investment)",
+            "20503027 - G&A",
+            "20503028 - IT Software for IT",
+            "240 - IT Services",
+            "24001 - Managed Conference rooms",
+            "24002 - Managed Print Services",
+            "24003 - Managed Applications / COE",
+            "24004 - Managed Infrastructure Services",
+            "24004001 - Data Center Services",
+            "24004002 - Service Desk",
+            "24004003 - End User Computing Services",
+            "24004004 - Managed Network Services",
+            "24004005 - Database Services",
+            "24004006 - Project Mgmt Services",
+            "24004007 - Information Security Services",
+            "24004008 - Colocation Services",
+            "24005 - Systems Integration and Consulting",
+            "24005001 - Strategy & Design Services",
+            "24005002 - Systems Development",
+            "24006 - Business Equipment Rental (including per page charges)"
+          ],
+          "type": "string"
+        },
+        "title": "Commodity code(s)",
+        "type": "array",
+        "uniqueItems": true
+      },
+      "WNV-Q24": {
+        "title": "Anticipated Engagement Expiration",
+        "type": "string"
+      },
+      "WNV-Q25": {
+        "items": {
+          "enum": [
+            "China",
+            "Italy Hub",
+            "Japan",
+            "LATAM",
+            "NAPAC",
+            "SAMETA",
+            "Spain Hub",
+            "UK Hub",
+            "North America",
+            "Canada",
+            "United States of America and Provinces",
+            "France Hub",
+            "Algeria",
+            "Belgium",
+            "France",
+            "Luxembourg",
+            "Netherlands",
+            "Germany Hub",
+            "Austria",
+            "Germany",
+            "Liechtenstein",
+            "Switzerland"
+          ],
+          "type": "string"
+        },
+        "title": "Engagement services country location(s). Select all that apply.",
+        "type": "array",
+        "uniqueItems": true
+      },
+      "WNV-Q26": {
+        "title": "Engagement Locations",
+        "type": "string"
+      },
+      "WNV-Q27": {
+        "title": "Job Title",
+        "type": "string"
+      },
+      "WNV-Q28": {
+        "title": "First Name",
+        "type": "string"
+      },
+      "WNV-Q29": {
+        "title": "Last Name",
+        "type": "string"
+      },
+      "WNV-Q3": {
+        "title": "Address Line 1",
+        "type": "string"
+      },
+      "WNV-Q30": {
+        "title": "Email",
+        "type": "string"
+      },
+      "WNV-Q31": {
+        "title": "Telephone Number",
+        "type": "string"
+      },
+      "WNV-Q4": {
+        "title": "Address Line 2",
+        "type": "string"
+      },
+      "WNV-Q5": {
+        "title": "Address Line 3",
+        "type": "string"
+      },
+      "WNV-Q6": {
+        "enum": [
+          "Australia",
+          "Canada",
+          "Denmark",
+          "Grenada",
+          "Hong Kong",
+          "Others"
+        ],
+        "title": "Country",
+        "type": "string"
+      },
+      "WNV-Q7": {
+        "title": "City",
+        "type": "string"
+      },
+      "WNV-Q8": {
+        "enum": [
+          "Australian Capital Territory, Australia",
+          "New South Wales, Australia",
+          "Northern Territory, Australia",
+          "Queensland, Australia",
+          "South Australia, Australia",
+          "Tasmania, Australia",
+          "Victoria, Australia",
+          "Western Australia, Australia",
+          "Alberta, Canada",
+          "British Columbia, Canada",
+          "Manitoba, Canada",
+          "New Brunswick, Canada",
+          "Newfoundland and Labrador, Canada",
+          "Northwest Territories, Canada",
+          "Nova Scotia, Canada",
+          "Nunavut, Canada",
+          "Ontario, Canada",
+          "Prince Edward Island, Canada",
+          "Quebec, Canada",
+          "Saskatchewan, Canada",
+          "Yukon, Canada",
+          "Hovedstaden, Denmark",
+          "Midtjylland, Denmark",
+          "Nordjylland, Denmark",
+          "Sjaelland, Denmark",
+          "Syddanmark, Denmark",
+          "Southern Grenadine Islands, Grenada",
+          "Saint Andrew (GD), Grenada",
+          "Saint David (GD), Grenada",
+          "Saint George (GD), Grenada",
+          "Saint John (GD), Grenada",
+          "Saint Mark (GD), Grenada",
+          "Saint Patrick (GD), Grenada",
+          "Central and Western District, Hong Kong",
+          "Eastern, Hong Kong",
+          "Islands District, Hong Kong",
+          "Kowloon City, Hong Kong",
+          "Kwai Tsing, Hong Kong",
+          "Kwun Tong, Hong Kong",
+          "North (HK), Hong Kong",
+          "Sai Kung District, Hong Kong",
+          "Sha Tin, Hong Kong",
+          "Sham Shui Po, Hong Kong",
+          "Southern, Hong Kong",
+          "Tai Po District, Hong Kong",
+          "Tsuen Wan District, Hong Kong",
+          "Tuen Mun, Hong Kong",
+          "Wan Chai, Hong Kong",
+          "Wong Tai Sin, Hong Kong",
+          "Yau Tsim Mong, Hong Kong",
+          "Yuen Long District, Hong Kong",
+          "Others"
+        ],
+        "title": "State / Region / Province",
+        "type": "string"
+      },
+      "WNV-Q9": {
+        "title": "Postal Code",
+        "type": "string"
+      }
+    },
+    "required": [
+      "WNV-Q1",
+      "WNV-Q2",
+      "WNV-Q3",
+      "WNV-Q6",
+      "WNV-Q7",
+      "WNV-Q8",
+      "WNV-Q9",
+      "WNV-Q13",
+      "WNV-Q14",
+      "WNV-Q15",
+      "WNV-Q16",
+      "WNV-Q19",
+      "WNV-Q21",
+      "WNV-Q22",
+      "WNV-Q23",
+      "WNV-Q24",
+      "WNV-Q25",
+      "WNV-Q28",
+      "WNV-Q29",
+      "WNV-Q30",
+      "WNV-Q31"
+    ],
+    "type": "object"
+  },
+  "tabSchema": [
+    {
+      "fields": [
+        "WNV-Q1",
+        "WNV-Q2",
+        "WNV-Q3",
+        "WNV-Q4",
+        "WNV-Q5",
+        "WNV-Q6",
+        "WNV-Q7",
+        "WNV-Q8",
+        "WNV-Q9",
+        "WNV-Q10",
+        "WNV-Q11"
+      ],
+      "id": 1,
+      "title": "Third Party Information"
+    },
+    {
+      "fields": [
+        "WNV-Q12",
+        "WNV-Q13",
+        "WNV-Q14",
+        "WNV-Q15",
+        "WNV-Q16",
+        "WNV-Q17",
+        "WNV-Q18"
+      ],
+      "id": 2,
+      "title": "Primary Contact Information"
+    },
+    {
+      "fields": [
+        "WNV-Q19",
+        "WNV-Q20",
+        "WNV-Q21",
+        "WNV-Q22",
+        "WNV-Q32",
+        "WNV-Q23",
+        "WNV-Q24",
+        "WNV-Q25",
+        "WNV-Q26"
+      ],
+      "id": 3,
+      "title": "Engagement Information"
+    },
+    {
+      "fields": ["WNV-Q27", "WNV-Q28", "WNV-Q29", "WNV-Q30", "WNV-Q31"],
+      "id": 4,
+      "title": "Engagement Contact Information"
+    }
+  ],
+  "uiSchema": {
+    "WNV-Q1": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q10": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q11": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q12": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q13": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q14": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q15": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q16": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q17": {
+      "ui:options": { "label": false },
+      "ui:widget": "customSelect"
+    },
+    "WNV-Q18": {
+      "ui:options": { "label": false },
+      "ui:widget": "customSelect"
+    },
+    "WNV-Q19": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q2": {
+      "ui:options": { "label": false },
+      "ui:widget": "customSelect"
+    },
+    "WNV-Q20": {
+      "ui:options": { "label": false },
+      "ui:widget": "customSelect"
+    },
+    "WNV-Q21": {
+      "ui:options": { "label": false },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:widget": "customTextArea"
+    },
+    "WNV-Q22": {
+      "ui:options": { "label": false },
+      "ui:widget": "customRadio"
+    },
+    "WNV-Q23": {
+      "ui:options": { "label": false },
+      "ui:widget": "customMultiSelect"
+    },
+    "WNV-Q24": {
+      "ui:options": { "label": false },
+      "ui:widget": "customDate"
+    },
+    "WNV-Q25": {
+      "ui:options": { "label": false },
+      "ui:widget": "customMultiSelect"
+    },
+    "WNV-Q26": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q27": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q28": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q29": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q3": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q30": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q31": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q32": {
+      "ui:options": { "label": false },
+      "ui:widget": "customRadio"
+    },
+    "WNV-Q4": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q5": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q6": {
+      "ui:options": { "label": false },
+      "ui:widget": "customSelect"
+    },
+    "WNV-Q7": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "WNV-Q8": {
+      "ui:options": { "label": false },
+      "ui:widget": "customSelect"
+    },
+    "WNV-Q9": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "ui:order": [
+      "WNV-Q1",
+      "WNV-Q2",
+      "WNV-Q3",
+      "WNV-Q4",
+      "WNV-Q5",
+      "WNV-Q6",
+      "WNV-Q7",
+      "WNV-Q8",
+      "WNV-Q9",
+      "WNV-Q10",
+      "WNV-Q11",
+      "WNV-Q12",
+      "WNV-Q13",
+      "WNV-Q14",
+      "WNV-Q15",
+      "WNV-Q16",
+      "WNV-Q17",
+      "WNV-Q18",
+      "WNV-Q19",
+      "WNV-Q20",
+      "WNV-Q21",
+      "WNV-Q22",
+      "WNV-Q32",
+      "WNV-Q23",
+      "WNV-Q24",
+      "WNV-Q25",
+      "WNV-Q26",
+      "WNV-Q27",
+      "WNV-Q28",
+      "WNV-Q29",
+      "WNV-Q30",
+      "WNV-Q31"
+    ]
+  }
+}

@@ -1,0 +1,140 @@
+@use './shared/styles/index' as *;
+
+html,
+body,
+#root {
+  height: 100%;
+  font-size: $font-size-base;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-white-full; // fallback background
+}
+
+.lds-header-main {
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.App-content {
+  flex-grow: 1;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.lds-header-wrapper {
+  width: 100%;
+}
+
+.Lds-header {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+
+  > * {
+    display: flex;
+    align-items: center;
+  }
+
+  // Push the logo to the left edge
+  > a:first-child,
+  > div:first-child {
+    margin-right: auto;
+  }
+
+  .header-nav-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.5rem;
+    margin-left: auto !important;
+    padding-right: 0.5rem;
+  }
+
+  .top-nav-list {
+    display: flex;
+    align-items: center !important;
+    gap: 1rem;
+  }
+}
+
+.multiselect-container .search-wrapper {
+  border: none !important;
+  padding: 0;
+  height: 2.75rem;
+  border-radius: 0.25rem !important;
+  border: 0.125rem solid $border-gray !important;
+  background: $bg-white !important;
+  padding: 0.5rem 1rem !important;
+  box-sizing: border-box !important;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  > .chip {
+    padding: 0.25rem;
+    margin-bottom: 0;
+    border-color: $border-gray !important;
+    font-size: $font-size-sm;
+  }
+  .custom-close {
+    > svg {
+      margin-left: 0.1rem;
+      margin-top: 0.063rem;
+    }
+  }
+}
+
+.multiselect-container .search-wrapper input::placeholder {
+  color: $dark-gray;
+  font-size: $font-size-base;
+  font-family: var(--Typography-font-family, 'IBM Plex Sans');
+  font-weight: 400;
+}
+
+/* Unified input/select/multiselect overrides (ensure real class matches) */
+.rjsf .lds-text-field,
+.rjsf input.lds-text-field,
+.rjsf .lds-select,
+.rjsf .lds-dropdown-button.lds-select {
+  border-radius: 0.25rem !important;
+  border: 0.125rem solid $border-gray !important;
+  background: $bg-white !important;
+  padding: 0.5rem 1rem !important;
+  box-sizing: border-box !important;
+  width: 100%;
+  margin: 0;
+  height: 2.75rem;
+}
+
+.lds-dropdown {
+  max-height: 15rem;
+  overflow-y: auto;
+}
+
+.optionListContainer {
+  position: absolute !important;
+  bottom: 100% !important;
+  top: auto !important;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+}
+
+.optionListContainer li.option:hover {
+  background-color: $bg-neutral-transparent !important;
+  color: #000 !important;
+}
+
+/* Hide the close button in all LDS tooltips */
+.lds-tooltip-description {
+  padding: 0.5rem !important;
+  .tooltip-close {
+    display: none !important;
+  }
+}
+
+.lds-button {
+  border-radius: 0.25rem !important;
+}

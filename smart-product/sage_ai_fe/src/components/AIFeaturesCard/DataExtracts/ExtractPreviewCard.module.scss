@@ -1,0 +1,100 @@
+@use '../../../shared/styles/index' as *;
+
+.extractCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow:
+    0 0.25rem 0.75rem rgba(52, 63, 65, 0.08),
+    0 1.125rem 1.75rem rgba(52, 63, 65, 0.12);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.extractCardTop {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #ffffff 71.618%,
+    #dfdfdf 100%
+  );
+  padding: 0.625rem 1.5rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  max-height: 9.375rem;
+  overflow-y: auto;
+}
+
+.extractExcerpt {
+  font-family: 'IBM Plex Sans';
+  font-size: $font-size-base;
+  font-style: italic;
+  line-height: 1.375rem;
+  color: #1b6cba;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.extractCardBottom {
+  background: #ffffff;
+  padding: 0.625rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.fileRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bookmarkIcon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.fileName {
+  font-family: 'IBM Plex Sans';
+  font-size: $font-size-base;
+  font-weight: 600;
+  line-height: 1.625rem;
+  color: #191919;
+  margin: 0;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+}
+
+.info {
+  margin: 0;
+  color: #606c73;
+  font-family: 'IBM Plex Sans';
+  font-size: $font-size-xxs;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.125rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.paragraph_icon {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.infoIcon {
+  width: 0.75rem;
+  height: 0.75rem;
+}

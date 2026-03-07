@@ -1,0 +1,483 @@
+﻿{
+  "schema": {
+    "dependencies": {
+      "W-Q4": {
+        "oneOf": [
+          {
+            "properties": {
+              "W-Q14": {
+                "enum": ["Yes", "No"],
+                "title": "Have you obtained approval via the Global Customer Office Risk Registry process?",
+                "type": "string"
+              },
+              "W-Q4": {
+                "enum": ["Yes"]
+              }
+            },
+            "required": ["W-Q14"]
+          },
+          {
+            "properties": {
+              "W-Q4": {
+                "enum": ["No"]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "properties": {
+      "W-Q1": {
+        "title": "Engagement Name",
+        "type": "string"
+      },
+      "W-Q10": {
+        "title": "First Name",
+        "type": "string"
+      },
+      "W-Q11": {
+        "title": "Last Name",
+        "type": "string"
+      },
+      "W-Q12": {
+        "title": "Email",
+        "type": "string"
+      },
+      "W-Q13": {
+        "title": "Telephone Number",
+        "type": "string"
+      },
+      "W-Q15": {
+        "enum": [
+          "Deloitte Consulting S.r.l. S.B.",
+          "Deloitte Transactions and Business Analytics LLP",
+          "Deloitte Actuaries & Consultants Limited",
+          "Deloitte AG",
+          "Deloitte & Touche LLP Audit and Assurance",
+          "Deloitte Processes & Operations, SA",
+          "Deloitte Abogados y Asesores Tributarios, S.L.U",
+          "Deloitte Tohmatsu SPI Co., Ltd",
+          "DELOITTE LEGAL S.L.P.",
+          "Deloitte Haskins & Sells Chartered Accountants LLP",
+          "Deloitte Tax Services Sdn Bhd",
+          "Deloitte Tohmatsu Tax Co.",
+          "Deloitte & Touche LLP",
+          "Deloitte & Touche",
+          "Deloitte Tohmatsu Consulting LLC",
+          "DELOITTE CONSULTING LLP",
+          "DELOITTE TAX",
+          "DELOITTE LLP",
+          "Deloitte Touche Tohmatsu India LLP",
+          "DELOITTE AND TOUCHE FINANCIAL",
+          "SHANGHAI DELOITTE TAX LTD",
+          "DELOITTE TOUCHE TOHMATSU CERTIFIED",
+          "DELOITTE CONSULTING SHANGHAI CO LTD",
+          "Deloitte Tax S.A.",
+          "Deloitte Haskins & Sells LLP",
+          "STS Deloitte srl",
+          "Deloitte Impuestos y Servicios Legales, S.C.",
+          "Deloitte",
+          "PwC Polska Kassel sp.k.",
+          "PWC PRODUCT SALES LLC",
+          "PricewaterhouseCoopers Belastingadviseurs_PWC",
+          "PwC US Group LLP",
+          "PwC US Tax LLP",
+          "PwC US Consulting LLP",
+          "PwC US Business Advisory LLP",
+          "PwC Strategy& (Germany) GmbH",
+          "PWC SERVICES SRL",
+          "PricewaterhouseCoopers AB PwC",
+          "PwC Svetovanje d.o.o.",
+          "PWC CORPORATE SERVICES LTD",
+          "PwC Professional Services S.R.L",
+          "PWC BAGIMSIZ DENETIM VE SERBEST MUHASEBECI MALI MUSAVIRLIK LTD STI",
+          "PwC Asesores Empresariales CÃ­a. Ltda",
+          "PWC INTERAMERICAS TAX SRL",
+          "PwC INTERNATIONAL ASSIGNMENT SERVICES (SHANGHAI) LTD",
+          "PwC holdings No 21 LLC",
+          "PricewaterhouseCoopers (PWC), LLP",
+          "PwC Tax Japan",
+          "PwC (Vietnam) Limited",
+          "PWC YEMINLI MALI MUSAVIRLIK",
+          "PWC SOCIETE AVOCATS",
+          "PWC CENTRAL ACCOUNTING",
+          "PWC MEXICO PRODUCT SALES S. DE R.L. DE C.V.",
+          "A.F Fergusons and Co Chartered Accountants (PWC)",
+          "PwC Consulting LLC",
+          "PricewaterhouseCoopers (PWC)",
+          "PwC Law LLP",
+          "Amazon Business EU SARL, Sucursal en Espana",
+          "Federacja Stowarzysze Amazonki",
+          "Amazon.com",
+          "Amazon Connect Technology Services (Beijing) Co., Ltd.",
+          "AMAZON WEB SERVICES INC",
+          "AMAZON WEB SERVICES INDIA PRIVATE LIMITED",
+          "Amazon Capital Services Inc",
+          "Amazon Business",
+          "Google Asia Pacific Pte. Ltd",
+          "GOOGLE INC",
+          "GOOGLE AUSTRALIA PTY LTD",
+          "Microsoft Limited",
+          "MICROSOFT CORPORATION",
+          "MICROSOFT FRANCE SAS",
+          "MICROSOFT CHINA CO LTD"
+        ],
+        "title": "Vendor Name",
+        "type": "string"
+      },
+      "W-Q1": {
+        "title": "Engagement Name",
+        "type": "string"
+      },
+      "W-Q10": {
+        "title": "First Name",
+        "type": "string"
+      },
+      "W-Q11": {
+        "title": "Last Name",
+        "type": "string"
+      },
+      "W-Q12": {
+        "title": "Email",
+        "type": "string"
+      },
+      "W-Q13": {
+        "title": "Telephone Number",
+        "type": "string"
+      },
+      "W-Q2": {
+        "enum": [
+          "Varghese, Nithen",
+          "MAITI, KUNTAL",
+          "BARKER, ALYSSA",
+          "RANGANATH, MANOJ KASHYAP"
+        ],
+        "title": "Engagement Owner",
+        "type": "string"
+      },
+      "W-Q3": {
+        "title": "Products/Services/Capabilities Description",
+        "type": "string"
+      },
+      "W-Q4": {
+        "enum": ["Yes", "No"],
+        "title": "Will this engagement include development of an external-facing website or mobile app?",
+        "type": "string"
+      },
+      "W-Q5": {
+        "items": {
+          "enum": [
+            "105 - Lab Chemicals",
+            "10501 - Organic Compounds",
+            "10502 - BioChemicals & Diagnostics",
+            "10503 - Other Inorganic Compounds",
+            "10504 - Salts & Inorganics",
+            "10505 - Standards",
+            "10506 - Acids & Bases",
+            "10507 - Lab Solvents",
+            "10508 - Buffers & Solutions",
+            "10509 - Analytical & Chromatography Reagents",
+            "10510 - Organometallics",
+            "10511 - Water",
+            "110 - Clinical Trial Site Investigator Services",
+            "115 - Lab Consumables",
+            "123 - Lab Equipment",
+            "124 - Lab Equipment Services",
+            "130 - Research collaboration and Business development",
+            "132 - Biology Services",
+            "133 - Chemistry Services,Toxicology Services",
+            "135 - ADME Services",
+            "136 - LEM (plus sub-codes like 10501 - Organic Compounds, etc.)",
+            "205 - Software",
+            "20501 - System Software",
+            "20501001 - Operating Systems",
+            "20501002 - Databases",
+            "20501003 - Middleware",
+            "20502 - On-Premise or Lilly-hosted Application Software",
+            "20502001 - Information Security",
+            "20502002 - Contract Management",
+            "20502003 - Project Management",
+            "20502004 - Business Process Management",
+            "20502005 - Data Visualization and Analytics",
+            "20502006 - DevOps Solutions",
+            "20502009 - Collaboration and Conferencing",
+            "20502010 - Documentation Management",
+            "20502011 - Accounting and Tax",
+            "20502012 - Training",
+            "20502013 - Data Management",
+            "20502014 - Client Productivity",
+            "20502015 - Patient/HCP/HCO Engagement",
+            "20502016 - Scientific Research",
+            "20502017 - Medicines Development",
+            "20502018 - Manufacturing",
+            "20502019 - Quality",
+            "20502020 - Engineering",
+            "20502021 - Health and Safety",
+            "20502022 - Facilities Management",
+            "20502023 - Marketing and Sales",
+            "20502024 - Human Resources",
+            "20502025 - Legal",
+            "20502026 - Finance (Audit, Treasury, Investment)",
+            "20502027 - G&A",
+            "20502028 - IT Software for IT",
+            "20503 - Software as a Service (Vendor-hosted Application SW)",
+            "20503001 - Information Security",
+            "20503002 - Contract Management",
+            "20503003 - Project Management",
+            "20503004 - Business Process Management",
+            "20503005 - Data Visualization and Analytics",
+            "20503006 - DevOps Solutions",
+            "20503007 - Platform as a Service",
+            "20503008 - Infrastructure as a Service",
+            "20503009 - Collaboration and Conferencing",
+            "20503010 - Documentation Management",
+            "20503011 - Accounting and Tax",
+            "20503012 - Training",
+            "20503013 - Data Management",
+            "20503014 - Client Productivity",
+            "20503015 - Patient/HCP/HCO Engagement",
+            "20503016 - Scientific Research",
+            "20503017 - Medicines Development",
+            "20503018 - Manufacturing",
+            "20503019 - Quality",
+            "20503020 - Engineering",
+            "20503021 - Health and Safety",
+            "20503022 - Facilities Management",
+            "20503023 - Marketing and Sales",
+            "20503024 - Human Resources",
+            "20503025 - Legal",
+            "20503026 - Finance (Audit, Treasury, Investment)",
+            "20503027 - G&A",
+            "20503028 - IT Software for IT",
+            "240 - IT Services",
+            "24001 - Managed Conference rooms",
+            "24002 - Managed Print Services",
+            "24003 - Managed Applications / COE",
+            "24004 - Managed Infrastructure Services",
+            "24004001 - Data Center Services",
+            "24004002 - Service Desk",
+            "24004003 - End User Computing Services",
+            "24004004 - Managed Network Services",
+            "24004005 - Database Services",
+            "24004006 - Project Mgmt Services",
+            "24004007 - Information Security Services",
+            "24004008 - Colocation Services",
+            "24005 - Systems Integration and Consulting",
+            "24005001 - Strategy & Design Services",
+            "24005002 - Systems Development",
+            "24006 - Business Equipment Rental (including per page charges)"
+          ],
+          "type": "string"
+        },
+        "title": "Commodity code(s)",
+        "type": "array",
+        "uniqueItems": true
+      },
+      "W-Q6": {
+        "title": "Anticipated Engagement Expiration",
+        "type": "string"
+      },
+      "W-Q7": {
+        "items": {
+          "enum": [
+            "China",
+            "Italy Hub",
+            "Japan",
+            "LATAM",
+            "NAPAC",
+            "SAMETA",
+            "Spain Hub",
+            "UK Hub",
+            "North America",
+            "Canada",
+            "United States of America and Provinces",
+            "France Hub",
+            "Algeria",
+            "Belgium",
+            "France",
+            "Luxembourg",
+            "Netherlands",
+            "Germany Hub",
+            "Austria",
+            "Germany",
+            "Liechtenstein",
+            "Switzerland"
+          ],
+          "type": "string"
+        },
+        "title": "Engagement services country location(s). Select all that apply.",
+        "type": "array",
+        "uniqueItems": true
+      },
+      "W-Q8": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Engagement Locations (Additional Location Address)",
+        "type": "array"
+      },
+      "W-Q9": {
+        "title": "Job Title",
+        "type": "string"
+      }
+    },
+    "required": [
+      "W-Q15",
+      "W-Q1",
+      "W-Q2",
+      "W-Q3",
+      "W-Q4",
+      "W-Q5",
+      "W-Q6",
+      "W-Q7",
+      "W-Q10",
+      "W-Q11",
+      "W-Q12",
+      "W-Q13"
+    ],
+    "type": "object"
+  },
+  "tabSchema": [
+    {
+      "fields": [
+        "W-Q15",
+        "W-Q1",
+        "W-Q2",
+        "W-Q3",
+        "W-Q4",
+        "W-Q14",
+        "W-Q5",
+        "W-Q6",
+        "W-Q7",
+        "W-Q8"
+      ],
+      "id": 1,
+      "title": "Engagement Information"
+    },
+    {
+      "fields": ["W-Q9", "W-Q10", "W-Q11", "W-Q12", "W-Q13"],
+      "id": 2,
+      "title": "Contact Information"
+    }
+  ],
+  "uiSchema": {
+    "W-Q1": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter the engagement name",
+      "ui:toolTip": "Provide a unique engagement name (max 100 characters) that does not include the third party’s legal entity name. Use a clear description to avoid confusion with similar engagements.",
+      "ui:widget": "customText"
+    },
+    "W-Q10": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Enter the first name",
+      "ui:widget": "customText"
+    },
+    "W-Q11": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Enter the last name",
+      "ui:widget": "customText"
+    },
+    "W-Q12": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Enter the email",
+      "ui:widget": "customText"
+    },
+    "W-Q13": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Enter the telephone number",
+      "ui:widget": "customText"
+    },
+    "W-Q14": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customRadio"
+    },
+    "W-Q15": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customSelect"
+    },
+    "W-Q2": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter the name(s) of any vendor(s) whose product will be used",
+      "ui:toolTip": "Enter the name of the Lilly employee responsible for managing and overseeing third-party performance, risk, and cost for the full duration of this engagement.",
+      "ui:widget": "customSelect"
+    },
+    "W-Q3": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:placeholder": "Enter the products/services/capabilities description",
+      "ui:toolTip": "Briefly describe what products, services, and capabilities will be provided. Include clear details, and spell out any acronyms the first time you use them.",
+      "ui:widget": "customTextArea"
+    },
+    "W-Q4": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:widget": "customRadio"
+    },
+    "W-Q5": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "List all commodity codes that apply to the products, services, or capabilities being purchased. These codes help determine the engagement’s risk profile.",
+      "ui:widget": "customMultiSelect"
+    },
+    "W-Q6": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Enter the expected engagement end date (MM/DD/YYYY).",
+      "ui:widget": "customDate"
+    },
+    "W-Q7": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter the name(s) of any vendor(s) whose product will be used",
+      "ui:toolTip": "For services/capabilities, select the delivery location; for products, select the sourcing location.",
+      "ui:widget": "customMultiSelect"
+    },
+    "W-Q8": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Enter the engagement locations",
+      "ui:widget": "customText"
+    },
+    "W-Q9": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Enter the job title",
+      "ui:widget": "customText"
+    },
+    "ui:order": [
+      "W-Q15",
+      "W-Q1",
+      "W-Q2",
+      "W-Q3",
+      "W-Q4",
+      "W-Q14",
+      "W-Q5",
+      "W-Q6",
+      "W-Q7",
+      "W-Q8",
+      "W-Q9",
+      "W-Q10",
+      "W-Q11",
+      "W-Q12",
+      "W-Q13"
+    ]
+  }
+}

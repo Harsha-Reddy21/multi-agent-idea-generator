@@ -1,0 +1,17 @@
+export enum ExtractionStatus {
+  Pending = 'pending',
+  Processing = 'processing',
+  Completed = 'completed',
+  Failed = 'failed',
+  NotFound = 'notFound',
+  Started = 'started',
+  ExtractingBlocks = 'extracting_blocks',
+  BlocksExtracted = 'blocks_extracted',
+  FetchingQuestions = 'fetching_questions',
+  QuestionsFetched = 'questions_fetched',
+  ProcessingQuestions = 'processing_questions',
+  QuestionProcessed = 'question_processed',
+  StoringResults = 'storing_results',
+  Success = 'success',
+  Warning = 'warning',
+}

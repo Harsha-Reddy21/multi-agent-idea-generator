@@ -1,0 +1,73 @@
+﻿{
+  "schema": {
+    "properties": {
+      "D-Q01": {
+        "title": "Provide a short title for your solution",
+        "type": "string"
+      },
+      "D-Q02": {
+        "title": "Who are the primary users of your solution and what problem are you trying to solve?",
+        "type": "string"
+      },
+      "D-Q03": {
+        "title": "How does your solution address the problem?",
+        "type": "string"
+      },
+      "D-Q04": {
+        "title": "What does success look like for your solution?",
+        "type": "string"
+      }
+    },
+    "required": ["D-Q01", "D-Q02", "D-Q03", "D-Q04"],
+    "type": "object"
+  },
+  "tabSchema": [
+    {
+      "fields": ["D-Q01", "D-Q02", "D-Q03", "D-Q04"],
+      "id": 1,
+      "title": "Initial Questions"
+    }
+  ],
+  "uiSchema": {
+    "D-Q01": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter a short title of the solution",
+      "ui:toolTip": "Enter a clear, concise name for your solution that quickly tells others what it does.",
+      "ui:widget": "customText"
+    },
+    "D-Q02": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Specify your primary stakeholders, and how are they impacted",
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:toolTip": "Describe your main users and clearly state the key challenge your solution addresses.",
+      "ui:widget": "customTextArea"
+    },
+    "D-Q03": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Specify how does your solution address these challenges/problems",
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:toolTip": "Briefly explain the main features or actions your solution uses to solve the user's problem",
+      "ui:widget": "customTextArea"
+    },
+    "D-Q04": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Mention the valuable outcomes you expect your solution to achieve",
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:toolTip": "Define the specific, measurable outcomes or benefits that show your solution works.",
+      "ui:widget": "customTextArea"
+    },
+    "ui:order": ["D-Q01", "D-Q02", "D-Q03", "D-Q04"]
+  }
+}

@@ -1,0 +1,139 @@
+@use '../../shared/styles/index' as *;
+
+// Override FormContainer styles for modal context
+:global {
+  // Force body scroll to always be available when modal is closed
+  body:not(:has(#enhanced-ai-registry-form-modal[open])) {
+    overflow: auto !important;
+    padding-right: 0 !important;
+  }
+
+  #enhanced-ai-registry-form-modal {
+
+    // Style the modal header with red separator line
+    [class*='modal'][class*='header'],
+    .lds-modal__header {
+      padding: 1.5rem !important;
+      border-bottom: 0.125rem solid #d31710 !important;
+      margin-bottom: 0 !important;
+      background: #ffffff !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      flex-shrink: 0 !important;
+      position: relative !important;
+      z-index: 10 !important;
+    }
+
+    [class*='modal'][class*='heading'],
+    .lds-modal__heading,
+    h2 {
+      font-size: $font-size-h5 !important;
+      font-weight: 600 !important;
+      color: #1a1a1a !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      line-height: 1.4 !important;
+      flex: 1 !important;
+    }
+
+    // Align close button with heading
+    [class*='modal'][class*='close'],
+    .lds-modal__close,
+    button[aria-label*='Close'],
+    button[aria-label*='close'] {
+      margin: 0 !important;
+      padding: 0 !important;
+      align-self: center !important;
+      z-index: 100 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    // Override for modal body to allow scrolling ONLY in body
+    [class*='modal'][class*='body'],
+    .lds-modal__body {
+      max-height: 70vh !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      padding: 1.5rem !important;
+      margin-top: 0 !important;
+      flex: 1 1 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+  }
+
+  // FormContainer overrides when inside modal
+  #enhanced-ai-registry-form-modal {
+    [class*='formContainer__outer'] {
+      display: block !important;
+      background: transparent !important;
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: visible !important;
+    }
+
+    [class*='formContainer__content'] {
+      max-width: 100% !important;
+      width: 100% !important;
+      padding: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      margin: 0 !important;
+      overflow: visible !important;
+    }
+
+    [class*='formContainer'] {
+      padding: 0 !important;
+      margin: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      overflow: visible !important;
+    }
+
+    .formContent {
+      margin-top: 0 !important;
+      padding: 0 !important;
+    }
+
+    .formHeader__breadcrumbs {
+      display: none !important;
+    }
+
+    .formHeader {
+      display: none !important;
+    }
+
+    .beginSubmissionImage {
+      display: none !important;
+    }
+
+    .formContent__field {
+      margin-bottom: 1.5rem !important;
+    }
+
+    // Keep the title row for labels
+    .formContent__fieldTitleRow {
+      margin-bottom: 0.5rem;
+
+      p {
+        font-size: $font-size-sm;
+        font-weight: 500;
+        margin: 0;
+        color: #1a1a1a;
+      }
+    }
+
+    .formFooter {
+      position: static;
+      margin-top: 1.5rem;
+      padding: 1.5rem 0 0;
+      border-top: 0.0625rem solid #e5e5e5;
+      background: transparent;
+    }
+  }
+}

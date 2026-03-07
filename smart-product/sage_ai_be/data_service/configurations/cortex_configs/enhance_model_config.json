@@ -1,0 +1,92 @@
+{
+  "name": "sage-ai-enhance-field-model",
+  "auth": {
+    "owners": [
+      "aaran.lawing@network.lilly.com",
+      "0eaef29e-3683-4440-98a5-1f6d6745b38f"
+    ],
+    "allow_access_to_reports_of": [],
+    "owners_group": [],
+    "access_groups": [],
+    "access_aws_roles": [],
+    "owners_aws_roles": [],
+    "users": [],
+    "private": false
+  },
+  "displayName": "Sage AI Field Enhancement Model",
+  "model_description": "Model config for enhancing pharmaceutical project documentation fields with improved grammar, clarity, and professionalism",
+  "security_config": "",
+  "chain": [
+    {
+      "chain_class": "model-only-chain",
+      "model_iteration": 1,
+      "order": 1,
+      "chain_params": {}
+    }
+  ],
+  "model_versions": [
+    {
+      "model_class": "lilly-openai",
+      "model_iteration": 22,
+      "priority": 1,
+      "reasoning_effort": "low",
+      "enable_thinking": false,
+      "advanced_param_overrides": {}
+    }
+  ],
+  "prompts": {
+    "no_context": "sage-ai-enhance-prompt-field",
+    "with_context": "default_with_context",
+    "with_json_context": "default_with_json_context",
+    "enhance_query": "default_enhance_query",
+    "sql": "default_sql",
+    "agent_tool": "default_agent_tool",
+    "cortex_agent_tool_prompt_v2": "default_cortex_agent_tool_prompt_v2",
+    "cortex_agent_action": "default_cortex_agent_action",
+    "cortex_agent_reasoning": "default_cortex_agent_reasoning",
+    "table_summary": "default_table_summary",
+    "summary": "default_summary",
+    "entity_extraction": "default_entity_extraction",
+    "rewrite": "default_rewrite",
+    "kg_triple_extraction": "default_kg_triple_extraction"
+  },
+  "toolkits": [],
+  "allowed_tools_list": [],
+  "data": [],
+  "max_response_token_size": 0,
+  "doc_relevence_threshold": 0.5,
+  "hybrid_search": {
+    "rrf_relevance_threshold": 0.012,
+    "rrf_constant": 60,
+    "hybrid_score_type": "average",
+    "lexical_average_weight": 50
+  },
+  "agent_tool_max_iterations": 0,
+  "app_binding": "",
+  "multimodal": false,
+  "labels": {},
+  "k_value": 20,
+  "token_buffer_size": 1.2,
+  "temperature": 0,
+  "top_p": 1,
+  "top_k": 50,
+  "stop": [
+    "string"
+  ],
+  "seed": 0,
+  "logprobs": false,
+  "rerank": {
+    "enabled": false,
+    "model": "cohere-rerank-3.5",
+    "top_n": 20
+  },
+  "document_limit_to_search": 0,
+  "session_config": {
+    "max_conversation_turns": 20,
+    "context_management_method": "moving_window",
+    "method_config": {
+      "additionalProp1": {}
+    }
+  },
+  "context_cache_key": ""
+}

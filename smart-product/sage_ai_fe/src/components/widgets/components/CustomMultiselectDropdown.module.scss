@@ -1,0 +1,15 @@
+@import '../../../shared/styles/colors';
+
+.multiselectDropdown {
+  :global {
+    .chip {
+      background-color: $bg-white !important;
+      color: $text-black !important;
+      border: 0.0625rem solid $text-black !important;
+    }
+  }
+}
+
+.multiselectCloseIcon {
+  cursor: pointer;
+}

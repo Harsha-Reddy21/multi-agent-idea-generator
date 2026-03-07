@@ -1,0 +1,713 @@
+﻿{
+  "schema": {
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "S-Q26": {
+              "const": "No"
+            }
+          },
+          "required": ["S-Q26"]
+        },
+        "then": {
+          "properties": {
+            "S-Q35": {
+              "enum": ["Yes", "No", "Not Sure"],
+              "title": "Does the system store, transact or otherwise interact with PHI?",
+              "type": "string"
+            },
+            "S-Q36": {
+              "enum": ["Yes", "No", "Not Sure"],
+              "title": "Does the system store, transact or otherwise interact with PI or SPI?",
+              "type": "string"
+            },
+            "S-Q37": {
+              "enum": [
+                "Clear text",
+                "Reversibly de-identified",
+                "Irreversibly de-identified",
+                "Pseudonymized"
+              ],
+              "title": "How is sensitive data protected?",
+              "type": "string"
+            },
+            "S-Q38": {
+              "enum": ["Yes", "No", "Not Sure"],
+              "title": "Does the platform transact payments or collect a user\u0027s financial information?",
+              "type": "string"
+            },
+            "S-Q39": {
+              "enum": ["Yes", "No", "Not Sure"],
+              "title": "Does the platform store, access, or transact Lilly financial data?",
+              "type": "string"
+            },
+            "S-Q40": {
+              "enum": ["Yes", "No", "Not Sure"],
+              "title": "Does the platform store, access, or transact Lilly intellectual property, non-public research, or other company confidential data?",
+              "type": "string"
+            }
+          },
+          "required": ["S-Q35", "S-Q36", "S-Q38", "S-Q39", "S-Q40"]
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "S-Q23": {
+              "const": "No"
+            }
+          },
+          "required": ["S-Q23"]
+        },
+        "then": {
+          "properties": {
+            "S-Q41": {
+              "title": "Explain why Lilly SSO is not used for all logins.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    ],
+    "dependencies": {
+      "S-Q16": {
+        "oneOf": [
+          {
+            "properties": {
+              "S-Q16": {
+                "enum": [
+                  "Lilly Cloud",
+                  "SaaS (Third party cloud or hosting environment)",
+                  "Hybrid",
+                  "Something Else"
+                ]
+              },
+              "S-Q17": {
+                "title": "List any cloud accounts this will use (development, testing, production environments)",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "properties": {
+              "S-Q16": {
+                "enum": [
+                  "External Data Center",
+                  "Lilly On-Prem",
+                  "Not hosted (standalone application runs on computer)"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "S-Q23": {
+        "oneOf": [
+          {
+            "properties": {
+              "S-Q23": {
+                "enum": ["Yes", "No"]
+              },
+              "S-Q24": {
+                "title": "Will this connect to or share data with other systems or services?",
+                "type": "string"
+              },
+              "S-Q25": {
+                "title": "What kind of data will transact through this platform? Provide some samples or examples wherever possible.",
+                "type": "string"
+              },
+              "S-Q26": {
+                "enum": ["Yes", "No"],
+                "title": "Will this project use ONLY test/synthetic/public data (no real customer, patient, or financial data)?",
+                "type": "string"
+              }
+            },
+            "required": ["S-Q25"]
+          }
+        ]
+      },
+      "S-Q26": {
+        "oneOf": [
+          {
+            "properties": {
+              "S-Q26": {
+                "enum": ["Yes", "No"]
+              },
+              "S-Q27": {
+                "title": "Are there any relevant regulatory or compliance considerations? For example, GDPR, PCI, SOX, HIPAA.",
+                "type": "string"
+              },
+              "S-Q28": {
+                "title": "Are privacy, legal, and other appropriate and relevant compliance functions aware of this project or use case? Have they explicitly approved? Did they express any concerns or requirements?",
+                "type": "string"
+              },
+              "S-Q29": {
+                "enum": ["Yes", "No"],
+                "title": "Are there any third parties involved that provide or leverage technology that processes Lilly data?",
+                "type": "string"
+              }
+            },
+            "required": ["S-Q29"]
+          }
+        ]
+      },
+      "S-Q29": {
+        "oneOf": [
+          {
+            "properties": {
+              "S-Q29": {
+                "enum": ["Yes"]
+              },
+              "S-Q30": {
+                "title": "List all third party names, products, and websites",
+                "type": "string"
+              },
+              "S-Q31": {
+                "title": "Explain the third party\u0027s role in the project",
+                "type": "string"
+              },
+              "S-Q32": {
+                "title": "Aravo Engagement ID",
+                "type": "string"
+              },
+              "S-Q33": {
+                "title": "Does the third party access Lilly\u0027s systems or services?",
+                "type": "string"
+              },
+              "S-Q34": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Add attachments",
+                "type": "array"
+              }
+            }
+          },
+          {
+            "properties": {
+              "S-Q29": {
+                "enum": ["No"]
+              },
+              "S-Q34": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Add attachments",
+                "type": "array"
+              }
+            }
+          }
+        ]
+      },
+      "S-Q9": {
+        "oneOf": [
+          {
+            "properties": {
+              "S-Q10": {
+                "enum": ["Yes", "No"],
+                "title": "Will this be completely separate from our production systems and networks?",
+                "type": "string"
+              },
+              "S-Q11": {
+                "enum": ["Yes", "No"],
+                "title": "The POC will run 90 days or less",
+                "type": "string"
+              },
+              "S-Q12": {
+                "enum": ["Yes", "No"],
+                "title": "Will fewer than 20 people total have access to test this solution?",
+                "type": "string"
+              },
+              "S-Q13": {
+                "enum": ["Yes", "No"],
+                "title": "Is the primary goal to evaluate/test specific functionality before making a larger investment decision?",
+                "type": "string"
+              },
+              "S-Q9": {
+                "enum": ["1 Proof of Value/Proof of Concept"]
+              }
+            },
+            "required": ["S-Q10", "S-Q11", "S-Q12", "S-Q13"]
+          },
+          {
+            "properties": {
+              "S-Q9": {
+                "enum": [
+                  "2 In RFP/Planning",
+                  "3 In Design",
+                  "4 In Development",
+                  "5 In QA",
+                  "6 In Production"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "properties": {
+      "S-Q1": {
+        "title": "Title",
+        "type": "string"
+      },
+      "S-Q14": {
+        "title": "ServiceNow CMDB CI ID",
+        "type": "string"
+      },
+      "S-Q15": {
+        "format": "date",
+        "title": "When is the production delivery date or other key milestone for this initiative, third party or system?",
+        "type": "string"
+      },
+      "S-Q16": {
+        "enum": [
+          "Lilly Cloud",
+          "SaaS (Third party cloud or hosting environment)",
+          "External Data Center",
+          "Lilly On-Prem",
+          "Hybrid",
+          "Something Else",
+          "Not hosted (standalone application runs on computer)"
+        ],
+        "title": "Where and how is this hosted?",
+        "type": "string"
+      },
+      "S-Q18": {
+        "title": "Provide details on the hosting infrastructure.",
+        "type": "string"
+      },
+      "S-Q19": {
+        "title": "Web application URL",
+        "type": "string"
+      },
+      "S-Q2": {
+        "enum": [
+          "Advanced Intelligence (formerly AADS)",
+          "Business Units",
+          "Cybersecurity",
+          "Digital Core",
+          "Digital Health",
+          "Digital Office",
+          "Global Services",
+          "International Business Units",
+          "Lilly Oncology (Loxo)",
+          "Lilly Research Labs",
+          "Manufacturing",
+          "Quality",
+          "Software Product Engineering"
+        ],
+        "title": "Business Domain",
+        "type": "string"
+      },
+      "S-Q20": {
+        "title": "Links to code repositories [All GitHub repositories, frontend,backend, etc.] and PLEASE INCLUDE BRANCH TO BE SCANNED (if there are no repositories that apply, mark \u0027N/A\u0027)",
+        "type": "string"
+      },
+      "S-Q21": {
+        "enum": [
+          "Lilly users only",
+          "Non-Lilly users",
+          "Both Lilly and Non-Lilly users"
+        ],
+        "title": "Who will use/access the application?",
+        "type": "string"
+      },
+      "S-Q22": {
+        "title": "Explain how users interact with the system, what kinds of roles will exist, and what kinds of data/transactions each user type will conduct in the application.",
+        "type": "string"
+      },
+      "S-Q23": {
+        "enum": ["Yes", "No"],
+        "title": "Does this use Lilly\u0027s standard login system (SSO/Entra ID) for ALL logins?",
+        "type": "string"
+      },
+      "S-Q3": {
+        "title": "Please provide a description of your initiative, third party or system. What is the business value?",
+        "type": "string"
+      },
+      "S-Q4": {
+        "title": "If this has been reviewed by SAE previously, please include SAE ticket number below (integer only). If you\u0027re not sure, leave blank.",
+        "type": "string"
+      },
+      "S-Q5": {
+        "enum": ["Yes", "No"],
+        "title": "Does this initiative, third party or system use AI?",
+        "type": "string"
+      },
+      "S-Q6": {
+        "title": "If so, was this previously entered into the AI Registry?",
+        "type": "string"
+      },
+      "S-Q7": {
+        "title": "Who (by Lilly email) must remain informed about the progress of this ticket, separated by comma?",
+        "type": "string"
+      },
+      "S-Q8": {
+        "title": "Who is the technical lead or IT contact responsible for this project?",
+        "type": "string"
+      },
+      "S-Q9": {
+        "enum": [
+          "1 Proof of Value/Proof of Concept",
+          "2 In RFP/Planning",
+          "3 In Design",
+          "4 In Development",
+          "5 In QA",
+          "6 In Production"
+        ],
+        "title": "In what development phase is the initiative, third party or system?",
+        "type": "string"
+      }
+    },
+    "required": [
+      "S-Q1",
+      "S-Q2",
+      "S-Q3",
+      "S-Q5",
+      "S-Q7",
+      "S-Q8",
+      "S-Q9",
+      "S-Q15",
+      "S-Q16",
+      "S-Q20",
+      "S-Q21"
+    ],
+    "type": "object"
+  },
+  "tabSchema": [
+    {
+      "fields": ["S-Q1", "S-Q2", "S-Q3", "S-Q4"],
+      "id": 1,
+      "title": "Initiative Information"
+    },
+    {
+      "fields": ["S-Q5", "S-Q6"],
+      "id": 2,
+      "title": "AI & Vendor Registry"
+    },
+    {
+      "fields": ["S-Q7", "S-Q8"],
+      "id": 3,
+      "title": "Contacts \u0026 Ownership"
+    },
+    {
+      "fields": ["S-Q9", "S-Q10", "S-Q11", "S-Q12", "S-Q13", "S-Q14", "S-Q15"],
+      "id": 4,
+      "title": "Solution Setup"
+    },
+    {
+      "fields": ["S-Q16", "S-Q17", "S-Q18", "S-Q19", "S-Q20", "S-Q21", "S-Q22"],
+      "id": 5,
+      "title": "Additional Information (Environments, Access \u0026 Integration)"
+    },
+    {
+      "fields": [
+        "S-Q23",
+        "S-Q41",
+        "S-Q24",
+        "S-Q25",
+        "S-Q26",
+        "S-Q27",
+        "S-Q28",
+        "S-Q29",
+        "S-Q30",
+        "S-Q31",
+        "S-Q32",
+        "S-Q33",
+        "S-Q34",
+        "S-Q35",
+        "S-Q36",
+        "S-Q37",
+        "S-Q38",
+        "S-Q39",
+        "S-Q40"
+      ],
+      "id": 6,
+      "title": "Additional Information (Data, Risk \u0026 Third-Party Compliance)"
+    }
+  ],
+  "uiSchema": {
+    "S-Q1": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter the title of the system",
+      "ui:widget": "customText"
+    },
+    "S-Q10": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "State if the system will operate independently from existing production environments.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q11": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Confirm if the proof-of-concept duration is planned for 90 days or less.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q12": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Indicate whether total user access for testing will be limited to under 20 people.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q13": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "State if the aim is to test certain features before a broader rollout or investment.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q14": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter the ServiceNow CMDB CI ID",
+      "ui:toolTip": "Provide the business application CI from ServiceNow for your AI Registry entry. If unsure, contact your local Configuration Manager for help. Read more <a href='https://collab.lilly.com/sites/itservicemanagementcommunity/SitePages/Configuration-Management-(CMDB).aspx' target='_blank'>here</a>.",
+      "ui:widget": "customText"
+    },
+    "S-Q15": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Enter the intended Proof of Concept start date.",
+      "ui:widget": "customDate"
+    },
+    "S-Q16": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Select the places these could be hosted",
+      "ui:toolTip": "Specify the hosting environment (e.g., cloud, on-premises) and technical setup.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q17": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter if there are any cloud accounts in use",
+      "ui:toolTip": "Examples: AWS accounts, Azure subscriptions. If unsure, ask your IT contact.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q18": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter details on hosting infrastructure",
+      "ui:toolTip": "List servers or systems (include hostnames/IPs if known), their locations, and who manages them.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q19": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter web application URL",
+      "ui:toolTip": "If users access this via a website or web interface, enter the web address.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q2": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Select the business Domain",
+      "ui:widget": "customSelect"
+    },
+    "S-Q20": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter links to code repositories",
+      "ui:toolTip": "Provide URLs of relevant code repositories and specify the branch to scan, or mark as N/A.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q21": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "List user groups or roles who will interact with this application.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q22": {
+      "ui:options": { "label": false },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:placeholder": "Explain how users interact with the system",
+      "ui:toolTip": "Describe user roles, actions, and data or transactions expected within the system.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q23": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "This refers to all users who log in using their regular (or admin/PPA) Lilly username and password, just like they do for email or other company systems.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q24": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "For example: accessing existing databases, integrating with other applications, or connecting to company directories.",
+      "ui:widget": "customText"
+    },
+    "S-Q25": {
+      "ui:options": { "label": false },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:toolTip": "List and exemplify the main data types flowing through this platform.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q26": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "State if only non-sensitive test, synthetic, or public data will be used.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q27": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter if there are any relevant regulatory or compliance considerations",
+      "ui:toolTip": "Note if regulations (GDPR, SOX, PCI, HIPAA, etc.) or compliance rules apply.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q28": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter answer",
+      "ui:toolTip": "Indicate if privacy, legal, and compliance have reviewed and/or approved this initiative.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q29": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "State if any outside vendors or tech partners process company data.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q3": {
+      "ui:options": { "label": false },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:placeholder": "Enter the description of your initiative vendor or system",
+      "ui:toolTip": "Describe the key problem-solving features that make the solution valuable.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q30": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "List all vendor names, products and websites",
+      "ui:toolTip": "Provide vendor/business names, the products used, and their respective websites.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q31": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Explain third party’s role in the project",
+      "ui:toolTip": "Describe the involvement or function of the third party in your initiative.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q32": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter aravo engagement ID",
+      "ui:toolTip": "If you’ve started vendor approval (WWTP) in Aravo, enter the ID number. Otherwise, leave blank.",
+      "ui:widget": "customText"
+    },
+    "S-Q33": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter if the third party accesses Lilly's systems or services",
+      "ui:toolTip": "For example, will users be given access to Lilly files through SharePoint or other platforms?",
+      "ui:widget": "customText"
+    },
+    "S-Q34": {
+      "ui:options": { "label": false },
+      "ui:widget": "customFile"
+    },
+    "S-Q35": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Protected Health Information (PHI) is a category of sensitive personal data that relates to an individual's health status, healthcare services, or payment for healthcare.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q36": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Personal Info (PI) identifies individuals, e.g., name or email. Sensitive PI (SPI) includes health or financial data and needs extra protection.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q37": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Clear text = readable as-is | \"De-identified = personal details removed\" | \"Pseudonymized = real names replaced with codes\"",
+      "ui:widget": "customSelect"
+    },
+    "S-Q38": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "State if payment transactions or collection of financial/credit details occur.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q39": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Confirm if company-related financial data will be accessed, stored, or processed.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q4": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter the SAE ticket number",
+      "ui:toolTip": "Include a prior SAW review ticket number, if applicable; if not, leave blank.",
+      "ui:widget": "customText"
+    },
+    "S-Q40": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "State if sensitive IP, research, or confidential data is handled by this platform.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q41": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Explain why Lilly SSO is not used for all logins",
+      "ui:toolTip": "Clarify the reason if standard company SSO is not used for authentication.",
+      "ui:widget": "customTextArea"
+    },
+    "S-Q5": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Confirm whether any AI or machine learning capabilities are part of the solution.",
+      "ui:widget": "customSelect"
+    },
+    "S-Q6": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "If you have initiated an AI Registry Review before, enter its Registry ID here.",
+      "ui:widget": "customText"
+    },
+    "S-Q7": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter who must remain informed about the progress ticket",
+      "ui:toolTip": "Include a small group responsible for the vendor, system, or initiative—always more than one person, such as the System Owner and Tech@Lilly Custodian from the ServiceNow CI record.",
+      "ui:widget": "customText"
+    },
+    "S-Q8": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Enter who is the technical lead or IT contact responsible for this project",
+      "ui:toolTip": "Enter the person responsible for technical setup, maintenance, or support. If unknown, provide your best guess or an IT contact.",
+      "ui:widget": "customText"
+    },
+    "S-Q9": {
+      "ui:options": { "label": false },
+      "ui:placeholder": "Select the development phase in this initiative",
+      "ui:toolTip": "Choose the current stage: concept, POC, pilot, production, or other development phase.",
+      "ui:widget": "customSelect"
+    },
+    "ui:order": [
+      "S-Q1",
+      "S-Q2",
+      "S-Q3",
+      "S-Q4",
+      "S-Q5",
+      "S-Q6",
+      "S-Q7",
+      "S-Q8",
+      "S-Q9",
+      "S-Q10",
+      "S-Q11",
+      "S-Q12",
+      "S-Q13",
+      "S-Q14",
+      "S-Q15",
+      "S-Q16",
+      "S-Q17",
+      "S-Q18",
+      "S-Q19",
+      "S-Q20",
+      "S-Q21",
+      "S-Q22",
+      "S-Q23",
+      "S-Q41",
+      "S-Q24",
+      "S-Q25",
+      "S-Q26",
+      "S-Q27",
+      "S-Q28",
+      "S-Q29",
+      "S-Q30",
+      "S-Q31",
+      "S-Q32",
+      "S-Q33",
+      "S-Q34",
+      "S-Q35",
+      "S-Q36",
+      "S-Q37",
+      "S-Q38",
+      "S-Q39",
+      "S-Q40"
+    ]
+  }
+}

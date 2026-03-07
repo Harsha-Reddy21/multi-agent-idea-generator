@@ -1,0 +1,98 @@
+// =============================================
+// SAGE AI - Typography Variables
+// Centralized font-size system for consistent typography
+// =============================================
+//
+// NOTE: All font sizes use REM units (1rem = 16px base)
+// Conversion: px ÷ 16 = rem
+// Example: 12px = 0.75rem, 14px = 0.875rem, 16px = 1rem
+// =============================================
+
+// --------------------------------------------
+// Display Sizes (Extra Large)
+// --------------------------------------------
+$font-size-display-xl: 3rem; // 48px - Page titles, hero headings
+$font-size-display-lg: 2.5rem; // 40px - Large section headings
+$font-size-display-md: 2.25rem; // 36px - Medium display text
+
+// --------------------------------------------
+// Heading Sizes
+// --------------------------------------------
+$font-size-h1: 3rem; // 48px - Main page headings
+$font-size-h2: 2.5rem; // 40px - Section headings
+$font-size-h3: 2rem; // 32px - Subsection headings
+$font-size-h4: 1.75rem; // 28px - Card/component headings
+$font-size-h5: 1.5rem; // 24px - Smaller headings
+$font-size-h6: 1.25rem; // 20px - Smallest headings
+
+// --------------------------------------------
+// Body Text Sizes
+// --------------------------------------------
+$font-size-xl: 1.25rem; // 20px - Large body text
+$font-size-lg: 1.125rem; // 18px - Large body text
+$font-size-base: 1rem; // 16px - Default body text
+$font-size-md: 0.9375rem; // 15px - Medium body text
+$font-size-sm: 0.875rem; // 14px - Small body text
+$font-size-xs: 0.8125rem; // 13px - Extra small text
+$font-size-xxs: 0.75rem; // 12px - Very small text
+
+// --------------------------------------------
+// Specialized Sizes
+// --------------------------------------------
+$font-size-tiny: 0.6875rem; // 11px - Labels, captions
+$font-size-caption: 0.75rem; // 12px - Captions, helper text
+$font-size-label: 0.875rem; // 14px - Form labels, tags
+$font-size-button: 0.875rem; // 14px - Button text
+$font-size-badge: 0.75rem; // 12px - Badges, pills
+$font-size-tooltip: 0.8125rem; // 13px - Tooltips
+
+// --------------------------------------------
+// Custom Application Sizes
+// --------------------------------------------
+$font-size-0-775: 0.775rem; // 12.4px - Custom size
+$font-size-0-8: 0.8rem; // 12.8px - Custom size
+$font-size-0-85: 0.85rem; // 13.6px - Custom size
+$font-size-0-9: 0.9rem; // 14.4px - Custom size
+
+// --------------------------------------------
+// Line Heights (Unitless)
+// --------------------------------------------
+$line-height-tight: 1.2;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.75;
+$line-height-loose: 2;
+
+// --------------------------------------------
+// Font Weights
+// --------------------------------------------
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+// --------------------------------------------
+// Font Styles
+// --------------------------------------------
+$font-style-normal: normal;
+$font-style-italic: italic;
+$font-style-oblique: oblique;
+
+// --------------------------------------------
+// Font Families
+// --------------------------------------------
+$font-family-primary:
+  'IBM Plex Sans',
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  'Roboto',
+  'Oxygen',
+  'Ubuntu',
+  'Cantarell',
+  'Fira Sans',
+  'Droid Sans',
+  'Helvetica Neue',
+  sans-serif;
+$font-family-monospace: 'Courier New', Courier, monospace;

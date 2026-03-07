@@ -1,0 +1,55 @@
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "sage-ai-rpa"
+version = "0.1.0"
+description = "RPA Service for Sage AI Form Automation"
+authors = ["Avinash <avinash.chakka@network.lilly.com>"]
+readme = "README.md"
+packages = []
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.14"
+sqlalchemy = "^2.0.44"
+asyncpg = "^0.30.0"
+rpaframework = "^31.1.0"
+python-dotenv = "^1.1.1"
+pydantic = "^2.12.2"
+pydantic-settings = "^2.11.0"
+loguru = "^0.7.3"
+pendulum = "^3.0.0"
+cryptography = "^44.0.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+pylint = "<4.0"
+pytest-cov = "^5.0.0"
+coverage = "^7.6.0"
+pytest-asyncio = "^0.23.0"
+black = "^25.11.0"
+
+[tool.black]
+line-length = 120
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+[tool.pylint.main]
+max-line-length = 120

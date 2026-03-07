@@ -1,0 +1,12 @@
+@use '../shared/styles/index' as *;
+
+// Global disabled input styles
+:global {
+  // Generic disabled input fallback
+  input:disabled,
+  input[readonly] {
+    color: $text-dark !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: $text-dark !important;
+  }
+}

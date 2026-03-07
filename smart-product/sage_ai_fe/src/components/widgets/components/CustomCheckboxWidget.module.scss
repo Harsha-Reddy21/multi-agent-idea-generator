@@ -1,0 +1,20 @@
+@use '../../../shared/styles/index' as *;
+
+.checkboxContainer {
+  display: flex;
+  width: auto;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// Override LDS Checkbox disabled styles
+:global {
+  .lds-checkbox:disabled + label,
+  .lds-checkbox[readonly] + label,
+  input[type='checkbox']:disabled + label,
+  input[type='checkbox'][readonly] + label {
+    color: $text-dark !important;
+    opacity: 0.9 !important;
+    cursor: not-allowed;
+  }
+}

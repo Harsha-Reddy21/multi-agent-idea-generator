@@ -1,0 +1,88 @@
+{
+  "schema": {
+    "dependencies": {
+      "BS-Q2": {
+        "oneOf": [
+          {
+            "properties": {
+              "BS-Q2": {
+                "enum": ["Yes"]
+              },
+              "BS-Q3": {
+                "enum": ["Yes", "No"],
+                "title": "Is the selected third-party product or service already approved for use within the organization?",
+                "type": "string"
+              }
+            },
+            "required": ["BS-Q3"]
+          },
+          {
+            "properties": {
+              "BS-Q2": {
+                "enum": ["No"]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "properties": {
+      "BS-Q1": {
+        "enum": ["Yes", "No"],
+        "title": "Will this system handle business-area-classified or highly sensitive data?",
+        "type": "string"
+      },
+      "BS-Q2": {
+        "enum": ["Yes", "No"],
+        "title": "Will this system use any third-party products or services?",
+        "type": "string"
+      },
+      "BS-Q5": {
+        "items": {
+          "type": "string"
+        },
+        "title": "",
+        "type": "array"
+      }
+    },
+    "required": ["BS-Q1", "BS-Q2"],
+    "type": "object"
+  },
+  "tabSchema": [
+    {
+      "fields": ["BS-Q1", "BS-Q2", "BS-Q3"],
+      "id": 1,
+      "title": "Intake Questionnaire​"
+    },
+    {
+      "fields": ["BS-Q5"],
+      "id": 2,
+      "title": "Upload Documents"
+    }
+  ],
+  "uiSchema": {
+    "BS-Q1": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Will this use sensitive or confidential business data?",
+      "ui:widget": "customRadio"
+    },
+    "BS-Q2": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Does this use any tools or services from outside companies?",
+      "ui:widget": "customRadio"
+    },
+    "BS-Q3": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Has this tool or service already been approved by your organization?",
+      "ui:widget": "customRadio"
+    },
+    "BS-Q5": {
+      "ui:options": {
+        "label": false,
+        "multiple": true
+      },
+      "ui:widget": "customFile"
+    },
+    "ui:order": ["BS-Q1", "BS-Q2", "BS-Q3", "BS-Q5"]
+  }
+}

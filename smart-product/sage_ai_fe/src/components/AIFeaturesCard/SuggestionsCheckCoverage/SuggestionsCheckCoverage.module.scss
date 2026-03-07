@@ -1,0 +1,188 @@
+@use '../../../shared/styles/index' as *;
+
+.tabContent {
+  margin-top: 1rem;
+  padding: 0 1.5rem;
+}
+
+.suggestions {
+  margin-bottom: 1.5rem;
+}
+
+.suggestionsTitle {
+  font-size: $font-size-sm;
+  color: #1e2a30;
+  line-height: unset;
+  margin: 0 0 1rem 0;
+}
+
+.suggestionItem {
+  margin-bottom: 1rem;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+
+  &:checked ~ .radioCustom {
+    border-color: #666666;
+
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+.radioCustom {
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 0.125rem solid #999999;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+  margin-top: 0.125rem;
+  transition: all 0.2s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: #666666;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+}
+
+.suggestionText {
+  margin: 0;
+  font-size: $font-size-base;
+  color: #191919;
+  flex: 1;
+}
+
+.rationaleText {
+  margin-top: 0.5rem;
+  font-size: $font-size-xs;
+  color: #666666;
+  line-height: 1.5;
+}
+
+.readMoreButton {
+  background: none !important;
+  border: none;
+  color: #d31710;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.25rem;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #a30f0a;
+    background: none !important;
+  }
+
+  &:focus {
+    outline: 0.125rem solid #d31710;
+    outline-offset: 0.125rem;
+    background: none !important;
+  }
+
+  &:active {
+    background: none !important;
+  }
+}
+
+.checkCoverage {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 0 0 0;
+  margin-bottom: 1rem;
+}
+
+.checkButton {
+  border: none;
+  border-radius: 0.25rem;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  &:not(:disabled) {
+    background: #d31710;
+    color: #ffffff !important;
+  }
+
+  &:disabled {
+    background: #cccccc;
+    color: #888888 !important;
+    cursor: not-allowed;
+  }
+}
+
+.buttonContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  :global(.lds-loading-spinner) {
+    width: 1rem !important;
+    height: 1rem !important;
+    display: inline-flex;
+
+    svg {
+      width: 1rem !important;
+      height: 1rem !important;
+    }
+  }
+}
+
+.checkText {
+  font-size: $font-size-sm;
+  color: #999999;
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+.statusIcon_cross {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.statusIcon_success {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.loadingContainer,
+.errorContainer {
+  padding: 2rem;
+  text-align: center;
+}
+
+.loadingText {
+  font-size: $font-size-sm;
+  color: #666666;
+}
+
+.errorText {
+  font-size: $font-size-sm;
+  color: #d31710;
+}

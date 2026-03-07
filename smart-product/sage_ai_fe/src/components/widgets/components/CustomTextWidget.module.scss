@@ -1,0 +1,37 @@
+@use '../../../shared/styles/index' as *;
+
+// Override LDS TextField disabled styles
+:global {
+  input.lds-text-field:disabled,
+  input.lds-text-field[readonly],
+  input[type='text']:disabled,
+  input[type='text'][readonly] {
+    color: $text-dark !important;
+    opacity: 1 !important;
+    background-color: $gray-100 !important;
+    -webkit-text-fill-color: $text-dark !important;
+    cursor: not-allowed;
+  }
+
+  // Red border on error state
+  input.lds-text-field:invalid,
+  input:has(~ .lds-validation-message),
+  .lds-validation-message ~ input,
+  input[aria-invalid='true'],
+  .lds-validation-message--error ~ input,
+  .lds-validation-message--error + input {
+    border-color: $brand-red-error !important;
+  }
+
+  // Remove the extra focus border/outline when in error state
+  input.lds-text-field:focus:invalid,
+  input:focus:has(~ .lds-validation-message),
+  .lds-validation-message ~ input:focus,
+  input[aria-invalid='true']:focus,
+  .lds-validation-message--error ~ input:focus,
+  .lds-validation-message--error + input:focus {
+    border-color: $brand-red-error !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}

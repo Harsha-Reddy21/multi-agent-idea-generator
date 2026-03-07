@@ -1,0 +1,413 @@
+@import '../../shared/styles/colors';
+@import '../../shared/styles/typography';
+
+.refineAnswerScreen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.overview {
+  margin-bottom: 0.5rem;
+}
+
+.overviewContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.overviewLabel {
+  font-size: $font-size-base;
+  color: $neutral-slate-light;
+  margin: 0;
+}
+
+.aiSummarySection {
+  display: flex;
+  flex-direction: column;
+}
+
+.enhanceAnswerButton {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  padding: 0.375rem 0.625rem;
+  background: $bg-white-full;
+  border-radius: 1rem;
+  border: 0.0625rem solid $brand-red;
+  font-size: $font-size-xxs;
+  font-weight: $font-weight-medium;
+  line-height: 1.25rem;
+  transition: all 0.2s ease;
+  color: $brand-red;
+
+  &:hover:not(:disabled) {
+    background: $bg-white-full;
+    border-color: $brand-red;
+    opacity: 0.9;
+  }
+
+  &:focus:not(:disabled) {
+    background: $bg-white-full;
+    border-color: $brand-red;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.pillIcon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.pillText {
+  font-size: $font-size-sm;
+  color: $brand-red;
+  font-weight: $font-weight-semibold;
+}
+
+.aiSummaryContentContainer {
+  border: 0.0625rem solid $gray-border;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  background-color: $bg-white-full;
+}
+
+.aiSummaryContent {
+  white-space: pre-wrap;
+  font-size: $font-size-sm;
+  line-height: 1.5;
+  color: $neutral-slate-light;
+  min-height: 5rem;
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.suggestionsSection {
+  margin-top: 1rem;
+}
+
+.radioOptionTextfield {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  border: 0.0625rem solid $gray-border;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.2rem;
+}
+
+.radioInput {
+  margin-top: 0;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.textInput {
+  flex: 1;
+  min-width: 0;
+  border: none !important;
+  outline: none !important;
+  resize: none;
+  overflow: auto;
+  margin: 0 !important;
+  background-color: $bg-white-full;
+  transition: background-color 0.2s ease;
+
+  &:focus {
+    border: none !important;
+    outline: none !important;
+  }
+}
+
+// Add lighter gray background when radio is checked
+.radioOption:has(input[type='radio']:checked) .textInput,
+.radioOptionTextfield:has(input[type='radio']:checked) .textInput {
+  background-color: $gray-300 !important;
+}
+
+.radioOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.15rem;
+  border: 0.0625rem solid $gray-border;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.radioOptionTextfield {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  border: 0.0625rem solid $gray-border;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.2rem;
+}
+
+.optionContainer {
+  margin: 0.05rem 0;
+}
+
+// Enhanced Answer preview box (matches Figma rounded container with radio + text)
+.enhancedAnswerPreview {
+  border: 0.0625rem solid $gray-border;
+  border-radius: 0.375rem; // ~6px
+  padding: 0.75rem 1.25rem; // 12px left, 20px right approximation
+  background-color: $bg-white-full;
+}
+
+// Centers the loading spinner within its parent area where the preview normally appears
+.spinnerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  // keep similar space footprint as preview for visual stability
+  min-height: 64px;
+  padding: 12px;
+}
+
+.previewInner {
+  display: flex;
+  gap: 0.75rem; // ~12px
+  align-items: flex-start;
+}
+
+.enhanceErrorMessageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 64px;
+  padding: 16px;
+  border-radius: 6px;
+  border: 1px solid #BBC7CF;
+}
+
+.enhanceErrorMessage {
+  color: #505050;
+  font-family: 'IBM Plex Sans';
+  font-weight: 600;
+  margin: 16px 0 0 0;
+}
+
+.enhanceErrorSubMessage {
+  font-family: 'IBM Plex Sans';
+  color: #716C6C;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+// Error/unavailable message styling
+.errorMessageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 64px;
+  padding: 12px;
+}
+
+.errorMessage {
+  text-align: center;
+  // Default red; fall back to hex if design token isn't available
+  color: var(--lds-color-danger, #d32f2f);
+}
+
+.previewText {
+  font-size: $font-size-md; // Body/Large
+  line-height: 1.5;
+  // Use available palette var; dark variant not defined in shared colors
+  color: $neutral-slate-light;
+}
+
+// Header row above the preview
+.previewHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 1rem 0 0.75rem 0;
+}
+
+.previewHeaderLeft {
+  display: flex;
+  align-items: center;
+
+  p {
+    margin: 0;
+  }
+}
+
+.previewTitle {
+  font-size: $font-size-sm;
+  color: $neutral-slate-light;
+  margin: 0;
+}
+
+.regenerateButton {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0;
+  font-size: $font-size-sm;
+  color: $brand-red;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: opacity 0.2s ease;
+  font-weight: $font-weight-semibold;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  span {
+    font-size: $font-size-xs;
+    color: #d31710;
+    text-decoration: underline;
+  }
+}
+
+.regenerateIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.improvementSection {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: $gray-100;
+  border-radius: 0.5rem;
+}
+
+.improvementTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $text-gray;
+  margin: 0 0 0.75rem 0;
+}
+
+.improvementList {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  li {
+    font-size: $font-size-sm;
+    color: $text-gray;
+    line-height: 1.5;
+  }
+}
+
+.previewHeaderRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+.rationaleTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $brand-red;
+  margin: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.pipeSeparator {
+  color: $neutral-slate-light;
+  margin: 0 0.5rem;
+  font-size: $font-size-sm;
+}
+
+.previewHelperText {
+  font-size: $font-size-xs;
+  color: $neutral-slate-light;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.rationaleContainer {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.rationaleHeader {
+  font-size: $font-size-sm;
+  color: $neutral-slate-light;
+  margin: 0 0 0.25rem 0;
+  font-weight: 600;
+}
+
+.rationaleList {
+  list-style: disc inside;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: $neutral-slate-light;
+  font-size: $font-size-sm;
+}
+
+.subTitles {
+  color: #465158;
+  font-family: 'IBM Plex Sans';
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.rationaleButton {
+  // max-width: 1rem;
+  // max-height: 1rem;
+  padding: 0.25rem;
+  background-color: white;
+  color: #465158;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.improvementList {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  li {
+    font-size: $font-size-xs;
+    color: $text-gray;
+    line-height: $line-height-normal;
+  }
+}
+
+.improvementSection {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: $gray-100;
+  border-radius: 0.25rem;
+}
+
+.improvementTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $text-gray;
+  margin: 0 0 0.75rem 0;
+}

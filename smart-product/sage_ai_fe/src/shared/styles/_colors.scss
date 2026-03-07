@@ -1,0 +1,154 @@
+// =============================================
+// SAGE AI - Color Variables
+// Centralized color system for consistent theming
+// =============================================
+//
+// NOTE: All measurements use REM units (1rem = 16px base)
+// Conversion: px ÷ 16 = rem
+// Example: 16px = 1rem, 8px = 0.5rem, 24px = 1.5rem
+// =============================================
+
+// --------------------------------------------
+// Primary Brand Colors
+// --------------------------------------------
+$primary-color: black;
+$brand-red: #d31710;
+$brand-red-dark: #b80000;
+$brand-red-darker: #9f180f;
+$brand-red-error: #e7000b;
+$brand-red-alternate: #d00;
+$brand-red-light: #e1242a;
+$brand-required-red: #ff0000;
+
+// --------------------------------------------
+// Secondary Brand Colors
+// --------------------------------------------
+$brand-blue: #0044d4;
+$brand-blue-info: #0078d4;
+$brand-blue-light: #90cef4;
+$brand-blue-link: #1b6cba;
+
+$brand-green: #009f6f;
+$brand-green-dark: #005c3f;
+$brand-green-success: #007a55;
+$brand-green-light: #beeed3;
+$brand-green-bg: #f0f9f2;
+
+$brand-orange: #d7700a;
+$brand-orange-light: #fceee7;
+
+// --------------------------------------------
+// Neutral Colors - Grays
+// --------------------------------------------
+$dark-gray: #191919;
+$medium-gray: #1e2a30;
+$light-gray: #465158;
+$slate-gray: #34373f;
+
+$neutral-gray: #454343;
+$neutral-stone-gray: #716c6c;
+$neutral-text-gray: #6a6a6a;
+$neutral-text-medium: #6a7282;
+$neutral-slate: #4a5565;
+$neutral-slate-light: #364153;
+$neutral-border-gray: #c5c5c5;
+$neutral-border-light: #b4b4b4;
+$neutral-border-lighter: #e0e0e0;
+$neutral-heather-gray: #505050;
+
+$gray-100: #f5f5f5;
+$gray-200: #f4f4f4;
+$gray-300: #f0f0f0;
+$gray-400: #e8e8e8;
+$gray-500: #e7e7e7;
+$gray-600: #e2e2e2;
+$gray-700: #dbd6d6ff;
+$gray-800: #d1d5dc;
+$gray-900: #d0d0d0;
+$gray-border: #d9d9d9;
+
+// --------------------------------------------
+// Dark Text Colors
+// --------------------------------------------
+$text-black: #000;
+$text-black-alt: #0a0a0a;
+$text-dark: #1a1a1a;
+$text-dark-slate: #0f172a;
+$text-charcoal: #111827;
+$text-gray-dark: #242424;
+$text-gray: #333;
+$text-gray-medium: #444;
+$text-gray-light: #666;
+$text-gray-lighter: #999;
+$text-muted: #a1a4ac;
+
+// --------------------------------------------
+// Border Colors
+// --------------------------------------------
+$border-gray: #bbc7cf;
+$border-light: #dddee4;
+$border-lighter: #e2e5eb;
+$border-lightest: #f3f3f3;
+
+// --------------------------------------------
+// Background Colors
+// --------------------------------------------
+$bg-white: #fff;
+$bg-white-full: #ffffff;
+$bg-light-blue: #f3f7fa;
+$bg-light-pink: #fff6f5;
+$bg-pink-gradient: #ffeae9;
+$bg-red-light: #ffeded;
+$bg-red-lighter: #f8d7da;
+
+// --------------------------------------------
+// Shadow Colors (with transparency)
+// --------------------------------------------
+$shadow-black-light: rgba(0, 0, 0, 0.08);
+$shadow-black-medium: rgba(0, 0, 0, 0.1);
+$shadow-black-dark: rgba(0, 0, 0, 0.5);
+$shadow-overlay: rgba(3, 2, 19, 0.2);
+$shadow-text: rgba(10, 10, 10, 0.6);
+$shadow-card: rgba(16, 24, 40, 0.06);
+$shadow-card-medium: rgba(16, 24, 40, 0.08);
+$shadow-card-dark: rgba(16, 24, 40, 0.12);
+$shadow-base: rgba(52, 55, 63, 0.05);
+$shadow-button: rgba(212, 0, 0, 0.4);
+$shadow-button-alt: rgba(211, 23, 16, 0.4);
+$shadow-red-inset: rgba(211, 23, 16, 0.2);
+$shadow-red-focus: rgba(231, 0, 11, 0.3);
+$shadow-blur-overlay: rgba(0, 0, 0, 0.05);
+
+// --------------------------------------------
+// Gradient Colors
+// --------------------------------------------
+$gradient-blue-start: rgba(131, 203, 255, 0.1);
+$gradient-pink-end: rgba(246, 51, 154, 0.1);
+$gradient-red-start: #a11913;
+$gradient-red-end: #f456a6;
+
+// --------------------------------------------
+// Transparent Backgrounds
+// --------------------------------------------
+$bg-overlay-light: rgba(0, 0, 0, 0.5);
+$bg-neutral-transparent: #00000014;
+
+// --------------------------------------------
+// Extraction Status Banner Colors
+// --------------------------------------------
+$banner-pink-bg: #fef2f2;
+$banner-pink-border: #e7f4ea;
+$banner-green-bg: #f0fdf7;
+$banner-green-border: #bbf7d0;
+$progress-bar-bg: #e7f4ea;
+$progress-bar-green-start: #019568;
+$progress-bar-green-end: #007a55;
+$progress-bar-shimmer: rgba(255, 255, 255, 0.4);
+$banner-message-text: #333;
+$banner-button-focus: #0066cc;
+$banner-bg: #f9eeed;
+
+// --------------------------------------------
+// Legacy Support (maintained for backward compatibility)
+// --------------------------------------------
+$primary-red: $brand-red; // Alias for $brand-red

@@ -1,0 +1,167 @@
+{
+  "form_urls": {
+    "ai-registry-form": "https://forms.office.com/pages/responsepage.aspx?id=gZqlGKjuMEyUitiCTNwlgIy72NwPUQtGl2TZCBjVXsdUOVYxTTgwWlJFRDFHWk1WSEZSVTI2NTZLRy4u&route=shorturl",
+    "dlo-form": "https://forms.office.com/pages/responsepage.aspx?id=gZqlGKjuMEyUitiCTNwlgIy72NwPUQtGl2TZCBjVXsdUOU0zVFlYV0w2VVpXS1pVMUJJTFVMV0hJNy4u&route=shorturl",
+    "wwtp-form": "https://forms.office.com/r/9YpjDMceuN",
+    "security-arch-form": "https://forms.office.com/r/ffBufNtY68",
+    "ai-registry-update-form": "https://forms.office.com/r/tAeAs3y6yT",
+    "wwtp-new-vendor-form": "https://forms.office.com/r/XvkJyW0KCL"
+  },
+  "browser_options": {
+    "headless": true,
+    "window_size": {
+      "width": 1920,
+      "height": 1080
+    }
+  },
+  "wait_times": {
+    "page_load": 8,
+    "after_scroll": 2,
+    "between_fields": 2,
+    "after_submit": 3,
+    "dropdown_open": 2,
+    "new_questions_appear": 8,
+    "form_expansion": 10
+  },
+  "selectors": {
+    "question_container": "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]",
+    "first_question": "xpath://div[@data-automation-id='questionItem']",
+    "text_fields": [
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//textarea",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@data-automation-id='textInput']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@type='text']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@aria-label]",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input"
+    ],
+    "dropdown": {
+      "triggers": [
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//div[@role='button'][@aria-haspopup='listbox']",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//div[@role='combobox']",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//button[@role='combobox']",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//button[contains(@aria-label, 'Please select')]",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//div[contains(@aria-label, 'Select your answer')]",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//button[contains(@class, 'select')]",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//div[contains(@class, 'dropdown')]",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@role='combobox']"
+      ],
+      "options": [
+        "xpath://div[@role='option']//span[normalize-space(text())='{value}']",
+        "xpath://div[@role='option' and normalize-space(.)='{value}']",
+        "xpath://div[@role='option' and contains(., '{value}')]",
+        "xpath://div[@role='option']//span[contains(text(), '{value}')]",
+        "xpath://div[@role='option' and contains(., '{value_short}')]",
+        "xpath://button[@role='option' and contains(., '{value}')]",
+        "xpath://li[@role='option' and contains(., '{value}')]",
+        "xpath://div[@data-automation-id='selectOption' and contains(., '{value}')]"
+      ]
+    },
+    "radio": [
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//label[contains(., '{value}')]//input[@type='radio']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@type='radio'][@value='{value}']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//label[contains(., '{value}')]",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//span[contains(text(), '{value}')]/ancestor::label//input[@type='radio']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@data-automation-id='radio'][@data-automation-value='{value}']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//span[@data-automation-value='{value}']"
+    ],
+    "checkbox": [
+      "xpath://input[@data-automation-id='checkbox'][@data-automation-value='{value}']",
+      "xpath://input[@role='checkbox'][@type='checkbox'][@value='{value}']",
+      "xpath://input[@data-automation-id='checkbox' and contains(@data-automation-value, '{value_partial}')]",
+      "xpath://span[contains(text(), '{value_partial}')]//ancestor::label//input[@type='checkbox']",
+      "xpath://label[contains(., '{value_partial}')]//input[@type='checkbox']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@role='checkbox' and @type='checkbox' and @value='{value}']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//span[@data-automation-id='choiceText' and normalize-space(text())='{value}']/ancestor::label//input[@type='checkbox']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//div[@data-automation-id='choiceItem']//span[normalize-space(.)='{value}']/preceding::input[@type='checkbox'][1]",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//label[.//span[normalize-space(text())='{value}']]//input[@type='checkbox']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//div[@role='group']//label[contains(., '{value_partial}')]//input[@type='checkbox']"
+    ],
+    "datepicker": {
+      "calendar_button": "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//button[contains(@aria-label, 'calendar') or contains(@aria-label, 'date')]",
+      "inputs": [
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@role='combobox' and (contains(@placeholder, 'M/d/yyyy') or contains(@placeholder, 'date'))]",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@type='date']",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[contains(@aria-label, 'date') or contains(@aria-label, 'Date') or contains(@placeholder, 'M/d/yyyy') or contains(@placeholder, 'MM/DD/YYYY')]",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//div[@data-automation-id='dateContainer']//input[@type='text']",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@data-automation-id='textInput']",
+        "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//input[@type='text']"
+      ]
+    },
+    "submit": [
+      "xpath://button[@data-automation-id='submitButton']",
+      "xpath://input[@type='submit']",
+      "xpath://button[contains(text(), 'Submit')]",
+      "xpath://button[@type='submit']",
+      "xpath://input[@value='Submit']",
+      "xpath://button[@aria-label='Submit']"
+    ],
+    "validation_errors": [
+      "xpath://div[@role='alert']",
+      "xpath://div[contains(@class, 'error')]//span",
+      "xpath://div[@data-automation-id='validationError']",
+      "xpath://span[contains(@class, 'error-message')]",
+      "xpath://*[contains(text(), 'required') or contains(text(), 'Required')]",
+      "xpath://*[contains(text(), 'This question requires an answer')]"
+    ],
+    "question_title": [
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//div[@data-automation-id='questionTitle']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//span[@data-automation-id='questionTitle']",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//*[contains(@class, 'question-title')]",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//div[contains(@class, 'css-')]//span",
+      "xpath:(//div[@data-automation-id='questionItem'])[{question_num}]//span[contains(@class, 'css-')]"
+    ]
+  },
+  "hardcoded_questions": {
+    "ai-registry-form": {
+      "Is the AI system output reviewed by a human before it is used?": {
+        "questionId": "AI-Q18",
+        "question": "Is the AI system output reviewed by a human before it is used?",
+        "type": "radio",
+        "reason": "HTML uses em-dash (–) not regular hyphen (-)"
+      },
+      "Is any of this data used for training the model?": {
+        "questionId": "AI-Q19",
+        "question": "Is any of this data used for training the model?",
+        "type": "radio",
+        "reason": "Database shows 'select' but form uses 'radio'"
+      },
+      "AI platforms/technology": {
+        "questionId": "AI-Q20",
+        "question": "Which AI platforms/tech will be used?",
+        "type": "MultiSelect",
+        "reason": "Multiple checkbox selection for AI platforms"
+      },
+      "Who is the audience of this system? (Select all that apply)": {
+        "questionId": "AI-Q11",
+        "question": "Who is the audience of this system? (Select all that apply)",
+        "type": "select",
+        "reason": "Multi-select question for system audience"
+      },
+      "By submitting this form, you acknowledge your responsibility to provide accurate and comprehensive information to facilitate a thorough assessment.": {
+        "questionId": "AI-Q38",
+        "question": "Acknowledgement of Responsibility",
+        "answer": ["Yes"],
+        "type": "radio",
+        "reason": "Acknowledgment question - always select 'Yes'"
+      },
+      "Does the AI/ML use continuous learning?": {
+        "questionId": "AI-Q37",
+        "question": "Does the AI/ML use continuous learning?",
+        "type": "radio",
+        "reason": "Add explicit mapping for continuous learning question"
+      },
+      "Acknowledgement of Responsibility": {
+        "questionId": "AI-Q38",
+        "question": "By submitting this form, you acknowledge your responsibility to provide accurate and comprehensive information to facilitate a thorough assessment.",
+        "answer": ["True"],
+        "type": "radio",
+        "reason": "Handles common misspelling 'continous'"
+      }
+    }
+  },
+  "email_notifications": {
+    "enabled": true,
+    "recipient_email": "", 
+    "send_on_discrepancies_only": true,
+    "include_summary": true
+  }
+}

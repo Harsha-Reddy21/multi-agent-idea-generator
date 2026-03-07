@@ -1,0 +1,208 @@
+@use '../../shared/styles/index' as *;
+
+.ticketNumber {
+  color: var(--Neutral-Grey, $neutral-gray);
+  text-align: right;
+  font-family: var(--Typography-font-family, 'IBM Plex Sans');
+  font-size: var(--Typography-Body-Small-font-size, 0.9rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Typography-Body-Small-line-height, 1.125rem);
+}
+.submissionIdLabel {
+  color: var(--Neutral-Stone-Grey, $neutral-stone-gray);
+  font-size: var(--Typography-Body-Small-font-size, 0.9rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Typography-Body-Small-line-height, 1.125rem);
+  margin-right: 0.25rem;
+}
+.submissionCard {
+  display: flex;
+  flex-direction: column;
+  border: 0.0625rem solid $border-light;
+  border-radius: 0.5rem;
+  padding: 1.25rem 1.5rem 1rem;
+  background: $bg-white;
+  gap: 1.25rem;
+}
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 0.75rem;
+}
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  cursor: pointer;
+}
+.title {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+.subText {
+  font-size: $font-size-sm;
+  color: $neutral-slate;
+  font-weight: 400;
+  margin: 0;
+  cursor: pointer;
+}
+.badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.statusBadge {
+  font-size: $font-size-sm;
+  font-weight: 500;
+  gap: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+// In Progress (draft or requires-information)
+.status-inprogress {
+  border-radius: 0.5rem;
+  border: 0.046rem solid var(--Color-Hues-Orange-050, $brand-orange);
+  background: var(--Color-Hues-Orange-010, $brand-orange-light);
+  display: flex;
+  padding: 0.375rem 0.75rem;
+  align-items: flex-start;
+  gap: 0.46069rem;
+  color: $brand-orange;
+  font-weight: 400;
+}
+
+// Completed
+.status-completed {
+  display: flex;
+  padding: 0.375rem 0.75rem;
+  align-items: flex-start;
+  gap: 0.46069rem;
+  border-radius: 0.5rem;
+  border: 0.046rem solid var(--Color-Hues-Green-070, $brand-green-dark);
+  background: var(--Color-Hues-Green-020, $brand-green-light);
+  color: $brand-green-dark;
+}
+
+.status-required {
+  background: $brand-red;
+  color: $bg-white;
+}
+.status-draft {
+  background: $gray-200;
+  color: $text-gray;
+}
+.status-submitted {
+  background: $brand-blue;
+  color: $bg-white;
+}
+.submissionSuccessContainer {
+  display: flex;
+  height: 6.375rem;
+  padding: 0 1.0625rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.75rem;
+  align-self: stretch;
+  border-radius: 0.625rem;
+  border: 0.0625rem solid $brand-red;
+  background: linear-gradient(135deg, $bg-white 0%, $bg-pink-gradient 100%);
+}
+.submissionSuccessHeader {
+  display: flex;
+  height: 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.iconTitleContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.submissionSuccessIconTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.submissionSuccessTitle {
+  font-size: $font-size-sm;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  margin: 0;
+}
+.icons {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+.iconGroup {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+.similarSubmissions {
+  color: $shadow-text;
+  font-size: $font-size-xxs;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1rem;
+  margin: 0;
+}
+.actionsRow {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  align-items: center;
+}
+
+.predictionDetails {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  p {
+    margin: 0;
+    font-weight: 400;
+  }
+}
+.predictionPercentage {
+  font-size: $font-size-h5;
+}
+.predictionText {
+  color: $shadow-text;
+  font-size: $font-size-sm;
+  font-style: normal;
+}
+.viewDetailsBtnCls {
+  font-size: $font-size-sm !important;
+  height: 2.5rem !important;
+}
+
+.updateFormBtn {
+  color: $brand-red !important;
+  text-decoration: underline !important;
+  padding: 0 !important;
+  background: transparent !important;
+  font-size: $font-size-sm !important;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $brand-red !important;
+    text-decoration: underline !important;
+    background: $bg-pink-gradient !important;
+  }
+}

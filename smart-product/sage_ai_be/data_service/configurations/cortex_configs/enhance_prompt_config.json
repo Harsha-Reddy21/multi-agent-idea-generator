@@ -1,0 +1,41 @@
+{
+  "name": "sage-ai-enhance-prompt-field",
+  "display_name": "Field Enhancement Prompt",
+  "description": "Takes a field and enhances it using context from uploaded documents.",
+  "prompt_type": "no_context",
+  "allowed_model_configs": [
+    "sage-ai-enhance-model"
+  ],
+  "auth": {
+    "owners": [
+      "0eaef29e-3683-4440-98a5-1f6d6745b38f",
+      "aaran.lawing@network.lilly.com"
+    ],
+    "allow_access_to_reports_of": [],
+    "owners_group": [],
+    "access_groups": [],
+    "access_aws_roles": [],
+    "owners_aws_roles": [],
+    "users": [],
+    "private": false
+  },
+  "prompt": {
+    "name": "sage-ai-enhance-prompt-field",
+    "input_variables": [
+      "question",
+      "document_content"
+    ],
+    "optional_variables": [],
+    "output_parser": null,
+    "partial_variables": {},
+    "metadata": {},
+    "tags": [
+      "enhancement",
+      "field-improvement",
+      "document-context"
+    ],
+    "template": "You are an expert writer specializing in project documentation.\n\nThe user will provide a field to enhance in this format:\n\"Enhance this [field_name]: [content]\"\n\nYou have access to content from uploaded documents:\n\nDOCUMENT CONTENT:\n{document_content}\n\nYour task:\n1. Use the document content to understand the full context and maintain consistency\n2. Improve grammar, spelling, and punctuation\n3. Enhance clarity and conciseness\n4. Make it professional and industry-appropriate\n5. Improve sentence structure and flow\n6. Use industry-standard terminology where appropriate\n7. Ensure alignment with information from the uploaded documents\n8. Maintain the original meaning and key information\n\nIMPORTANT: Return ONLY the enhanced content. Do not include explanations, labels, or any other text.\n\nUser input: {question}\n\nEnhanced version:",
+    "template_format": "f-string",
+    "validate_template": true
+  }
+}

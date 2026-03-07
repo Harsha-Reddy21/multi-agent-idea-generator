@@ -1,0 +1,195 @@
+@use '../../shared/styles/index' as *;
+
+.extractionBanner {
+  position: fixed;
+  top: 0; // Align with navbar items
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 0.75rem 1rem;
+  max-width: 56.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideDown 0.3s ease-out;
+  width: fit-content;
+  overflow: hidden;
+  background-color: $bg-red-lighter;
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-1.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+  .completed {
+    background: $banner-bg;
+  }
+}
+
+.spinnerWrapper {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  // Force smaller spinner size
+  :global(.lds-loading-spinner),
+  :global(.lds-loading-spinner) svg {
+    width: 1rem !important;
+    height: 1rem !important;
+    max-width: 1rem !important;
+    max-height: 1rem !important;
+  }
+}
+
+.bannerMessage {
+  flex: 1;
+  font-size: $font-size-sm;
+  color: $banner-message-text;
+  text-align: left;
+  line-height: 1.5;
+  text-align: center;
+  /* white-space: nowrap; Removed for accessibility: allow text wrapping */
+  padding-left: 0;
+  strong {
+    font-weight: 600;
+  }
+}
+
+// Add left padding only when there's a spinner (processing state)
+.extractionBanner:has(.spinnerWrapper) .bannerMessage {
+  text-align: center;
+}
+
+.hideButton {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: $brand-red-alternate;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:focus {
+    outline: 0.125rem solid $banner-button-focus;
+    outline-offset: 0.125rem;
+    border-radius: 0.25rem;
+  }
+}
+
+.retryButton {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: $brand-red-alternate;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:focus {
+    outline: 0.125rem solid $banner-button-focus;
+    outline-offset: 0.125rem;
+    border-radius: 0.25rem;
+  }
+}
+
+.bannerPink {
+  background-color: $banner-pink-bg;
+  border: 0.0625rem solid $banner-pink-border;
+}
+
+// Green background for completed
+.bannerGreen {
+  background-color: $banner-green-bg;
+  border: 0.0625rem solid $banner-green-border;
+}
+
+// Progress bar container
+.progressBarContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0.25rem;
+  background-color: $progress-bar-bg;
+  overflow: hidden;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+// Progress bar indicator
+.progressBarIndicator {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    $progress-bar-green-start 0%,
+    $progress-bar-green-end 50%,
+    $progress-bar-green-end 100%
+  );
+  transition: width 0.5s ease-out;
+  border-radius: 0 0 0.5rem 0.5rem;
+  position: relative;
+  overflow: hidden;
+
+  // Add shimmer effect for processing state
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      $progress-bar-shimmer 50%,
+      transparent 100%
+    );
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+}
+
+// Green progress bar for completed state
+.bannerGreen .progressBarIndicator {
+  background: linear-gradient(
+    90deg,
+    $progress-bar-green-start 0%,
+    $progress-bar-green-end 100%
+  );
+
+  &::after {
+    display: none; // Remove shimmer on completion
+  }
+}

@@ -1,0 +1,31 @@
+@use '../../../shared/styles/index' as *;
+
+// Security Architecture form: ensure the calendar popup appears above the input wrapper
+// Apply the hashed class alongside the LDS wrapper class for correct anchoring
+:global(.lds-datepicker-wrapper).securityLdsCalendarPopup {
+  position: relative !important;
+}
+
+// Target the LDS DatePicker popup only when the wrapper has our hashed class
+.securityLdsCalendarPopup :global(.lds-calendar-popup.open) {
+  position: absolute !important;
+  bottom: calc(100% + 0.25rem) !important;
+  top: auto !important;
+  left: 0 !important;
+  z-index: 1000 !important;
+  width: auto;
+}
+
+// Override LDS Datepicker disabled styles
+:global {
+  .lds-date-picker input:disabled,
+  .lds-date-picker input[readonly],
+  input[type='date']:disabled,
+  input[type='date'][readonly] {
+    color: $text-dark !important;
+    opacity: 1 !important;
+    background-color: $gray-100 !important;
+    -webkit-text-fill-color: $text-dark !important;
+    cursor: not-allowed;
+  }
+}

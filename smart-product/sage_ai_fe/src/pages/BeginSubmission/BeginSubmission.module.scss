@@ -1,0 +1,57 @@
+@use '../../../src/shared/styles/index' as *;
+@use '../../../src/shared/styles/colors' as colors;
+
+.beginSubmissionPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  align-items: stretch;
+  justify-content: space-between;
+  flex: 1 1 auto;
+}
+
+.loadingContainer {
+  padding: 1rem;
+}
+
+.loadingMessage {
+  text-align: center;
+  padding: 2rem;
+}
+
+.uploadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.uploadingModal {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+
+  h3 {
+    margin: 1rem 0;
+    font-size: $font-size-xl;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    color: colors.$dark-gray;
+  }
+}
+
+.infoIcon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}

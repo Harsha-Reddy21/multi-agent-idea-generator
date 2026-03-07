@@ -1,0 +1,20 @@
+@use '../../../shared/styles/index' as *;
+
+.textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: $font-size-base;
+  border-radius: 0.25rem;
+  border: 0.0625rem solid $gray-800;
+  font-family: inherit;
+
+  &:disabled,
+  &[readonly] {
+    color: $text-dark !important;
+    opacity: 1 !important;
+    background-color: $gray-100 !important;
+    -webkit-text-fill-color: $text-dark !important;
+    cursor: not-allowed;
+    resize: none;
+  }
+}

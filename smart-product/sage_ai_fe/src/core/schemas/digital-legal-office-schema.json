@@ -1,0 +1,165 @@
+﻿{
+  "schema": {
+    "properties": {
+      "L-Q1": {
+        "enum": ["Yes", "No"],
+        "title": "Report a Privacy Concern?",
+        "type": "string"
+      },
+      "L-Q2": {
+        "enum": [
+          "Privacy Portal Assessments (DIM / TPI / MacroPIA)",
+          "Email received from OneTrust (dataprivacy)",
+          "Privacy Advocate Program",
+          "Audio/Visual Recording",
+          "DSAR (Data Subject Access Request)",
+          "EU Privacy Document Requests (DPIA)",
+          "Build your Privacy Notice / Consent",
+          "Clinical Trial ICF Negotiation Process",
+          "General Privacy Resource / Process Question",
+          "Privacy Review of Your Work (Consultation)"
+        ],
+        "title": "How can we help?",
+        "type": "string"
+      },
+      "L-Q3": {
+        "enum": [
+          "Create (New)",
+          "Update (Change/Reassign)",
+          "Retire (Archive)",
+          "Delete (Error)",
+          "Assist (Question)",
+          "MacroPIA (Processing Activities)"
+        ],
+        "title": "What can we help with?",
+        "type": "string"
+      },
+      "L-Q4": {
+        "enum": ["Yes", "No"],
+        "title": "Privacy Review needed:",
+        "type": "string"
+      },
+      "L-Q5": {
+        "title": "DETAILS for Review:",
+        "type": "string"
+      },
+      "L-Q6": {
+        "enum": [
+          "Chief Financial Officer: Lucas Montarce",
+          "General Counsel and Secretary: Anat Hakim",
+          "Chief People Officer (HR): Eric D Dozier",
+          "Chief Information \u0026 Digital Officer: Diogo Rau",
+          "Chief Scientific Officer (R\u0026D / Clinical Development): Daniel Skovronsky",
+          "Lilly Immunology Business Unit (Sales \u0026 Marketing): Daniel Skovronsky",
+          "Lilly Neuroscience Business Unit (Sales \u0026 Marketing): Anne E White",
+          "Lilly Cardiometabolic Health Business Unit (Sales \u0026 Marketing): Kenneth L Custer",
+          "Lilly Oncology Business Unit: Jacob Van Naarden",
+          "LoopByLilly: Jacob Van Naarden",
+          "Global Chief Customer Officer: Jennifer L Oleksiw",
+          "Lilly USA: Ilya Yuffa",
+          "Lilly International (EU / Affiliates): Patrik Jonsson",
+          "Manufacturing Operations: Edgardo Hernandez",
+          "Global Quality: Melissa Seymour",
+          "Corporate Business Development Transactions (M\u0026A): Daniel Skovronsky"
+        ],
+        "title": "Which Business Area / Corporate Leadership is ultimately accountable for this issue / project / initiative / concern?",
+        "type": "string"
+      },
+      "L-Q7": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Please upload",
+        "type": "array"
+      },
+      "L-Q8": {
+        "enum": [
+          "Previously Used (already familiar with Form)",
+          "Directed here from information on LillyNow",
+          "Directed here by Privacy Help Desk Chatbot",
+          "Directed here by Privacy@Lilly Inbox",
+          "Directed here from OneTrust (dataprivacy@lilly) email",
+          "Directed here by a specific Digital Legal Office Team Member",
+          "Directed here by your local business area Privacy Advocate",
+          "Directed here by local E\u0026C",
+          "Direct here by a Lilly Colleague (word of mouth)",
+          "Directed here by a Lilly Resource / Procedure"
+        ],
+        "title": "What led you to this Privacy Form today?",
+        "type": "string"
+      }
+    },
+    "required": ["L-Q1", "L-Q2", "L-Q3", "L-Q4", "L-Q5", "L-Q6", "L-Q8"],
+    "type": "object"
+  },
+  "tabSchema": [
+    {
+      "fields": ["L-Q1", "L-Q2", "L-Q3", "L-Q4", "L-Q8"],
+      "id": 1,
+      "title": "Section 1: Legal Request Identification"
+    },
+    {
+      "fields": ["L-Q5", "L-Q6", "L-Q7"],
+      "id": 2,
+      "title": "Section 2: Initiative Identification"
+    }
+  ],
+  "uiSchema": {
+    "L-Q1": {
+      "ui:options": { "label": false, "selectedValue": "No" },
+      "ui:toolTip": "Report any incidents involving Personal Information (PI)—like loss, unauthorized access, or privacy complaints—immediately. If not, select 'No' to continue.",
+      "ui:widget": "customRadio"
+    },
+    "L-Q2": {
+      "ui:options": {
+        "label": false,
+        "selectedValue": "Privacy Review of Your Work (Consultation)"
+      },
+      "ui:toolTip": "Describe your need or the support you’re seeking from the team.",
+      "ui:widget": "customRadio"
+    },
+    "L-Q3": {
+      "ui:options": { "label": false, "selectedValue": "Create (New)" },
+      "ui:toolTip": "Specify the main issue or question you would like assistance with.",
+      "ui:widget": "customRadio"
+    },
+    "L-Q4": {
+      "ui:options": { "label": false, "selectedValue": "Yes" },
+      "ui:toolTip": "Before starting any work involving Personal Information (PI), complete a privacy review as required. Identify all PI types involved using the definitions and classification chart found on LillyNow. Check if your objective can be met without PI or with anonymized data. Review the Respecting Privacy Procedure to ensure you understand privacy principles, plan for privacy controls through the full lifecycle, and document how PI will be collected, used, stored, transferred, and retained. Use the Privacy by Design and PI Lifecycle Data Flow job aids for guidance.",
+      "ui:widget": "customRadio"
+    },
+    "L-Q5": {
+      "ui:options": { "label": false },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:placeholder": "Enter the engagement name",
+      "ui:toolTip": "Describe your project, PI use, locations, timing, processes, purpose, and third-party involvement to help us match you to the right privacy expert.",
+      "ui:widget": "customTextArea"
+    },
+    "L-Q6": {
+      "ui:options": { "label": false },
+      "ui:toolTip": "Identify the Lilly EVP/M7 leading PI use for this project—usually the exec responsible for project goals, budget, or corrective actions. Check org info if unsure.",
+      "ui:widget": "customRadio"
+    },
+    "L-Q7": {
+      "ui:options": {
+        "label": false,
+        "multiple": true
+      },
+      "ui:toolTip": "Upload a file, document, or image to help us with your issue. Emails must be saved as PDFs first—print the email to PDF, then upload the saved file here.",
+      "ui:widget": "customFile"
+    },
+    "L-Q8": {
+      "ui:options": {
+        "label": false,
+        "selectedValue": "Directed here by a Lilly Resource / Procedure"
+      },
+      "ui:toolTip": "Share the reason or event that prompted you to complete this Privacy Form.",
+      "ui:widget": "customRadio"
+    },
+    "ui:order": ["L-Q1", "L-Q2", "L-Q3", "L-Q4", "L-Q8", "L-Q5", "L-Q6", "L-Q7"]
+  }
+}

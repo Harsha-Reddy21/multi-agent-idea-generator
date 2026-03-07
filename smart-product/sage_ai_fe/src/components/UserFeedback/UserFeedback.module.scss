@@ -1,0 +1,232 @@
+@use '../../shared/styles/index' as *;
+
+// Container
+.userFeedbackContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+// Rating Section
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.5rem; // Fixed height to prevent layout shift
+}
+
+.footerLabel {
+  font-size: $font-size-sm;
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap; // Prevent text wrapping
+}
+
+.ratingButtons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.ratingButton {
+  background: transparent !important;
+  border: none;
+  padding: 0.375rem 0.625rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+    background: transparent !important;
+  }
+
+  &:active,
+  &:focus {
+    background: transparent !important;
+  }
+}
+
+.ratingButtonPositive {
+  background-color: #beeed3 !important;
+
+  &:hover {
+    background-color: #beeed3 !important;
+    opacity: 0.9;
+  }
+
+  &:active,
+  &:focus {
+    background-color: #beeed3 !important;
+  }
+}
+
+.ratingButtonNegative {
+  background-color: #f8d7da !important;
+
+  &:hover {
+    background-color: #f8d7da !important;
+    opacity: 0.9;
+  }
+
+  &:active,
+  &:focus {
+    background-color: #f8d7da !important;
+  }
+}
+
+.thumbIcon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.positiveFeedbackText {
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: #007a55;
+}
+
+.negativeFeedbackText {
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: #d31710;
+}
+
+// Form Section
+.heading {
+  font-size: $font-size-base;
+  font-weight: 600;
+  margin: 0;
+  color: #242424;
+}
+
+.feedbackChipsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  padding: 0.5rem 0.75rem;
+  border: 0.0625rem solid #e2e5eb;
+  background: #fff !important;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.625rem 0 rgba(52, 55, 63, 0.05);
+  color: #1e2a30;
+  font-family: 'IBM Plex Sans';
+  font-size: $font-size-sm;
+  font-weight: 600;
+  line-height: 1.375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #d0d0d0;
+    background: #fff !important;
+    color: #6a6a6a !important;
+  }
+
+  &:active,
+  &:focus {
+    background: #fff !important;
+    color: #6a6a6a !important;
+  }
+}
+
+.chipSelected {
+  border: 0.0625rem solid #e1242a !important;
+  background: #ffeded !important;
+  color: #e1242a !important;
+
+  &:hover {
+    border-color: #e1242a !important;
+    background: #ffeded !important;
+    color: #e1242a !important;
+  }
+
+  &:active,
+  &:focus {
+    background: #ffeded !important;
+    color: #e1242a !important;
+  }
+}
+
+// Text Area Section
+.textAreaWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 7.5rem;
+  padding: 1rem 1.125rem;
+  border: 0.0625rem solid #c5c5c5;
+  border-radius: 0.5rem;
+  background: #fff;
+  box-shadow: 0 0.125rem 0.625rem 0 rgba(52, 55, 63, 0.05);
+  color: #465158;
+}
+
+.textArea {
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  color: #6a6a6a;
+  font-family: 'IBM Plex Sans';
+  font-size: $font-size-sm;
+  font-weight: 400;
+  line-height: 1.375rem;
+  resize: none;
+  background: transparent;
+}
+
+.charCountRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.charCount {
+  font-size: $font-size-xxs;
+  color: #a1a4ac;
+}
+
+// Submit Section
+.submitRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitButton {
+  padding: 0.125rem 0.375rem;
+  border: none;
+  border-radius: 0.25rem;
+  background: #d31710 !important;
+  color: #fff !important;
+  font-family: 'IBM Plex Sans';
+  font-size: $font-size-lg;
+  font-weight: 600;
+  line-height: 1.75rem;
+  cursor: pointer;
+
+  &:hover {
+    background: #d31710 !important;
+    color: #fff !important;
+    opacity: 0.9;
+  }
+
+  &:active,
+  &:focus {
+    background: #d31710 !important;
+    color: #fff !important;
+  }
+
+  &:disabled {
+    background: #f0f0f0 !important;
+    color: #6a6a6a !important;
+    cursor: not-allowed;
+    opacity: 1;
+  }
+}

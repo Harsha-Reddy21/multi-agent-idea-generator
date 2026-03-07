@@ -1,0 +1,61 @@
+// Forward all style utilities to make them available when this file is used
+@forward './colors';
+@forward './typography';
+@forward './functions';
+@forward './mixin';
+
+:root {
+  /* Base fluid size for rem: 16px → fluid → ~22px */
+  font-size: clamp(1rem, 1vw, 1.375rem);
+
+  /* Type tokens */
+  --font-size-xs: clamp(0.75rem, 0.8vw, 0.875rem); /* tiny notes, captions */
+  --font-size-sm: clamp(0.875rem, 1vw, 1rem); /* helper text, meta */
+  --font-size-md: clamp(1rem, 1.2vw, 1.125rem); /* body */
+  --font-size-lg: clamp(1.125rem, 1.6vw, 1.5rem); /* h6 */
+  --font-size-xl: clamp(1.25rem, 2vw, 1.75rem); /* h5 */
+  --font-size-2xl: clamp(1.5rem, 2.5vw, 2rem); /* h4 */
+  --font-size-3xl: clamp(1.75rem, 3vw, 2.5rem); /* h3 */
+  --font-size-4xl: clamp(2rem, 4vw, 3rem); /* h2 */
+  --font-size-5xl: clamp(2.5rem, 5vw, 3.5rem); /* h1 */
+}
+
+/* Default text utilities */
+.body-text {
+  font-size: var(--font-size-md);
+}
+.small-text {
+  font-size: var(--font-size-sm);
+}
+.caption-text {
+  font-size: var(--font-size-xs);
+}
+
+body {
+  font-size: var(--font-size-md);
+}
+
+h1 {
+  font-size: var(--font-size-5xl);
+  line-height: 1.1;
+}
+h2 {
+  font-size: var(--font-size-4xl);
+  line-height: 1.15;
+}
+h3 {
+  font-size: var(--font-size-3xl);
+  line-height: 1.2;
+}
+h4 {
+  font-size: var(--font-size-2xl);
+  line-height: 1.25;
+}
+h5 {
+  font-size: var(--font-size-xl);
+  line-height: 1.3;
+}
+h6 {
+  font-size: var(--font-size-lg);
+  line-height: 1.35;
+}

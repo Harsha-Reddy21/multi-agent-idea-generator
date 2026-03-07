@@ -1,0 +1,32 @@
+@use '../../shared/styles/index' as *;
+
+.user-profile {
+  display: flex;
+  align-items: center;
+
+  &__separator {
+    width: 0.0625rem;
+    height: 2.5rem;
+    background-color: #e0e0e0;
+  }
+
+  &__avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: #d32f2f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: $font-size-lg;
+    font-weight: bold;
+    margin-left: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  &__text {
+    font-size: $font-size-base;
+    color: #212529;
+  }
+}

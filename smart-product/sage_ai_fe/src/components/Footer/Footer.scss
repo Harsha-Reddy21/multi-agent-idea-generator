@@ -1,0 +1,54 @@
+@use '../../shared/styles/index' as *;
+
+.Footer {
+  background: #d31710;
+  color: #ffffff;
+  padding: 1.25rem 2rem;
+  font-size: $font-size-sm;
+  line-height: 1.4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Footer__inner {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2rem;
+}
+
+.Footer__links {
+  display: flex;
+  gap: 1.25rem;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.Footer__link {
+  color: #ffffff;
+  text-decoration: none;
+  position: relative;
+}
+
+.Footer__link:hover,
+.Footer__link:focus {
+  text-decoration: underline;
+}
+
+.Footer__legal {
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .Footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .Footer__links {
+    flex-wrap: wrap;
+  }
+}

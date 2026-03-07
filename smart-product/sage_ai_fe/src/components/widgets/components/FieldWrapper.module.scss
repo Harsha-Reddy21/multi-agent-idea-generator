@@ -1,0 +1,68 @@
+@use '../../../shared/styles/index' as *;
+
+// Tag buttons container
+.tagButtons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+// Tag button styles
+.tagButton {
+  border: none;
+  padding: 0.3125rem 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4375rem;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-normal;
+  color: $text-black;
+  height: 1.875rem;
+  border-style: solid;
+  border-width: 0.0625rem;
+}
+
+// Tag button icon
+.tagButtonIcon {
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+}
+
+// Warning text for disabled buttons
+.warningText {
+  color: $neutral-text-gray;
+  font-size: $font-size-xxs;
+  font-weight: $font-weight-normal;
+  margin-left: 0.5rem;
+  display: inline-block;
+}
+
+// Full width container for cards below textbox
+.fullWidthCardContainer {
+  width: 100%;
+  margin-top: 0.75rem;
+  position: relative;
+  z-index: 1000;
+}
+
+// Tooltip styles
+.wideTooltip {
+  .tooltip-description,
+  .lds-tooltip-description {
+    max-width: none !important;
+    white-space: pre-line !important;
+  }
+
+  span[data-testid='tooltip-description'] {
+    font-weight: $font-weight-normal !important;
+    width: max-content !important;
+    max-width: 50vw !important;
+    white-space: pre-line !important;
+  }
+}
+
+.wrapField__tooltip {
+  pointer-events: none;
+}

@@ -1,0 +1,9 @@
+// Function to convert px to rem
+@function pxToRem($px, $base: 16) {
+  @return calc($px / $base) * 1rem;
+}
+
+// Function to convert px to em
+@function pxToEm($px, $base: 16) {
+  @return calc($px / $base) * 1em;
+}

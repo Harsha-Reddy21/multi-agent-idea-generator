@@ -1,0 +1,29 @@
+@use '../../../shared/styles/index' as *;
+
+// Override LDS Radio disabled styles
+:global {
+  .lds-radio:disabled + label,
+  .lds-radio[readonly] + label,
+  input[type='radio']:disabled + label,
+  input[type='radio'][readonly] + label {
+    color: $text-dark !important;
+    opacity: 0.9 !important;
+    cursor: not-allowed;
+  }
+
+  // Remove list markers from radio button groups
+  .lds-radio-group,
+  .lds-radio-group ul,
+  .lds-radio-group li {
+    list-style: none !important;
+    list-style-type: none !important;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .lds-radio-group li::before,
+  .lds-radio-group li::marker {
+    display: none !important;
+    content: none !important;
+  }
+}

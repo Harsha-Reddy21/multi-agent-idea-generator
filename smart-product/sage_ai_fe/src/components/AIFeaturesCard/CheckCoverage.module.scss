@@ -1,0 +1,222 @@
+@import '../../shared/styles/colors';
+@import '../../shared/styles/typography';
+
+.checkCoverageContainer {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-0.625rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.coverageHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+  border-radius: 0.25rem;
+
+  &:hover {
+    background-color: $gray-100;
+  }
+
+  &:focus {
+    outline: 0.125rem solid $brand-red;
+    outline-offset: 0.125rem;
+  }
+}
+
+.arrowIcon {
+  font-size: $font-size-base;
+  color: $text-gray;
+  transition: transform 0.2s ease;
+}
+
+.coverageTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $text-gray;
+  flex: 1;
+}
+
+.coverageContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1rem;
+
+  p {
+    color: $text-gray-light;
+    font-size: $font-size-sm;
+    margin: 0;
+  }
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 0.1875rem solid $border-lightest;
+  border-top: 0.1875rem solid $brand-red;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.errorContainer {
+  padding: 1rem;
+}
+
+.errorText {
+  color: $brand-red;
+  font-size: $font-size-sm;
+  text-align: center;
+  margin: 0;
+}
+
+.suggestionsSection {
+  display: flex;
+  flex-direction: column;
+}
+.suggestionsSectionError {
+  display: flex;
+  flex-direction: column;
+}
+
+.suggestionItem {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background-color: $bg-white;
+  border-radius: 0.25rem;
+  border-left: 0.1875rem solid transparent;
+
+  &:has(.redIcon) {
+    background-color: $bg-light-pink;
+  }
+
+  &:has(.greenIcon) {
+    background-color: $brand-green-bg;
+  }
+}
+
+.suggestionItem_warning {
+  background-color: $bg-light-pink;
+}
+
+.suggestionIcon {
+  flex-shrink: 0;
+  padding-top: 0.125rem;
+}
+
+.redIcon {
+  color: $brand-red;
+  font-size: $font-size-base;
+}
+
+.greenIcon {
+  color: $brand-green;
+  font-size: $font-size-base;
+}
+
+.suggestionContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-bottom: 0.188rem solid $neutral-border-lighter;
+}
+
+.suggestionContentLast {
+  border-bottom: none;
+}
+
+.suggestionText {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $text-gray;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.suggestionRationale {
+  font-size: $font-size-sm;
+  color: $text-gray-light;
+  margin: 0;
+  line-height: 1.4;
+  padding-bottom: 0.75rem;
+}
+
+.statusIcon_success {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.statusIcon_cross {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.statusIcon_warning {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.suggestionsTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $text-gray;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.initialSuggestionsList {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0 0 0;
+}
+
+.initialSuggestionItem {
+  font-size: $font-size-xs;
+  color: $text-gray;
+  margin-bottom: 0.5rem;
+  line-height: $line-height-normal;
+}
+
+.allSuggestionsMessage {
+  font-weight: $font-weight-medium;
+  margin: 0 0 0 1rem;
+}
+
+.feedbackDivider {
+  height: 0.0725rem;
+  background-color: $neutral-border-lighter;
+  margin: 1rem 0;
+}

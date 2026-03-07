@@ -1,0 +1,23 @@
+{
+  "approved_count": 172,
+  "days": 30,
+  "message": "Successfully retrieved approved ideas dashboard data",
+  "top_ideas": [
+    {
+      "ai_system_name": "CADA (China AI Drafting Assistant)",
+      "problem_statement": "User: Designed for supporting all LCDDMAC workforces, the platform will first support China Regulatory Affairs (RA) and Scientific Communication (SciCom) teams and expand to support additional functions and departments across the organization step by step.\r\n\r\nPurpose:  This system will support users in quickly generating document drafts based on provided reference files and the desired document templates. The expected outputs include regulatory submission materials and scientific publication drafts, classified as Orange/Yellow CI documents. The system will offer cross-language capabilities in both Chinese and English, allowing multiple iterations of draft generation and supporting export as needed.\r\n\r\nProblem: Global tools like eAuthoring and AIDA have improved authoring efficiency and consistency, but they rely on overseas models (e.g., OpenAI) and APIs, which are not accessible in China due to cross-border data restrictions. As the business and product pipeline continue to expand, it becomes increasingly critical for RA and SciCom teams to deliver high-quality, compliant submission documents and scientific publications within limited timelines. The submission volume in the first 4 months in 2025 has already matched the total submissions for all of 2024.",
+      "submitted_by": {
+        "user_id": "67e519a71b62d2d042170f65624bcbc7",
+        "user_name": "RAN WANG (L093880)"
+      }
+    },
+    {
+      "ai_system_name": "Design Studio",
+      "problem_statement": "Users of the Design Studio application belong to the Clinical Study Design team and use the insights form the application to optimize study designs to reduce trial timelines and costs. The users have requested that the application takes the raw structured data which defines our user scenario’s Inclusion / Exclusion Criteria and outputs a human-readable sentence. Ultimately the goal of Design StuDIO is to assist in the creation of a protocol document, and our very structured data does not serve that purpose well at all but should be able to be used to create a description that is more usable.",
+      "submitted_by": {
+        "user_id": "c8cae40ccc035144592d09ab75f93d1c",
+        "user_name": "Christopher Dsouza (C191090)"
+      }
+    }
+  ]
+}

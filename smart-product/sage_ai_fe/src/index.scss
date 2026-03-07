@@ -1,0 +1,43 @@
+// Use shared styles
+
+@use './shared/styles/index' as *;
+
+// Global styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// Global disabled input and textarea styles for better readability
+input:disabled,
+input[readonly],
+input[disabled],
+textarea:disabled,
+textarea[readonly],
+textarea[disabled],
+select:disabled,
+select[readonly],
+select[disabled] {
+  color: $text-dark !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: $text-dark !important;
+  background-color: $gray-300 !important;
+  cursor: not-allowed !important;
+}
+
+// Ensure disabled state is visible for all form elements
+input[type='text']:disabled,
+input[type='email']:disabled,
+input[type='password']:disabled,
+input[type='number']:disabled,
+input[type='tel']:disabled,
+input[type='url']:disabled,
+input[type='search']:disabled,
+input[type='date']:disabled,
+input[type='time']:disabled,
+input[type='datetime-local']:disabled {
+  color: $text-dark !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: $text-dark !important;
+}

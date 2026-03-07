@@ -1,0 +1,304 @@
+﻿{
+  "schema": {
+    "properties": {
+      "R-Q1": {
+        "enum": [],
+        "title": "Select Request to Clone (if applicable):",
+        "type": "string"
+      },
+      "R-Q10": {
+        "title": "Describe use case in detail.",
+        "type": "string"
+      },
+      "R-Q11": {
+        "title": "What new/different capability will this use case deliver?",
+        "type": "string"
+      },
+      "R-Q12": {
+        "enum": ["List of 3P", "Other", "N/A"],
+        "title": "List third parties involved in executing this use case. Please choose \"Other\" if the third-party name is not listed or choose \"N/A\" if no third party is involved.",
+        "type": "string"
+      },
+      "R-Q13": {
+        "enum": [],
+        "title": "Indicate which assessments have already been completed for the Third Party(ies) provided above.",
+        "type": "string"
+      },
+      "R-Q14": {
+        "title": "List internal data source and type and/or third-parties and purchased datasets that are used with this use case.",
+        "type": "string"
+      },
+      "R-Q15": {
+        "title": "List each entity providing Personal Information (PI)elements (e.g., name, address, etc.) to/from Lilly including third parties.",
+        "type": "string"
+      },
+      "R-Q16": {
+        "title": "Are there contractual limitations in relation to processing of data associated with PI elements referenced in question above?",
+        "type": "string"
+      },
+      "R-Q17": {
+        "title": "What permission is being relied on by the third-party to share certain data with Lilly?",
+        "type": "string"
+      },
+      "R-Q18": {
+        "enum": ["Independent of Lilly", "Lilly\u0027s Direction"],
+        "title": "How is the third-party collecting the specific PI data elements?",
+        "type": "string"
+      },
+      "R-Q19": {
+        "title": "Specify the geo location of the third-party data server for this use case. Example: US-Ohio",
+        "type": "string"
+      },
+      "R-Q2": {
+        "title": "What is the Title of Request?",
+        "type": "string"
+      },
+      "R-Q20": {
+        "enum": ["Yes", "No"],
+        "title": "Do any of the data sources involve data from a Patient Support Program?",
+        "type": "string"
+      },
+      "R-Q21": {
+        "title": "Provide DOUG Approval ID",
+        "type": "string"
+      },
+      "R-Q22": {
+        "title": "Identify the Business Application in the Enterprise CMDB where appropriate",
+        "type": "string"
+      },
+      "R-Q23": {
+        "title": "Additional Information",
+        "type": "string"
+      },
+      "R-Q24": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Add attachments",
+        "type": "array"
+      },
+      "R-Q3": {
+        "title": "Additional Collaborator, if any",
+        "type": "string"
+      },
+      "R-Q4": {
+        "enum": [],
+        "title": "What is the Request Type?",
+        "type": "string"
+      },
+      "R-Q5": {
+        "title": "Provide the location for this request.",
+        "type": "string"
+      },
+      "R-Q6": {
+        "title": "Describe exactly the decision being requested?",
+        "type": "string"
+      },
+      "R-Q7": {
+        "title": "Proposed Business Value",
+        "type": "string"
+      },
+      "R-Q8": {
+        "title": "Estimated timeline for completion and requested resources.",
+        "type": "string"
+      },
+      "R-Q9": {
+        "enum": [],
+        "title": "(Select all that apply) Who is the use case audience?",
+        "type": "string"
+      }
+    },
+    "required": [
+      "R-Q2",
+      "R-Q4",
+      "R-Q5",
+      "R-Q6",
+      "R-Q7",
+      "R-Q9",
+      "R-Q11",
+      "R-Q12",
+      "R-Q13",
+      "R-Q15",
+      "R-Q16",
+      "R-Q17",
+      "R-Q18",
+      "R-Q19",
+      "R-Q20",
+      "R-Q21"
+    ],
+    "type": "object"
+  },
+  "tabSchema": [
+    {
+      "fields": ["R-Q1", "R-Q2", "R-Q3", "R-Q4", "R-Q5"],
+      "id": 1,
+      "title": "Section 1: Request Details"
+    },
+    {
+      "fields": ["R-Q6", "R-Q7", "R-Q8", "R-Q9", "R-Q10"],
+      "id": 2,
+      "title": "Section 2: Initiative Details"
+    },
+    {
+      "fields": ["R-Q11", "R-Q12"],
+      "id": 3,
+      "title": "Section 3: Third Party Information"
+    },
+    {
+      "fields": [
+        "R-Q13",
+        "R-Q14",
+        "R-Q15",
+        "R-Q16",
+        "R-Q17",
+        "R-Q18",
+        "R-Q19",
+        "R-Q20",
+        "R-Q21",
+        "R-Q22",
+        "R-Q23",
+        "R-Q24"
+      ],
+      "id": 4,
+      "title": "Section 4: Data and Risk Information"
+    }
+  ],
+  "uiSchema": {
+    "R-Q1": {
+      "ui:options": { "label": false },
+      "ui:widget": "customSelect"
+    },
+    "R-Q10": {
+      "ui:options": { "label": false },
+      "ui:widget": "customTextArea"
+    },
+    "R-Q11": {
+      "ui:options": { "label": false },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:widget": "customTextArea"
+    },
+    "R-Q13": {
+      "ui:options": { "label": false },
+      "ui:widget": "customMultiSelect"
+    },
+    "R-Q14": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q15": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q16": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q17": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q18": {
+      "ui:options": { "label": false },
+      "ui:widget": "customSelect"
+    },
+    "R-Q19": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q2": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q20": {
+      "ui:options": { "label": false },
+      "ui:widget": "customSelect"
+    },
+    "R-Q21": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q22": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q23": {
+      "ui:options": { "label": false },
+      "ui:widget": "customTextArea"
+    },
+    "R-Q24": {
+      "ui:options": {
+        "label": false,
+        "multiple": true
+      },
+      "ui:widget": "customFile"
+    },
+    "R-Q3": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q4": {
+      "ui:options": { "label": false },
+      "ui:widget": "customSelect"
+    },
+    "R-Q5": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q6": {
+      "ui:options": { "label": false },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:widget": "customText"
+    },
+    "R-Q7": {
+      "ui:options": { "label": false },
+      "ui:tags": [
+        {
+          "isAIFeatureEnable": true
+        }
+      ],
+      "ui:widget": "customText"
+    },
+    "R-Q8": {
+      "ui:options": { "label": false },
+      "ui:widget": "customText"
+    },
+    "R-Q9": {
+      "ui:options": { "label": false },
+      "ui:widget": "customMultiSelect"
+    },
+    "ui:order": [
+      "R-Q1",
+      "R-Q2",
+      "R-Q4",
+      "R-Q3",
+      "R-Q5",
+      "R-Q6",
+      "R-Q7",
+      "R-Q8",
+      "R-Q9",
+      "R-Q10",
+      "R-Q11",
+      "R-Q12",
+      "R-Q13",
+      "R-Q14",
+      "R-Q15",
+      "R-Q16",
+      "R-Q17",
+      "R-Q18",
+      "R-Q19",
+      "R-Q20",
+      "R-Q21",
+      "R-Q22",
+      "R-Q23",
+      "R-Q24"
+    ]
+  }
+}

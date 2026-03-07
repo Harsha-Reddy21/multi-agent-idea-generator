@@ -1,0 +1,246 @@
+@use '../../../shared/styles/index' as *;
+
+.tabContent {
+  margin-top: 1rem;
+  padding: 0 1.5rem;
+}
+
+.dataExtracts {
+  margin-bottom: 1rem;
+}
+
+.dataExtractsHeader {
+  font-size: $font-size-base;
+  font-weight: bold;
+  color: #333333;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.3;
+}
+
+.dataExtractsTitle {
+  font-size: $font-size-xxs;
+  font-weight: 400;
+  color: #364153;
+  line-height: 1.125rem;
+}
+
+.dataExtractsPlaceholder {
+  font-size: $font-size-xs;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.dataExtractsError {
+  font-size: $font-size-xs;
+  color: #d31710;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.dataExtractsErrorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.errorIcon {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.errorTitle {
+  font-size: $font-size-base;
+  font-weight: 600;
+  color: #333333;
+  margin: 0 0 0.5rem 0;
+}
+
+.errorMessage {
+  font-size: $font-size-sm;
+  color: #666666;
+  margin: 0 0 1.25rem 0;
+  line-height: 1.5;
+}
+
+.retryButton {
+  background: transparent !important;
+  border: none;
+  color: #d31710;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0.25rem 0.5rem;
+  font-family: inherit;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+    background: transparent !important;
+    color: #d31710;
+  }
+
+  &:focus {
+    outline: 0.125rem solid #d31710;
+    outline-offset: 0.125rem;
+    background: transparent !important;
+  }
+
+  &:active {
+    background: transparent !important;
+  }
+}
+
+.extractsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.extractItemContainer {
+  padding: 0;
+  margin: 0;
+}
+
+.extractFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+.extractAnswer {
+  font-size: $font-size-sm;
+  font-weight: 400;
+  color: #364153;
+  line-height: 1.375rem;
+  margin: 0;
+  flex: 1;
+}
+
+.readMoreButton {
+  background: none !important;
+  border: none;
+  color: #d31710;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.25rem;
+  text-decoration: underline;
+  font-family: inherit;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #a30f0a;
+    background: none !important;
+  }
+
+  &:focus {
+    color: #d31710;
+    outline: 0.125rem solid #d31710;
+    outline-offset: 0.125rem;
+    background: none !important;
+  }
+
+  &:active {
+    background: none !important;
+  }
+}
+
+.extractSource {
+  font-family: 'IBM Plex Sans';
+  font-size: $font-size-xxs;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.125rem;
+  color: #1b6cba;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.sourcePopover {
+  width: 26rem;
+  z-index: 1000;
+}
+
+.sourcePopoverArrow {
+  fill: #ffffff;
+  stroke: #d0d7de;
+}
+
+.dataExtractUsed {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: $font-size-xxs;
+  color: #009f6f;
+  font-weight: 500;
+}
+
+.checkIcon {
+  width: 0.8rem;
+  height: 0.8rem;
+  flex-shrink: 0;
+  filter: invert(49%) sepia(89%) saturate(1065%) hue-rotate(120deg)
+    brightness(95%) contrast(101%);
+}
+
+.usedText {
+  color: #009f6f;
+}
+
+.extractedTitle {
+  color: #364153;
+  font-family: 'IBM Plex Sans';
+  font-size: $font-size-sm;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.375rem;
+}
+
+.actions {
+  padding-top: 1rem;
+
+  .useExtractButton {
+    padding: 0.375rem !important;
+    border-radius: 0.25rem;
+    font-size: $font-size-sm;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.125rem;
+  }
+}
+
+.extractSourceLength {
+  color: #606c73;
+  font-family: 'IBM Plex Sans';
+  font-size: $font-size-xxs;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.125rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 20px 0 0 0;
+}
+
+.fileIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.provenanceList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

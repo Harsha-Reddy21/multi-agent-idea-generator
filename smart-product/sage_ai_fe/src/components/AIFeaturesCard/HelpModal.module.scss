@@ -1,0 +1,179 @@
+@use '../../../src/shared/styles/colors' as colors;
+
+.helpModalOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: colors.$bg-white-full;
+  z-index: 2000;
+  animation: slideInHelp 0.3s ease-out;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@keyframes slideInHelp {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.helpModal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.helpContent {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 2rem;
+}
+
+.helpHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+}
+
+.helpIcon {
+  flex-shrink: 0;
+  width: 1.3rem;
+  height: 1.3rem;
+  align-self: flex-start;
+  margin-top: 0.1875rem;
+}
+
+.backButton {
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: transparent !important;
+    opacity: 1;
+  }
+
+  &:active,
+  &:focus {
+    background: transparent !important;
+  }
+}
+
+.backIcon {
+  height: 1rem;
+  width: 1rem;
+  color: colors.$dark-gray;
+}
+
+.helpTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: colors.$dark-gray;
+}
+
+.helpSection {
+  padding: 1.5rem;
+  border-bottom: 0.0625rem solid colors.$neutral-border-lighter;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.helpSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.helpSectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: colors.$text-black;
+  margin: 0;
+}
+
+.helpDescription {
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  color: colors.$slate-gray;
+  margin: 0 0 1rem 0;
+}
+
+.helpSubSection {
+  margin-top: 1rem;
+  background-color: colors.$bg-light-blue;
+  padding: 1rem;
+}
+
+.helpSubTitle {
+  font-size: 0.875rem;
+  margin: 0 0 0.5rem 0;
+  color: colors.$slate-gray;
+  font-weight: 700;
+}
+
+.helpText {
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  color: colors.$slate-gray;
+  margin: 0;
+}
+
+.aiSwitch {
+  display: inline-block;
+  vertical-align: middle;
+
+  :global {
+    // Multiple targeting strategies for maximum compatibility
+
+    // Strategy 1: Target by input + span pattern
+    input[type='checkbox']:checked + span,
+    input:checked + span {
+      background-color: colors.$brand-red !important;
+    }
+
+    input[type='checkbox']:checked + span::before,
+    input:checked + span::before {
+      background-color: colors.$bg-white-full !important;
+    }
+
+    // Strategy 2: Target by class names
+    .lds-switch__slider,
+    [class*='slider'],
+    [class*='switch'][class*='checked'] {
+      &[aria-checked='true'],
+      &[data-checked='true'] {
+        background-color: colors.$brand-red !important;
+      }
+    }
+
+    // Strategy 3: Target all spans within the switch when checked
+    input:checked ~ span,
+    input[checked] ~ span {
+      background-color: colors.$brand-red !important;
+      margin: 0;
+    }
+
+    // White knob for both states
+    span::before,
+    span::after {
+      background-color: colors.$bg-white-full !important;
+    }
+  }
+}

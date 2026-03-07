@@ -1,0 +1,59 @@
+@use '../../shared/styles/index' as *;
+
+.badgeBase {
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-xxs;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  border-radius: 0.5rem;
+  border: 0.0625rem solid transparent;
+  user-select: none;
+  pointer-events: none;
+  display: flex;
+  padding: 0.36856rem 0.73706rem;
+  gap: 0.5rem;
+}
+
+.submitted {
+  background: #caf5da;
+  border-color: #00a63e;
+  color: #00a63e;
+}
+.mandatory {
+  background: #f9eeed;
+  border-color: #d31710;
+  color: #d31710;
+}
+.required {
+  background: #f9eeed;
+  border-color: #d31710;
+  color: #d31710;
+}
+.optional {
+  background: #f0f0f0;
+  border-color: #c5c5c5;
+}
+.optionalLight {
+  background: #f4f4f4;
+  border-color: #e0e0e0;
+  color: #333;
+}
+
+.iconWrapper,
+.iconImg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.85rem;
+  height: 0.85rem;
+}
+.iconImg {
+  object-fit: contain;
+}
+
+/* Allow dynamic override class (added when custom colors passed) */
+.overrideColors {
+  outline: none; /* dynamic inline style overrides background/border/text */
+}

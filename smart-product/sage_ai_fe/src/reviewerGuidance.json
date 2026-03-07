@@ -1,0 +1,19 @@
+{
+  "project_description": [
+    "Explain the business problem being solved",
+    "Describe how AI is being used in the solution",
+    "Include expected outcomes and beneficiaries",
+    "Mention the scope and scale of deployment"
+  ],
+  "project_title": [
+    "Clear and descriptive name that indicates AI involvement",
+    "Avoid generic terms; be specific about the AI application",
+    "Should be understandable to non-technical stakeholders"
+  ],
+  "value_proposition": [
+    "Quantifiable business benefits (cost savings, efficiency gains)",
+    "Time-to-value estimation",
+    "Strategic alignment with organizational goals",
+    "Competitive advantages gained"
+  ]
+}

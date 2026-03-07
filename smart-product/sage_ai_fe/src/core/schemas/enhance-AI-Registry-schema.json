@@ -1,0 +1,69 @@
+{
+  "schema": {
+    "properties": {
+      "AI-Q3": {
+        "enum": [
+          "Geographic scope (e.g., expanding from US only to OUS)",
+          "Model selection (e.g., changes in risk profile or accuracy)",
+          "Modification to guardrails (e.g., altering model disclaimers)",
+          "Purpose or use of outputs",
+          "Significant architecture changes (e.g., switching cloud providers, moving from cloud to on-prem)",
+          "System maturity (e.g., alpha to beta)",
+          "Type or classification of input or training data (e.g., changing from green to red data)",
+          "User base (e.g., shifting from Lilly employees to external HCPs or patients)",
+          "Vendor or contractual terms",
+          "Other"
+        ],
+        "title": "What scope has changed since the previous submission? (select all that apply)",
+        "type": "string"
+      },
+      "AI-Q39": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Add Attachments",
+        "type": "array"
+      },
+      "AI-Q4": {
+        "title": "Explain your changes",
+        "type": "string"
+      }
+    },
+    "required": ["AI-Q3", "AI-Q4"],
+    "type": "object"
+  },
+  "tabSchema": [
+    {
+      "fields": ["AI-Q3", "AI-Q4", "AI-Q39"],
+      "id": 1,
+      "title": "System Information"
+    }
+  ],
+  "uiSchema": {
+    "AI-Q3": {
+      "ui:options": {
+        "label": false
+      },
+      "ui:placeholder": "Select the changes",
+      "ui:toolTip": "Understanding the changes to the scope of your system will accelerate the reviewing process.",
+      "ui:widget": "customSelect"
+    },
+    "AI-Q39": {
+      "ui:options": {
+        "label": false,
+        "multiple": true
+      },
+      "ui:widget": "customFile"
+    },
+    "AI-Q4": {
+      "ui:options": {
+        "label": false,
+        "rows": 4
+      },
+      "ui:placeholder": "Enter the overview of the solution",
+      "ui:toolTip": "Provide a comprehensive explanation about what changes are being made to your system.",
+      "ui:widget": "customTextArea"
+    },
+    "ui:order": ["AI-Q3", "AI-Q4", "AI-Q39"]
+  }
+}

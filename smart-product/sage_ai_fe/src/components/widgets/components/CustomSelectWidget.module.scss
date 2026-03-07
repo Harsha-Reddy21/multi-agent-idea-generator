@@ -1,0 +1,15 @@
+@use '../../../shared/styles/index' as *;
+
+// Override LDS Select disabled styles
+:global {
+  select.lds-select:disabled,
+  select.lds-select[readonly],
+  select:disabled,
+  select[readonly] {
+    color: $text-dark !important;
+    opacity: 1 !important;
+    background-color: $gray-100 !important;
+    -webkit-text-fill-color: $text-dark !important;
+    cursor: not-allowed;
+  }
+}

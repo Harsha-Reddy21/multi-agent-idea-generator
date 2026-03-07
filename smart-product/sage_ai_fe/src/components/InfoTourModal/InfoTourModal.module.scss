@@ -1,0 +1,214 @@
+// Import shared variables
+@import '../../shared/styles/colors';
+@import '../../shared/styles/typography';
+
+// --------------------------------------------
+// InfoTourModal Specific Variables
+// --------------------------------------------
+$modal-bg-dark: #34373f;
+$modal-border-radius: 0.25rem;
+$modal-padding-vertical: 0.75rem;
+$modal-padding-horizontal: 1rem;
+$modal-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.15);
+$modal-z-index: 9999;
+$backdrop-z-index: 9998;
+$backdrop-overlay: rgba(0, 0, 0, 0.5);
+$arrow-size: 0.5rem;
+$arrow-offset: 2rem;
+$button-margin: 0.5rem;
+$button-hover-overlay: rgba(255, 255, 255, 0.1);
+
+// Backdrop for modal
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $backdrop-z-index;
+  background: $backdrop-overlay;
+}
+
+// Modal container
+.modal {
+  background: $modal-bg-dark !important;
+  border: 0.0625rem solid $modal-bg-dark;
+  border-radius: $modal-border-radius;
+  padding: $modal-padding-vertical $modal-padding-horizontal;
+  font-size: $font-size-sm;
+  line-height: 1.4;
+  color: $bg-white-full !important;
+  box-shadow: $modal-shadow;
+  z-index: $modal-z-index !important;
+  white-space: normal;
+  min-height: fit-content;
+  font-family: 'IBM Plex Sans', sans-serif;
+
+  // Message text
+  .message {
+    color: $bg-white-full !important;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.5;
+  }
+}
+
+// Position variants - only arrows
+.modal--top {
+  // Arrow pointing down
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -$arrow-size;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: $arrow-size solid transparent;
+    border-right: $arrow-size solid transparent;
+    border-top: $arrow-size solid $modal-bg-dark;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -0.4375rem;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: $arrow-size solid transparent;
+    border-right: $arrow-size solid transparent;
+    border-top: $arrow-size solid $modal-bg-dark;
+  }
+}
+
+.modal--bottom {
+  // Arrow pointing up
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -$arrow-size;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: $arrow-size solid transparent;
+    border-right: $arrow-size solid transparent;
+    border-bottom: $arrow-size solid $modal-bg-dark;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -0.4375rem;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: $arrow-size solid transparent;
+    border-right: $arrow-size solid transparent;
+    border-bottom: $arrow-size solid $modal-bg-dark;
+  }
+}
+
+.modal--left {
+  // Arrow pointing right
+  &::before {
+    content: '';
+    position: absolute;
+    right: -$arrow-size;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: $arrow-size solid transparent;
+    border-bottom: $arrow-size solid transparent;
+    border-left: $arrow-size solid $modal-bg-dark;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -0.4375rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: $arrow-size solid transparent;
+    border-bottom: $arrow-size solid transparent;
+    border-left: $arrow-size solid $modal-bg-dark;
+  }
+}
+
+.modal--right {
+  // Arrow pointing left
+  &::before {
+    content: '';
+    position: absolute;
+    left: -$arrow-size;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: $arrow-size solid transparent;
+    border-bottom: $arrow-size solid transparent;
+    border-right: $arrow-size solid $modal-bg-dark;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: -0.4375rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: $arrow-size solid transparent;
+    border-bottom: $arrow-size solid transparent;
+    border-right: $arrow-size solid $modal-bg-dark;
+  }
+}
+
+// Arrow alignment variants
+.modal--top[data-arrow-align='right'] {
+  &::before {
+    left: auto;
+    right: $arrow-offset;
+    transform: none;
+  }
+
+  &::after {
+    left: auto;
+    right: $arrow-offset;
+    transform: none;
+  }
+}
+
+.modal--top[data-arrow-align='left'] {
+  &::before {
+    left: $arrow-offset;
+    transform: none;
+  }
+
+  &::after {
+    left: $arrow-offset;
+    transform: none;
+  }
+}
+
+.skipButton {
+  border-radius: $modal-border-radius !important;
+  border: 0.0625rem solid $bg-white-full !important;
+  color: $bg-white-full !important;
+  background: transparent !important;
+  margin-right: $button-margin;
+
+  &:hover {
+    background: $button-hover-overlay !important;
+  }
+}
+
+.nextButton {
+  border-radius: $modal-border-radius !important;
+  border: 0.0625rem solid $brand-red !important;
+}

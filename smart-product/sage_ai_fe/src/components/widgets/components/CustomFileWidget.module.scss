@@ -1,0 +1,211 @@
+@use '../../../shared/styles/index' as *;
+
+// Pro Tip message
+.proTipMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: $font-size-sm;
+  color: $brand-red;
+  margin-bottom: 1rem;
+  width: auto;
+
+  .proTipIcon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  span {
+    flex: 1;
+    line-height: 1.5;
+    color: $brand-red;
+
+    strong {
+      font-weight: $font-weight-semibold;
+    }
+  }
+}
+
+// File upload dropzone
+.fileDropzone {
+  border-radius: 0.875rem;
+  border: 0.125rem solid $gray-800;
+  background: $bg-white;
+  display: flex;
+  width: auto;
+  min-height: 14rem;
+  padding: 5rem 3.125rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  gap: 0.75rem;
+  text-align: center;
+
+  &.enabled {
+    cursor: pointer;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+}
+
+.fileDropzoneIcon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.fileDropzoneMainText {
+  font-size: $font-size-base;
+  font-weight: $font-weight-extrabold;
+}
+
+.fileDropzoneMain2Text {
+  font-size: $font-size-0-775;
+  font-weight: $font-weight-semibold;
+}
+
+.fileDropzoneSubText {
+  font-size: $font-size-sm;
+  color: $neutral-text-medium;
+  letter-spacing: 0.047rem;
+}
+
+.hiddenFileInput {
+  display: none;
+}
+
+// Uploaded files section
+.uploadedFilesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.uploadedFilesTitle {
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-base;
+}
+
+.uploadedFilesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  column-gap: 1.25rem;
+  row-gap: 0.75rem;
+}
+
+.uploadedFileItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 0.0625rem solid $gray-800;
+  border-radius: 0.5rem;
+  font-size: $font-size-sm;
+}
+
+.uploadedFileIcon {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+}
+
+.uploadedFileInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.uploadedFileName {
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  word-break: break-word;
+}
+
+.uploadedFileSize {
+  color: $neutral-text-medium;
+}
+
+.uploadedFilesInfoMessage {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background-color: transparent;
+  font-size: $font-size-sm;
+  color: $text-gray;
+  margin-top: 0.5rem;
+  width: 46rem;
+
+  .infoIcon {
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+    color: $brand-blue-info;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  span {
+    flex: 1;
+    line-height: 1.5;
+    color: $brand-blue-info;
+  }
+}
+
+.deleteFileButton {
+  color: $text-black;
+  padding: 0.25rem;
+  min-width: auto;
+  background-color: transparent;
+  border: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: transparent !important;
+    box-shadow: none;
+    color: $text-black !important;
+  }
+
+  svg {
+    fill: currentColor;
+    stroke: currentColor;
+  }
+}
+
+.trash_icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.previouslyUploadedFilesContainer {
+  margin-top: 2rem;
+}
+
+.previouslyUploadedFilesRow {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.previouslyUploadedFileItem {
+  display: flex;
+  padding: 0.25rem 0.625rem;
+  border-radius: 8px;
+  border: 1px solid $brand-red;
+  background: $bg-red-light;
+}
+
+.previouslyUploadedFileName {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-black-alt;
+  line-height: $line-height-tight;
+}

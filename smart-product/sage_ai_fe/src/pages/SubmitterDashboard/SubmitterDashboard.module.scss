@@ -1,0 +1,253 @@
+@use '../../shared/styles/index' as *;
+
+.submitterDashboardPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 3rem;
+  gap: 2rem;
+}
+
+.breadcrumbContainer {
+  width: 100%;
+  margin-bottom: 1rem;
+
+  :global(.lds-breadcrumbs) li,
+  :global(.lds-breadcrumbs) li a,
+  :global(.lds-breadcrumbs) li .lds-breadcrumb {
+    color: #d31710 !important;
+  }
+
+  :global(.lds-breadcrumbs) :global(.lds-breadcrumb-dropdown-content-item) {
+    color: #d31710 !important;
+  }
+
+  :global(.lds-breadcrumb-ellipsis),
+  :global(.lds-breadcrumb-dropdown) :global(.lds-breadcrumb-ellipsis),
+  :global(.lds-breadcrumbs) :global(.lds-breadcrumb-ellipsis) {
+    color: #d31710 !important;
+  }
+
+  :global(a.lds-breadcrumb-dropdown-content-item) {
+    color: #d31710 !important;
+  }
+
+  :global(.lds-breadcrumbs) li:last-child,
+  :global(.lds-breadcrumbs) li:last-child a,
+  :global(.lds-breadcrumbs) li:last-child .lds-breadcrumb {
+    color: #000000 !important;
+  }
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.pageTitleRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background-color: #f5f5f5;
+  padding: 2.5rem 4rem;
+}
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: $font-size-h1;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 3.75rem;
+}
+.highlightText {
+  color: #d31710;
+  font-size: $font-size-h1;
+}
+.pageTitleRow h1 {
+  margin: 0;
+  font-size: $font-size-h1;
+  font-weight: 600;
+}
+
+.pageTitleRow p {
+  font-size: $font-size-h6;
+  font-weight: 400;
+}
+.startNewBtn {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #d31710;
+  border: none;
+  color: #fff;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.5rem;
+  min-width: 3rem;
+  min-height: 3.5rem;
+}
+.startNewBtn:hover {
+  background: #b80000;
+}
+.startNewBtn:focus-visible {
+  outline: 0.1875rem solid rgba(212, 0, 0, 0.4);
+  outline-offset: 0.125rem;
+}
+.filterRow {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.searchWrapper {
+  flex: 1;
+  min-width: 17.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.searchSubtitle {
+  margin: 0;
+  font-size: $font-size-h4;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.searchBarContainer {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  :global(.lds-search-button-tooltip) {
+    display: none;
+  }
+
+  :global(.lds-search-clear-tooltip) {
+    margin-left: auto !important;
+  }
+}
+
+.searchInputWrapper {
+  position: relative;
+  width: 349px;
+  height: 38px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 11px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  height: 100%;
+  padding: 8px 16px 8px 40px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.1504px;
+  outline: none;
+  transition: border-color 0.2s ease;
+
+  &::placeholder {
+    color: rgba(10, 10, 10, 0.5);
+  }
+
+  &:focus {
+    border-color: #d31710;
+  }
+
+  &:hover {
+    border-color: #b0b0b0;
+  }
+}
+.filterButtonLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  background: #d31710;
+  border: none;
+  color: #fff;
+  font-size: $font-size-base;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  min-height: 3rem;
+}
+.filterButtonLink:hover {
+  background: #b80000;
+}
+.filterButtonLink:focus-visible {
+  outline: 0.1875rem solid rgba(211, 23, 16, 0.4);
+  outline-offset: 0.125rem;
+}
+.tabsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.tabsWrapper :global(.lds-tab-container.tab-padded) {
+  padding: 1.5rem 0 !important;
+}
+.cardsGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(30rem, 2fr));
+}
+.articleGrid {
+  display: grid;
+  gap: 1.5rem;
+  /* auto-fit allows last row items to stretch; 1fr makes all columns equal width per row */
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  align-items: stretch;
+}
+.paginationRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+.loadingButtonLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  background: #d31710;
+  border: none;
+  color: #fff;
+  font-size: $font-size-base;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  min-width: 3rem;
+  min-height: 3.5rem;
+  max-height: 3.5rem;
+}
+.loadingButtonLink:hover {
+  background: #b80000;
+}
+.loadingButtonLink:focus-visible {
+  outline: 0.1875rem solid rgba(211, 23, 16, 0.4);
+  outline-offset: 0.125rem;
+}
