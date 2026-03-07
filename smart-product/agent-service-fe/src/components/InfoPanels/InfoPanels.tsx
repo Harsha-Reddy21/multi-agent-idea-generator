@@ -53,17 +53,17 @@ export default function InfoPanels() {
       <ContentBlock
         title="System Information"
         icon="⚙️"
-        blockState={blocks['SYSTEM'] ?? null}
+        blockState={blocks['system_info'] ?? null}
       />
       <ContentBlock
         title="User Information"
         icon="👤"
-        blockState={blocks['USER'] ?? null}
+        blockState={blocks['user_info'] ?? null}
       />
       <ContentBlock
         title="Technical Information"
         icon="🔧"
-        blockState={blocks['TECH'] ?? null}
+        blockState={blocks['tech_info'] ?? null}
       />
     </div>
   );

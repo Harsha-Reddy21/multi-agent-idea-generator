@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 client = AsyncOpenAI(api_key=settings.openai_api_key)
 MODEL = settings.openai_model
 
+_KEY_IS_PLACEHOLDER = settings.openai_api_key in ("your-openai-api-key-here", "")
+
 
 # ---------------------------------------------------------------------------
 # Intent classification
@@ -50,6 +52,9 @@ async def classify_intent(
     current_question_id: str,
     answered_summary: str,
 ) -> dict[str, str]:
+    if _KEY_IS_PLACEHOLDER:
+        return {"type": "ANSWER_CURRENT", "target": ""}
+
     prompt = INTENT_SYSTEM_PROMPT.format(
         current_question=current_question_text,
         current_question_id=current_question_id,
@@ -100,6 +105,13 @@ async def evaluate_coverage(answer: str, question_text: str, suggestions: list[s
     if not suggestions:
         return {"suggestions_analysis": [], "score": 1.0}
 
+    if _KEY_IS_PLACEHOLDER:
+        # Without GPT, give a basic pass-through score
+        return {
+            "suggestions_analysis": [{"text": s, "status": "completed", "rationale": "auto-accepted"} for s in suggestions],
+            "score": 0.8,
+        }
+
     suggestions_text = "\n".join(f"- {s}" for s in suggestions)
     user_content = f"Question: {question_text}\n\nUser's Answer: {answer}\n\nSuggestions to evaluate:\n{suggestions_text}"
 
@@ -145,6 +157,9 @@ Respond ONLY in this JSON format:
 
 
 async def enhance_answer(answer: str, question_text: str, suggestions: list[str]) -> dict[str, str]:
+    if _KEY_IS_PLACEHOLDER:
+        return {"enhanced_text": answer, "rationale": "Enhancement unavailable (no API key configured)"}
+
     suggestions_text = "\n".join(f"- {s}" for s in suggestions)
     user_content = f"Question: {question_text}\n\nOriginal Answer: {answer}\n\nSuggestions:\n{suggestions_text}"
 
@@ -193,6 +208,9 @@ async def generate_agent_response(
     total_count: int,
     conversation_history: list[dict[str, str]],
 ) -> str:
+    if _KEY_IS_PLACEHOLDER:
+        return context_message
+
     system = AGENT_SYSTEM_PROMPT.format(
         form_type=form_type,
         answered_count=answered_count,
@@ -222,6 +240,9 @@ async def generate_agent_response(
 # ---------------------------------------------------------------------------
 
 async def answer_general_question(question: str, form_context: str) -> str:
+    if _KEY_IS_PLACEHOLDER:
+        return "I'm running without an AI model right now. Please set your OPENAI_API_KEY in the .env file to enable AI responses."
+
     system = (
         "You are a helpful assistant for an innovation submission system. "
         "Answer the user's question briefly and helpfully. Context: " + form_context

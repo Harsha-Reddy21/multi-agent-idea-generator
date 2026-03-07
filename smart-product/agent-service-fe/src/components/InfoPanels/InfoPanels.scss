@@ -146,6 +146,77 @@
     color: #212529;
     line-height: 1.4;
     white-space: pre-wrap;
+
+    &--editable {
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: background 0.15s;
+
+      &:hover {
+        background: #e9ecef;
+      }
+    }
+  }
+
+  &__edit-icon {
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+    margin-top: 2px;
+
+    .content-block__value--editable:hover & {
+      opacity: 1;
+    }
+  }
+
+  &__edit {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__edit-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #1a73e8;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  &__edit-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  &__edit-save,
+  &__edit-cancel {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  &__edit-save {
+    background: #1a73e8;
+    color: #fff;
+    &:hover { background: #1557b0; }
+  }
+
+  &__edit-cancel {
+    background: #e9ecef;
+    color: #495057;
+    &:hover { background: #dee2e6; }
   }
 }
 

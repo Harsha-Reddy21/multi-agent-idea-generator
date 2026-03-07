@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -5,6 +7,8 @@ from config import settings
 from routes.chat import router as chat_router
 from routes.session import router as session_router
 from routes.websocket import router as ws_router
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
 app = FastAPI(title="Agentic AI Service", version="1.0.0")
 

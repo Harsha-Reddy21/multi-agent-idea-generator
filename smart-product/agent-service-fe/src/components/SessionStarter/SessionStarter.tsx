@@ -3,16 +3,16 @@ import { useSession } from '../../contexts/SessionContext';
 import './SessionStarter.scss';
 
 const FORM_OPTIONS = [
-  { value: 'IDEA_SUBMISSION', label: 'Idea Submission' },
-  { value: 'AI_REGISTRY', label: 'AI Registry' },
-  { value: 'SECURITY', label: 'Security Assessment' },
-  { value: 'DLO', label: 'Digital Lab Operations' },
-  { value: 'WWTP', label: 'WWTP' },
+  { value: 'idea-sub-form', label: 'Idea Submission' },
+  { value: 'ai-registry-form', label: 'AI Registry' },
+  { value: 'security-arch-form', label: 'Security Assessment' },
+  { value: 'dlo-form', label: 'Digital Lab Operations' },
+  { value: 'wwtp-form', label: 'WWTP' },
 ];
 
 export default function SessionStarter() {
   const { startSession, isLoading } = useSession();
-  const [form, setForm] = useState('IDEA_SUBMISSION');
+  const [form, setForm] = useState('idea-sub-form');
   const [name, setName] = useState('');
 
   const handleStart = () => {
