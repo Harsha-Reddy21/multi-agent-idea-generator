@@ -13,7 +13,6 @@ from models.schemas import (
     ChatResponse,
     QuestionPayload,
     SessionState,
-    SuggestionsStatus,
 )
 from services import openai_service
 from services.scoring_service import score_answer_and_push
@@ -89,6 +88,9 @@ async def process_message(session_id: str, message: str, message_type: str = "an
             user_info=_build_user_info(session),
         )
 
+    # --- Handle action commands from suggestions loop BEFORE intent classification ---
+    # (Removed — suggestions are now handled as natural follow-up questions)
+
     # Get current question context
     current_q = form_registry.get(session.current_question_id) if session.current_question_id else None
 
@@ -146,7 +148,12 @@ async def process_message(session_id: str, message: str, message_type: str = "an
 # ---------------------------------------------------------------------------
 
 async def _handle_answer(session: SessionState, question_id: str, answer: str) -> ChatResponse:
-    """Process an answer: store → suggestions check → conditional eval → next question."""
+    """Process an answer: store → suggestions check → conditional eval → next question.
+    
+    When coverage is low, the agent asks a natural follow-up question about
+    the missing suggestions rather than presenting buttons or a checklist.
+    The question stays current so subsequent answers update/improve it.
+    """
     question = form_registry.get(question_id)
     if not question:
         return ChatResponse(agent_message="Something went wrong. Let me try the next question.")
@@ -161,10 +168,14 @@ async def _handle_answer(session: SessionState, question_id: str, answer: str) -
             return ChatResponse(
                 agent_message=f"Please select one of the available options: {options_str}",
                 question=_question_to_payload(question_id),
-                available_actions=["help"],
                 system_info=_build_system_info(session),
                 user_info=_build_user_info(session),
             )
+
+    # If user already answered this question, combine with previous answer
+    existing_answer = session.answers.get(question_id)
+    if existing_answer:
+        answer = f"{existing_answer}\n\n{answer}"
 
     # Store the answer
     session_store.update_answer(session.session_id, question_id, answer)
@@ -172,26 +183,26 @@ async def _handle_answer(session: SessionState, question_id: str, answer: str) -
     # Evaluate conditionals
     added, removed = session_store.apply_conditionals(session.session_id, question_id, answer)
 
-    # If question has suggestions → run suggestions loop
+    # If question has suggestions → evaluate coverage
     suggestions = question.suggestions
-    suggestions_status = None
 
     if suggestions and question.ai_enabled:
         coverage = await openai_service.evaluate_coverage(answer, question.text, suggestions)
-        completed = [s["text"] for s in coverage.get("suggestions_analysis", []) if s.get("status") == "completed"]
         required = [s["text"] for s in coverage.get("suggestions_analysis", []) if s.get("status") == "required"]
         score = coverage.get("score", 0.5)
 
-        suggestions_status = SuggestionsStatus(completed=completed, required=required, score=score)
-
         if score < settings.coverage_accept_threshold and required:
-            # Coverage insufficient — ask user to address
-            missing_text = "\n".join(f"  • {r}" for r in required)
+            # Coverage insufficient — ask a natural follow-up question
+            missing_text = "\n".join(f"  - {r}" for r in required)
             agent_msg = await openai_service.generate_agent_response(
                 context_message=(
-                    f"The user answered '{question.text}' with: \"{answer}\"\n"
-                    f"Coverage score: {score:.0%}. These suggestions are not addressed:\n{missing_text}\n"
-                    f"Ask the user if they want to improve the answer, let you enhance it, or accept as-is."
+                    f"The user answered the question '{question.text}' with: \"{answer}\"\n"
+                    f"Their answer is good but doesn't fully address these aspects:\n{missing_text}\n\n"
+                    f"Ask ONE natural follow-up question that helps the user elaborate on "
+                    f"the most important missing aspect. Do NOT list what's missing. "
+                    f"Do NOT offer buttons or choices like improve/enhance/accept. "
+                    f"Just ask a conversational follow-up question. If the user wants to "
+                    f"move on, they can say 'skip' or 'next'."
                 ),
                 form_type=session.form_type,
                 answered_count=len(session.answered_questions),
@@ -200,11 +211,13 @@ async def _handle_answer(session: SessionState, question_id: str, answer: str) -
             )
             session_store.add_conversation(session.session_id, "assistant", agent_msg)
 
+            # Fire background scoring for the partial answer
+            asyncio.create_task(score_answer_and_push(session, question_id))
+
+            # Keep the same question as current — next answer will augment it
             return ChatResponse(
                 agent_message=agent_msg,
                 question=_question_to_payload(question_id),
-                suggestions_status=suggestions_status,
-                available_actions=["improve", "enhance", "accept_as_is"],
                 system_info=_build_system_info(session),
                 user_info=_build_user_info(session),
             )
@@ -226,7 +239,6 @@ async def _handle_answer(session: SessionState, question_id: str, answer: str) -
         session_store.add_conversation(session.session_id, "assistant", agent_msg)
         return ChatResponse(
             agent_message=agent_msg,
-            suggestions_status=suggestions_status,
             system_info=_build_system_info(session),
             user_info=_build_user_info(session),
         )
@@ -249,8 +261,6 @@ async def _handle_answer(session: SessionState, question_id: str, answer: str) -
     return ChatResponse(
         agent_message=agent_msg,
         question=_question_to_payload(next_qid),
-        suggestions_status=suggestions_status,
-        available_actions=_get_actions(next_q),
         system_info=_build_system_info(session),
         user_info=_build_user_info(session),
     )
@@ -281,7 +291,6 @@ async def _handle_edit_field(session: SessionState, target: str, message: str) -
     return ChatResponse(
         agent_message=agent_msg,
         question=_question_to_payload(question_id),
-        available_actions=["cancel"],
         system_info=_build_system_info(session),
         user_info=_build_user_info(session),
     )
@@ -467,7 +476,6 @@ async def _handle_enhance(session: SessionState) -> ChatResponse:
     return ChatResponse(
         agent_message=agent_msg,
         question=_question_to_payload(session.current_question_id) if session.current_question_id else None,
-        available_actions=["accept_enhanced", "reject_enhanced"],
         system_info=_build_system_info(session),
         user_info=_build_user_info(session),
     )
@@ -559,11 +567,3 @@ def _resolve_question(session: SessionState, target: str) -> str | None:
     return None
 
 
-def _get_actions(question) -> list[str]:
-    actions = []
-    if question.ai_enabled:
-        actions.append("enhance")
-    if not question.required:
-        actions.append("skip")
-    actions.extend(["help", "back", "status"])
-    return actions

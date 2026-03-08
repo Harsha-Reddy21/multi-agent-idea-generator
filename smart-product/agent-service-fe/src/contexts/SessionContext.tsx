@@ -147,8 +147,6 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         content: res.agent_message,
         timestamp: Date.now(),
         question: res.question ?? undefined,
-        suggestions_status: res.suggestions_status ?? undefined,
-        available_actions: res.available_actions,
       };
       setMessages((prev) => [...prev, agentMsg]);
     } finally {

@@ -21,8 +21,6 @@ export interface SuggestionsStatus {
 export interface ChatResponse {
   agent_message: string;
   question: QuestionPayload | null;
-  suggestions_status: SuggestionsStatus | null;
-  available_actions: string[];
   system_info: SystemInfo;
   user_info: UserInfo;
 }
@@ -96,6 +94,4 @@ export interface ChatMessage {
   content: string;
   timestamp: number;
   question?: QuestionPayload;
-  suggestions_status?: SuggestionsStatus;
-  available_actions?: string[];
 }

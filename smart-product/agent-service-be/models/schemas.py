@@ -40,8 +40,6 @@ class SuggestionsStatus(BaseModel):
 class ChatResponse(BaseModel):
     agent_message: str
     question: QuestionPayload | None = None
-    suggestions_status: SuggestionsStatus | None = None
-    available_actions: list[str] = []
     system_info: dict[str, Any] = {}
     user_info: dict[str, Any] = {}
 
